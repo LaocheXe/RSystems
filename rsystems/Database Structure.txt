@@ -1,0 +1,23 @@
+User Class Admin To Manage Systems
+This Will Be
+Plugin Perefences - NOT SET IN STONE
+
+CURRENT
+---------
+Cshops
+Roster
+Promotions
+Request
+ServiceR
+Awards
+Qual
+Ranks
+Training
+LOA
+
+NEED
+-------
+Status
+Postitions
+Application
+Memoral
