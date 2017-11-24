@@ -13,10 +13,10 @@
 
 if (!defined('e107_INIT')) { exit; }
 
-// e107::lan('rsystems','notify',true);
+// e107::lan('roster','notify',true);
 
 // v2.x Standard 
-class rsystems_notify extends notify
+class roster_notify extends notify
 {		
 	function config()
 	{

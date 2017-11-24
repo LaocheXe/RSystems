@@ -19,7 +19,7 @@
 if (!defined('e107_INIT')) { exit; }
 
 
-class rsystems_parse
+class roster_parse
 {
 
 

@@ -2,7 +2,7 @@
 if (!defined('e107_INIT')) { exit; }
 
 
-class rsystems_dashboard // include plugin-folder in the name.
+class roster_dashboard // include plugin-folder in the name.
 {
 	private $title; // dynamic title.
 	
@@ -33,7 +33,7 @@ class rsystems_dashboard // include plugin-folder in the name.
 		$cht->setProvider('google');
 
 
-		$id             = 'rsystems_activity_chart';
+		$id             = 'roster_activity_chart';
 
 		$amt            = array();
 		$ticks          = array();
@@ -47,7 +47,7 @@ class rsystems_dashboard // include plugin-folder in the name.
 
 		$label          = date('M Y', $month_start)." - ".date('M Y', $month_end);
 
-		if(!$sql->gen("SELECT id,datestamp,referred FROM `#rsystems` WHERE datestamp BETWEEN ".$month_start." AND ".$month_end))
+		if(!$sql->gen("SELECT id,datestamp,referred FROM `#roster` WHERE datestamp BETWEEN ".$month_start." AND ".$month_end))
 		{
 			return false;
 		}
@@ -126,9 +126,9 @@ class rsystems_dashboard // include plugin-folder in the name.
 	function status() // Status Panel in the admin area
 	{
 
-		$var[0]['icon'] 	= "<img src='".e_PLUGIN."rsystems/images/rsystems_16.png' alt='' />";
+		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />";
 		$var[0]['title'] 	= "My Title";
-		$var[0]['url']		= e_PLUGIN_ABS."rsystems/rsystems.php";
+		$var[0]['url']		= e_PLUGIN_ABS."roster/roster.php";
 		$var[0]['total'] 	= 10;
 
 		return $var;
@@ -137,9 +137,9 @@ class rsystems_dashboard // include plugin-folder in the name.
 	
 	function latest() // Latest panel in the admin area.
 	{
-		$var[0]['icon'] 	= "<img src='".e_PLUGIN."rsystems/images/rsystems_16.png' alt='' />";
+		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />";
 		$var[0]['title'] 	= "My Title";
-		$var[0]['url']		= e_PLUGIN_ABS."rsystems/rsystems.php";
+		$var[0]['url']		= e_PLUGIN_ABS."roster/roster.php";
 		$var[0]['total'] 	= 10;
 
 		return $var;

@@ -8,7 +8,7 @@
  *
  * Sitelinks configuration module - gsitemap
  *
- * $Source: /cvs_backup/e107_0.8/e107_plugins/rsystems/e_sitelink.php,v $
+ * $Source: /cvs_backup/e107_0.8/e107_plugins/roster/e_sitelink.php,v $
  * $Revision$
  * $Date$
  * $Author$
@@ -16,14 +16,14 @@
 */
 
 if (!defined('e107_INIT')) { exit; }
-/*if(!e107::isInstalled('rsystems'))
+/*if(!e107::isInstalled('roster'))
 { 
 	return;
 }*/
 
 
 
-class rsystems_sitelink // include plugin-folder in the name.
+class roster_sitelink // include plugin-folder in the name.
 {
 	function config()
 	{
@@ -78,15 +78,15 @@ class rsystems_sitelink // include plugin-folder in the name.
 		$tp = e107::getParser();
 		$sublinks = array();
 		
-		$sql->select("rsystems","*","rsystems_id != '' ");
+		$sql->select("roster","*","roster_id != '' ");
 		
 		while($row = $sql->fetch())
 		{
 			$sublinks[] = array(
-				'link_name'			=> $tp->toHtml($row['rsystems_name'],'','TITLE'),
-				'link_url'			=> e107::url('rsystems', 'other', $row),
+				'link_name'			=> $tp->toHtml($row['roster_name'],'','TITLE'),
+				'link_url'			=> e107::url('roster', 'other', $row),
 				'link_description'	=> '',
-				'link_button'		=> $row['rsystems_icon'],
+				'link_button'		=> $row['roster_icon'],
 				'link_category'		=> '',
 				'link_order'		=> '',
 				'link_parent'		=> '',

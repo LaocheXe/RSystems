@@ -13,12 +13,12 @@ if(!defined('e107_INIT'))
 
 
 
-class rsystems_shortcodes extends e_shortcode
+class roster_shortcodes extends e_shortcode
 {
 	public $override = false; // when set to true, existing core/plugin shortcodes matching methods below will be overridden. 
 
 	// Example: {_BLANK_CUSTOM} shortcode - available site-wide.
-	function sc_rsystems_custom($parm = null)  // Naming:  "sc_" + [plugin-directory] + '_uniquename'
+	function sc_roster_custom($parm = null)  // Naming:  "sc_" + [plugin-directory] + '_uniquename'
 	{
 		return "Hello World!";
 	}

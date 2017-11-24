@@ -6,7 +6,7 @@
  * Released under the terms and conditions of the
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
  * 
- * rsystems e_search addon 
+ * roster e_search addon 
  */
  
 
@@ -15,24 +15,24 @@ if (!defined('e107_INIT')) { exit; }
 // v2.x e_search addon.
 
 
-class rsystems_search extends e_search // include plugin-folder in the name.
+class roster_search extends e_search // include plugin-folder in the name.
 {
 		
 	function config()
 	{	
 		$search = array(
 			'name'			=> "Blank Plugin",
-			'table'			=> 'rsystems',
+			'table'			=> 'roster',
 
 			'advanced' 		=> array(
 								'date'	=> array('type'	=> 'date', 		'text' => LAN_DATE_POSTED),
 								'author'=> array('type'	=> 'author',	'text' => LAN_SEARCH_61)
 							),
 							
-			'return_fields'	=> array('rsystems_id', 'rsystems_nick', 'rsystems_message', 'rsystems_datestamp'),
-			'search_fields'	=> array('rsystems_nick' => '1', 'rsystems_message' => '1'), // fields and weights.
+			'return_fields'	=> array('roster_id', 'roster_nick', 'roster_message', 'roster_datestamp'),
+			'search_fields'	=> array('roster_nick' => '1', 'roster_message' => '1'), // fields and weights.
 			
-			'order'			=> array('rsystems_datestamp' => 'DESC'),
+			'order'			=> array('roster_datestamp' => 'DESC'),
 			'refpage'		=> 'chat.php'
 		);
 
@@ -47,15 +47,15 @@ class rsystems_search extends e_search // include plugin-folder in the name.
 	{
 		$tp = e107::getParser();
 
-		preg_match("/([0-9]+)\.(.*)/", $row['rsystems_nick'], $user);
+		preg_match("/([0-9]+)\.(.*)/", $row['roster_nick'], $user);
 
 		$res = array();
 	
-		$res['link'] 		= e_PLUGIN."rsystems_menu/rsystems.php?".$row['rsystems_id'].".fs";
+		$res['link'] 		= e_PLUGIN."roster_menu/roster.php?".$row['roster_id'].".fs";
 		$res['pre_title'] 	= LAN_SEARCH_7;
 		$res['title'] 		= $user[2];
-		$res['summary'] 	= $row['rsystems_message'];
-		$res['detail'] 		= $tp->toDate($row['rsystems_datestamp'], "long");
+		$res['summary'] 	= $row['roster_message'];
+		$res['detail'] 		= $tp->toDate($row['roster_datestamp'], "long");
 
 		return $res;
 		
@@ -75,12 +75,12 @@ class rsystems_search extends e_search // include plugin-folder in the name.
 		
 		if (vartrue($parm['time']) && is_numeric($parm['time'])) 
 		{
-			$qry .= " rsystems_datestamp ".($parm['on'] == 'new' ? '>=' : '<=')." '".(time() - $parm['time'])."' AND";
+			$qry .= " roster_datestamp ".($parm['on'] == 'new' ? '>=' : '<=')." '".(time() - $parm['time'])."' AND";
 		}
 
 		if (vartrue($parm['author'])) 
 		{
-			$qry .= " rsystems_nick LIKE '%".$tp -> toDB($parm['author'])."%' AND";
+			$qry .= " roster_nick LIKE '%".$tp -> toDB($parm['author'])."%' AND";
 		}
 		
 		return $qry;

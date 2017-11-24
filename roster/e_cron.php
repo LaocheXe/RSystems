@@ -9,7 +9,7 @@
  *
  */
 
-class rsystems_cron       // plugin-folder name + '_cron'.
+class roster_cron       // plugin-folder name + '_cron'.
 {
     function config() // Setup
     {

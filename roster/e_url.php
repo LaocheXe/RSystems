@@ -19,25 +19,25 @@ if (!defined('e107_INIT')) { exit; }
 
 // v2.x Standard  - Simple mod-rewrite module. 
 
-class rsystems_url // plugin-folder + '_url'
+class roster_url // plugin-folder + '_url'
 {
 	function config() 
 	{
 		$config = array();
 
 		$config['other'] = array(
-			'alias'         => 'rsystems',                            // default alias 'rsystems'. {alias} is substituted with this value below. Allows for customization within the admin area.
+			'alias'         => 'roster',                            // default alias 'roster'. {alias} is substituted with this value below. Allows for customization within the admin area.
 			'regex'			=> '^{alias}/?$', 						// matched against url, and if true, redirected to 'redirect' below.
 			'sef'			=> '{alias}', 							// used by e107::url(); to create a url from the db table.
-			'redirect'		=> '{e_PLUGIN}rsystems/rsystems.php', 		// file-path of what to load when the regex returns true.
+			'redirect'		=> '{e_PLUGIN}roster/roster.php', 		// file-path of what to load when the regex returns true.
 
 		);
 
 
 		$config['index'] = array(
-			'regex'			=> '^rsystems/?$', 						// matched against url, and if true, redirected to 'redirect' below.
-			'sef'			=> 'rsystems', 							// used by e107::url(); to create a url from the db table.
-			'redirect'		=> '{e_PLUGIN}rsystems/rsystems.php', 		// file-path of what to load when the regex returns true.
+			'regex'			=> '^roster/?$', 						// matched against url, and if true, redirected to 'redirect' below.
+			'sef'			=> 'roster', 							// used by e107::url(); to create a url from the db table.
+			'redirect'		=> '{e_PLUGIN}roster/roster.php', 		// file-path of what to load when the regex returns true.
 
 		);
 

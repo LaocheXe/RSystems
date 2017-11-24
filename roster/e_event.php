@@ -11,7 +11,7 @@
 if (!defined('e107_INIT')) { exit; }
 
 
-class rsystems_event // plugin-folder + '_event'
+class roster_event // plugin-folder + '_event'
 {
 
 	/**

@@ -13,11 +13,11 @@ if (!defined('e107_INIT')) { exit; }
 
 //v2.x Standard for extending menu configuration within Menu Manager. (replacement for v1.x config.php)
 	
-class rsystems_menu
+class roster_menu
 {
 	function __construct()
 	{
-		// e107::lan('rsystems','menu',true); // English_menu.php or {LANGUAGE}_menu.php
+		// e107::lan('roster','menu',true); // English_menu.php or {LANGUAGE}_menu.php
 	}
 
 	/**
@@ -28,9 +28,9 @@ class rsystems_menu
 	{
 
 		$fields = array();
-		$fields['rsystemsCaption']      = array('title'=> "Caption", 'type'=>'text', 'multilan'=>true, 'writeParms'=>array('size'=>'xxlarge'));
-		$fields['rsystemsCount']        = array('title'=> "Enabled", 'type'=>'number');
-		$fields['rsystemsCustom']       = array('title'=> "Enabled", 'type'=>'method'); // see below.
+		$fields['rosterCaption']      = array('title'=> "Caption", 'type'=>'text', 'multilan'=>true, 'writeParms'=>array('size'=>'xxlarge'));
+		$fields['rosterCount']        = array('title'=> "Enabled", 'type'=>'number');
+		$fields['rosterCustom']       = array('title'=> "Enabled", 'type'=>'method'); // see below.
 
         return $fields;
 
@@ -40,15 +40,15 @@ class rsystems_menu
 
 // optional - for when using custom methods above.
 
-class rsystems_menu_form extends e_form
+class roster_menu_form extends e_form
 {
 
-	function rsystemsCustom($curVal)
+	function rosterCustom($curVal)
 	{
 
 		$frm = e107::getForm();
 		$opts = array(1,2,3,4);
-		$frm->select('rsystemsCustom', $opts, $curVal);
+		$frm->select('rosterCustom', $opts, $curVal);
 
 
 	}

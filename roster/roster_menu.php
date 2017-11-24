@@ -6,7 +6,7 @@
  * Released under the terms and conditions of the
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
  *
- * rsystems menu file.
+ * roster menu file.
  *
  */
 
@@ -25,7 +25,7 @@ if(!empty($parm))
 	$text .= print_a($parm,true); // e_menu.php form data.
 }
 
-e107::getRender()->tablerender("rsystems", $text);
+e107::getRender()->tablerender("roster", $text);
 
 
 

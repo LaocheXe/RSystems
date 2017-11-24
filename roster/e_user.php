@@ -11,14 +11,14 @@
 if (!defined('e107_INIT')) { exit; }
 
 // v2.x Standard 
-class rsystems_user // plugin-folder + '_user'
+class roster_user // plugin-folder + '_user'
 {		
 		
 	function profile($udata)  // display on user profile page.
 	{
 
 		$var = array(
-			0 => array('label' => "Label", 'text' => "Some text to display", 'url'=> e_PLUGIN_ABS."rsystems/rsystems.php")
+			0 => array('label' => "Label", 'text' => "Some text to display", 'url'=> e_PLUGIN_ABS."roster/roster.php")
 		);
 		
 		return $var;

@@ -10,7 +10,7 @@
 /**
  * Class PLUGIN_library.
  */
-class rsystems_library
+class roster_library
 {
 
 	/**

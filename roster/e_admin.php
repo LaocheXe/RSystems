@@ -4,7 +4,7 @@
 //v2.x Standard for extending admin areas.
 
 
-class rsystems_admin
+class roster_admin
 {
 	/**
 	 * Extend Admin-ui Parameters
@@ -29,7 +29,7 @@ class rsystems_admin
 				break;
 		}
 
-		//Note: 'urls' will be returned as $_POST['x_rsystems_url']. ie. x_{PLUGIN_FOLDER}_{YOURFIELDKEY}
+		//Note: 'urls' will be returned as $_POST['x_roster_url']. ie. x_{PLUGIN_FOLDER}_{YOURFIELDKEY}
 
 		return $config;
 
@@ -65,10 +65,10 @@ class rsystems_admin
 		if(!empty($id) )
 		{
 
-			if(!empty($data['x_rsystems_url']))
+			if(!empty($data['x_roster_url']))
 			{
 
-				// Save the data in 'rsystems' plugin table. .
+				// Save the data in 'roster' plugin table. .
 
 			}
 

@@ -5,7 +5,7 @@ if (!defined('e107_INIT')) { exit; }
 
 // v2.x Standard
 
-class rsystems_rss // plugin-folder + '_rss'
+class roster_rss // plugin-folder + '_rss'
 {
 	/**
 	 * Admin RSS Configuration
@@ -16,9 +16,9 @@ class rsystems_rss // plugin-folder + '_rss'
 
 		$config[] = array(
 			'name'			=> 'Feed Name',
-			'url'			=> 'rsystems',
+			'url'			=> 'roster',
 			'topic_id'		=> '',
-			'description'	=> 'this is the rss feed for the rsystems plugin', // that's 'description' not 'text'
+			'description'	=> 'this is the rss feed for the roster plugin', // that's 'description' not 'text'
 			'class'			=> e_UC_MEMBER,
 			'limit'			=> '9'
 		);
@@ -41,21 +41,21 @@ class rsystems_rss // plugin-folder + '_rss'
 		$rss = array();
 		$i=0;
 
-		if($items = $sql->select('rsystems', "*", "rsystems_field = 1 LIMIT 0,".$parms['limit']))
+		if($items = $sql->select('roster', "*", "roster_field = 1 LIMIT 0,".$parms['limit']))
 		{
 
 			while($row = $sql->fetch())
 			{
 
-				$rss[$i]['author']			= $row['rsystems_user_id'];
-				$rss[$i]['author_email']	= $row['rsystems_user_email'];
-				$rss[$i]['link']			= "rsystems/rsystems.php?";
-				$rss[$i]['linkid']			= $row['rsystems_id'];
-				$rss[$i]['title']			= $row['rsystems_title'];
-				$rss[$i]['description']		= $row['rsystems_message'];
+				$rss[$i]['author']			= $row['roster_user_id'];
+				$rss[$i]['author_email']	= $row['roster_user_email'];
+				$rss[$i]['link']			= "roster/roster.php?";
+				$rss[$i]['linkid']			= $row['roster_id'];
+				$rss[$i]['title']			= $row['roster_title'];
+				$rss[$i]['description']		= $row['roster_message'];
 				$rss[$i]['category_name']	= '';
 				$rss[$i]['category_link']	= '';
-				$rss[$i]['datestamp']		= $row['rsystems_datestamp'];
+				$rss[$i]['datestamp']		= $row['roster_datestamp'];
 				$rss[$i]['enc_url']			= "";
 				$rss[$i]['enc_leng']		= "";
 				$rss[$i]['enc_type']		= "";

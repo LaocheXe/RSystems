@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Roster System" lan="LAN_RS_NAME" version="1.0" date="2017-11-24" compatibility="2.0" installRequired="true" >
+	<author name="LaocheXe" url="https://github.com/laochexe" />
+	<summary lan="">Designed for a gaming community in ArmA 3</summary>
+	<description lan="">Roster System allows for teams to keep track of who is in their team, and to keep member records with in that team. This plugin was created with the mod for IPS Boards PRESCOM - built for e107 version 2.</description>
+	<keywords>
+		<word>gaming</word>
+		<word>stats</word>
+		<word>team</word>
+	</keywords>
+	<category>users</category>
+	<copyright>LaocheXeCopyRight</copyright>
+	<adminLinks>
+		<link url="admin_config.php" description="" icon="" iconSmall="" icon128="" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	
+</e107Plugin>
