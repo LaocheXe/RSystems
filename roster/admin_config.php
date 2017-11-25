@@ -8,7 +8,7 @@ if (!getperms('P'))
 	e107::redirect('admin');
 	exit;
 }
-
+// This will be uncommented out once one has been made
 // e107::lan('roster',true);
 
 
@@ -107,10 +107,15 @@ class roster_sys_ui extends e_admin_ui
 	//	protected $eventName		= 'roster-roster_sys'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'roster_sys';
 		protected $pid				= 'ros_id';
-		protected $perPage			= 10; 
+		protected $perPage			= 15; 
 		protected $batchDelete		= true;
+		protected $sortField		= 'ros_order';
+		protected $sortParent       = 'ros_parent';
 		protected $batchExport     = true;
 		protected $batchCopy		= true;
+		protected $orderStep		= 50;
+		protected $listQry          = "SELECT a. *, CASE WHEN a.ros_parent = 0 THEN a.ros_order ELSE b.ros_order + (( a.ros_order)/1000) END AS Sort FROM `#roster_sys` AS a LEFT JOIN `#roster_sys` AS b ON a.ros_parent = b.ros_id ";
+		protected $listOrder		= 'Sort,ros_order ';
 
 	//	protected $sortField		= 'somefield_order';
 	//	protected $sortParent      = 'somefield_parent';
@@ -124,32 +129,133 @@ class roster_sys_ui extends e_admin_ui
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'ros_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'ros_parent' =>   array ( 'title' => 'Parent', 'type' => 'boolean', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'ros_sub' =>   array ( 'title' => 'Sub-Parent', 'type' => 'boolean', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'ros_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'method', 'inline'=>true,  'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'ros_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => '10%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'ros_sub' =>   array ( 'title' => 'Sub-Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'center', 'thclass' => 'center',  ),
 		  'ros_order' =>   array ( 'title' => LAN_ORDER, 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ros_show' =>   array ( 'title' => 'Show', 'type' => 'boolean', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1',  ),
 		);		
 		
-		protected $fieldpref = array('ros_parent', 'ros_sub', 'ros_order', 'ros_show');
+		protected $fieldpref = array('ros_name', 'ros_parent', 'ros_sub', 'ros_order', 'ros_show');
 		
+		public $forumParents = array();
+		
+		private function checkOrder()
+		{
+			$sql = e107::getDb();
+			$sql2 = e107::getDb('sql2');
+			$count = $sql->select('roster_sys', 'ros_id', 'ros_order = 0');
+
+			if($count > 1)
+			{
+				$sql->gen("SELECT ros_id,ros_name,ros_parent,ros_sub,ros_order FROM `#roster_sys` ORDER BY COALESCE(NULLIF(ros_parent,0), ros_id), ros_parent > 0, ros_order ");
+				$c = 0;
+				while($row = $sql->fetch())
+				{
+					//print_a($row);
+					if($row['ros_parent'] == 0)
+					{
+						$c = $c + 100;
+					}
+					else
+					{
+						$c = $c+1;
+					}
+
+					$sql2->update('roster_sys', 'ros_order = '.$c.' WHERE ros_id = '.$row['ros_id'].' LIMIT 1');
+				}
+			}
+		}
 
 	//	protected $preftabs        = array('General', 'Other' );
-		protected $prefs = array(
-		); 
-
+		protected $prefs = array(); 
 	
 		public function init()
 		{
-			// Set drop-down values (if any). 
-	
+			
+			$sql = e107::getDb();
+			$this->userclass_id[0] = 'Select User Class';
+			if($sql->select("userclass_classes", "*")) 
+			{ 
+				while ($row = $sql->fetch())
+				{
+				$this->userclass_id[$row['userclass_id']] = $row['userclass_name']; 
+				} 
+			} 
+        	$this->fields['userclass_id']['writeParms'] = $this->userclass_id;
+			
+			$this->checkOrder();
+			if($this->getAction() == 'edit')
+			{
+				$this->fields['ros_order']['noedit'] = true;
+			}
+			$data = e107::getDb()->retrieve('roster_sys', 'ros_id,ros_name,ros_parent,ros_sub', 'ros_id != 0',true);
+			$this->rosParents[0] = "(New Parent)";
+			$forumSubParents = array();
+
+			foreach($data as $val)
+			{
+				$id = $val['ros_id'];
+
+				if($val['ros_parent'] == 0)
+				{
+					$this->rankParents[$id] = $val['ros_name'];
+				}
+				else
+				{
+					$forumSubParents[$id] = $val['ros_name'];
+				}
+
+			}
+
+			$this->fields['ros_parent']['writeParms'] = $this->rosParents;
+			$this->fields['ros_sub']['writeParms']['optArray'] = $forumSubParents;
+			$this->fields['ros_sub']['writeParms']['default'] = 'blank';	
 		}
 
-		
-		// ------- Customize Create --------
+		// ------- Customize Create --------		
+		public function afterSort($result, $selected)
+		{
+
+			return;
+
+			$sql = e107::getDb();
+
+			$data2 = $sql->retrieve('roster_sys','ros_id,ros_parent,ros_name,ros_order','ros_parent = 0',true);
+			foreach($data2 as $val)
+			{
+				$id = $val['ros_id'];
+				$parent[$id] = $val['ros_order'];
+
+			}
+
+			$previous = 0;
+
+			$data = $sql->retrieve('roster_sys','*','ros_parent != 0 ORDER BY ros_order',true);
+			foreach($data as $row)
+			{
+				$p = $row['ros_parent'];
+
+				if($p != $previous)
+				{
+					$c = $parent[$p];
+				}
+
+				$c++;
+				$previous = $p;
+				
+				$sql->update('roster_sys','ros_order = '.$c.' WHERE ros_id = '.intval($row['ros_id']).' LIMIT 1');
+			}
+		}
 		
 		public function beforeCreate($new_data,$old_data)
 		{
+			$sql = e107::getDb();
+			$parentOrder = $sql->retrieve('roster_sys','ros_order','ros_id='.$new_data['ros_parent']." LIMIT 1");
+
+			$new_data['ros_order'] = $parentOrder + 50;
 			return $new_data;
 		}
 	
@@ -162,7 +268,6 @@ class roster_sys_ui extends e_admin_ui
 		{
 			// do something		
 		}		
-		
 		
 		// ------- Customize Update --------
 		
@@ -190,28 +295,117 @@ class roster_sys_ui extends e_admin_ui
 			return array('caption'=>$caption,'text'=> $text);
 
 		}
-			
-	/*	
-		// optional - a custom page.  
-		public function customPage()
-		{
-			$text = 'Hello World!';
-			$otherField  = $this->getController()->getFieldVar('other_field_name');
-			return $text;
-			
-		}
-		
-	
-		
-		
-	*/
-			
 }
 				
-
-
 class roster_sys_form_ui extends e_admin_form_ui
 {
+	function roster_name($curVal,$mode,$parm)
+	{
+			$frm = e107::getForm();
+
+			if($mode == 'read')
+			{
+				$parent 	= $this->getController()->getListModel()->get('ros_parent');
+				$id			= $this->getController()->getListModel()->get('ros_id');
+				$sub     = $this->getController()->getListModel()->get('ros_sub');
+
+
+
+				$level = 1;
+
+				if(!empty($sub))
+				{
+					$level = 3;
+				}
+
+				$linkQ = e_SELF."?searchquery=&filter_options=page_chapter__".$id."&mode=page&action=list";
+				$level_image = $parent ? str_replace('level-x','level-'.$level, ADMIN_CHILD_ICON) : '';
+
+				return ($parent) ?  $level_image.$curVal : $curVal;
+			}
+
+			if($mode == 'write')
+			{
+				return $frm->text('ros_name',$curVal,255,'size=xxlarge');
+			}
+
+			if($mode == 'filter')
+			{
+				return;
+			}
+			if($mode == 'batch')
+			{
+				return;
+			}
+
+			if($mode == 'inline')
+			{
+				$parent 	= $this->getController()->getListModel()->get('rank_parent');
+				$sub     = $this->getController()->getListModel()->get('forum_sub');
+				
+				if(!empty($parent))
+				{
+
+					$level = 1;
+
+					if(!empty($sub))
+					{
+						$level = 2;
+					}
+
+					$ret['inlineParms'] = array('pre'=> str_replace('level-x','level-'.$level, ADMIN_CHILD_ICON));
+				}
+				
+				return $ret;
+				
+			}
+		}
+
+
+		// Custom Method/Function
+		function ros_parent($curVal,$mode)
+		{
+			$frm = e107::getForm();
+
+			switch($mode)
+			{
+				case 'read': // List Page
+					return $curVal;
+					break;
+
+				case 'write': // Edit Page
+					return $frm->text('ros_parent',$curVal);
+					break;
+
+				case 'filter':
+				case 'batch':
+				//	return  $array;
+					break;
+			}
+		}
+
+
+		// Custom Method/Function
+		function ros_sub($curVal,$mode)
+		{
+			$frm = e107::getForm();
+
+			switch($mode)
+			{
+				case 'read': // List Page
+					return $curVal;
+					break;
+
+				case 'write': // Edit Page
+					return $frm->text('ros_sub',$curVal);
+					break;
+
+				case 'filter':
+				case 'batch':
+				//	return  $array;
+					break;
+			}
+		}
 
 }		
 		
@@ -229,7 +423,14 @@ class ranks_sys_ui extends e_admin_ui
 		protected $batchDelete		= true;
 		protected $batchExport     = true;
 		protected $batchCopy		= true;
-
+		protected $sortField		= 'rank_order';
+		protected $sortParent       = 'rank_parent';
+		protected $orderStep		= 50;
+	//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
+		
+		protected $listQry          = "SELECT a. *, CASE WHEN a.rank_parent = 0 THEN a.rank_order ELSE b.rank_order + (( a.rank_order)/1000) END AS Sort FROM `#ranks_exesystem` AS a LEFT JOIN `#ranks_exesystem` AS b ON a.rank_parent = b.rank_id ";
+	
+		protected $listOrder		= 'Sort,rank_order ';
 	//	protected $sortField		= 'somefield_order';
 	//	protected $sortParent      = 'somefield_parent';
 	//	protected $treePrefix      = 'somefield_title';
@@ -243,7 +444,7 @@ class ranks_sys_ui extends e_admin_ui
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'rank_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'rank_shortname' =>   array ( 'title' => 'Shortname', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'rank_shortname' =>   array ( 'title' => 'Abbreviation', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_description' =>   array ( 'title' => LAN_DESCRIPTION, 'type' => 'textarea', 'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_image' =>   array ( 'title' => LAN_IMAGE, 'type' => 'image', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => 'thumb=80x80', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
@@ -434,9 +635,7 @@ class ranks_sys_form_ui extends e_admin_form_ui
 				$parent 	= $this->getController()->getListModel()->get('rank_parent');
 				$id			= $this->getController()->getListModel()->get('rank_id');
 				//$sub     = $this->getController()->getListModel()->get('forum_sub');
-
-
-
+				
 				$level = 1;
 
 				//if(!empty($sub))
@@ -823,39 +1022,39 @@ class service_records_sys_ui extends e_admin_ui
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'sr_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'user_id' =>   array ( 'title' => LAN_ID, 'type' => 'user', 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'user_id' =>   array ( 'title' => 'User', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'clone_number' =>   array ( 'title' => 'Number', 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'arma_id' =>   array ( 'title' => LAN_ID, 'type' => 'text', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ts_guid' =>   array ( 'title' => 'Guid', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'battleeye_guid' =>   array ( 'title' => 'Guid', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'recruiter_id' =>   array ( 'title' => LAN_ID, 'type' => 'user', 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'application_date' =>   array ( 'title' => LAN_DATESTAMP, 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'recruiter_id' =>   array ( 'title' => 'Recruiter', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'application_date' =>   array ( 'title' => 'Application Date', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'application_status' =>   array ( 'title' => 'Status', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'application_rep' =>   array ( 'title' => 'Rep', 'type' => 'user', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'application_reason' =>   array ( 'title' => 'Reason', 'type' => 'textarea', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'date_join' =>   array ( 'title' => 'Join', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'date_join' =>   array ( 'title' => 'Join Date', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'citations' =>   array ( 'title' => 'Citations', 'type' => 'textarea', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'awards_id' =>   array ( 'title' => LAN_ID, 'type' => 'method', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'rank_id' =>   array ( 'title' => LAN_ID, 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'rank_id' =>   array ( 'title' => 'Rank', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'past_ranks' =>   array ( 'title' => 'Ranks', 'type' => 'method', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'awol_status' =>   array ( 'title' => 'Status', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'discharge_grade' =>   array ( 'title' => 'Grade', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'discharge_date' =>   array ( 'title' => LAN_DATESTAMP, 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'discharge_date' =>   array ( 'title' => 'Discharge Date', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'discharge_rep' =>   array ( 'title' => 'Rep', 'type' => 'user', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'transfer_from' =>   array ( 'title' => 'From', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'transfer_date_s' =>   array ( 'title' => 'S', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'transfer_date_s' =>   array ( 'title' => 'Transfer Date Started', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'transfer_to' =>   array ( 'title' => 'To', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'transfer_rep' =>   array ( 'title' => 'Rep', 'type' => 'user', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'transfer_status' =>   array ( 'title' => 'Status', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'transfer_date_a' =>   array ( 'title' => 'A', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'transfer_date_a' =>   array ( 'title' => 'Transfer Date Accepted', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'trainings_attended' =>   array ( 'title' => 'Attended', 'type' => 'method', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'trainings_pass' =>   array ( 'title' => 'Pass', 'type' => 'method', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'past_cshops_id' =>   array ( 'title' => LAN_ID, 'type' => 'method', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'cshops_id' =>   array ( 'title' => LAN_ID, 'type' => 'method', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'past_post_id' =>   array ( 'title' => LAN_ID, 'type' => 'method', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'post_id' =>   array ( 'title' => LAN_ID, 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'tis_date' =>   array ( 'title' => LAN_DATESTAMP, 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'tig_date' =>   array ( 'title' => LAN_DATESTAMP, 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'tis_date' =>   array ( 'title' => 'Time In Service', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'tig_date' =>   array ( 'title' => 'Time In Grade', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'player_portrate' =>   array ( 'title' => 'Portrate', 'type' => 'image', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => 'thumb=80x80', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1',  ),
 		);		
@@ -869,7 +1068,35 @@ class service_records_sys_ui extends e_admin_ui
 
 	
 		public function init()
-		{
+		{	
+			// Drop down menu for user_id -> User
+			// TODO: Filter current Service Record Users with no-service record users
+			$sql = e107::getDb();
+			$this->user_id[0] = 'Select User';
+			if($sql->select("user", "*")) { while ($row = $sql->fetch()) {
+				$this->user_id[$row['user_id']] = $row['user_name']; } 	} 
+        		$this->fields['user_id']['writeParms'] = $this->user_id;
+				
+			// Will Change Later - For Now User	
+			$this->recruiter_id[0] = 'Select Recruiter';
+			if($sql->select("user", "*")) { while ($row = $sql->fetch()) {
+				$this->recruiter_id[$row['user_id']] = $row['user_name']; } 	} 
+        		$this->fields['user_id']['writeParms'] = $this->recruiter_id;
+			
+			$sql3 = e107::getDB()->retrieve('ranks_sys', 'rank_id,rank_name,rank_parent', 'rank_id != 0',true);
+			$this->rank_id[0] = 'Select Rank';
+			foreach($sql2 as $val)
+			{
+				$id = $val['rank_id'];
+
+				if($val['rank_parent'] >= 1)
+				{
+					$this->rank_id[$id] = $val['rank_name'];
+				}
+			}
+			$this->fields['rank_id']['writeParms'] = $this->rank_id;
+			
+			
 			// Set drop-down values (if any). 
 			$this->fields['application_status']['writeParms']['optArray'] = array('application_status_0','application_status_1', 'application_status_2'); // Example Drop-down array. 
 			$this->fields['rank_id']['writeParms']['optArray'] = array('rank_id_0','rank_id_1', 'rank_id_2'); // Example Drop-down array. 

@@ -2,11 +2,13 @@
 
 CREATE TABLE IF NOT EXISTS `roster_sys` (
   `ros_id` int(10) NOT NULL AUTO_INCREMENT,
+  `userclass_id' smallint(5) UNSIGNED NOT NULL DEFAULT '0',
+  `ros_name` varchar(250) NOT NULL default ''
+  `ros_name` varchar(250) NOT NULL default '',
   `ros_parent` int(10) unsigned NOT NULL default '0',
   `ros_sub` int(10) unsigned NOT NULL default '0',
   `ros_order` int(10) unsigned NOT NULL default '0',
   `ros_show` int(10) NOT NULL,
-  `user_class_id' int(10) NOT NULL,
   PRIMARY KEY (`ros_id`)
   KEY `ros_parent` (`ros_parent`),
   KEY `ros_sub` (`ros_sub`)
