@@ -2,14 +2,14 @@
 
 CREATE TABLE IF NOT EXISTS `roster_sys` (
   `ros_id` int(10) NOT NULL AUTO_INCREMENT,
-  `userclass_id' smallint(5) UNSIGNED NOT NULL DEFAULT '0',
-  `ros_name` varchar(250) NOT NULL default ''
+  `userclass_id` smallint(5) UNSIGNED NOT NULL DEFAULT '0',
+  `ros_name` varchar(250) NOT NULL default '',
   `ros_name` varchar(250) NOT NULL default '',
   `ros_parent` int(10) unsigned NOT NULL default '0',
   `ros_sub` int(10) unsigned NOT NULL default '0',
   `ros_order` int(10) unsigned NOT NULL default '0',
   `ros_show` int(10) NOT NULL,
-  PRIMARY KEY (`ros_id`)
+  PRIMARY KEY (`ros_id`),
   KEY `ros_parent` (`ros_parent`),
   KEY `ros_sub` (`ros_sub`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS `postition_sys` (
 
 CREATE TABLE IF NOT EXISTS `service_records_sys` (
   `sr_id` int(10) NOT NULL auto_increment,
-  `user_id int(10) NOT NULL,
-  `clone_number` smallint(4) DEFAULT NULL,
+  `user_id` int(10) NOT NULL,
+  `clone_number` smallint(4) UNSIGNED NOT NULL DEFAULT '0',
   `arma_id` varchar(255) DEFAULT NULL,
   `ts_guid` varchar(255) DEFAULT NULL,
   `battleeye_guid` varchar(255) DEFAULT NULL,

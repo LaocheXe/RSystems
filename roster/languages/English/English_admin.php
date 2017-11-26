@@ -17,5 +17,6 @@ define("LAN_ROSTEREXE_ADMIN_HELP_05", "Star");
 define("LAN_ROSTEREXE_ADMIN_HELP_06", "Support on Beerpay");
 define("LAN_ROSTEREXE_ADMIN_HELP_07", "Or With PayPal");
 
+define("LAN_RS_NAME", "Roster System");
 
 ?>
