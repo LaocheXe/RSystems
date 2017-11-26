@@ -125,12 +125,12 @@ class roster_sys_ui extends e_admin_ui
 		
 	//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
 	
-		protected $listOrder		= 'ros_id DESC';
+		//protected $listOrder		= 'ros_id DESC';
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'ros_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'ros_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'method', 'inline'=>true,  'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'method', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'ros_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'inline'=>true,  'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ros_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => '10%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ros_sub' =>   array ( 'title' => 'Sub-Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'center', 'thclass' => 'center',  ),
 		  'ros_order' =>   array ( 'title' => LAN_ORDER, 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
@@ -176,15 +176,15 @@ class roster_sys_ui extends e_admin_ui
 		{
 			
 			$sql = e107::getDb();
-			$this->userclass_id[0] = 'Select User Class';
-			if($sql->select("userclass_classes", "*")) 
-			{ 
-				while ($row = $sql->fetch())
-				{
-				$this->userclass_id[$row['userclass_id']] = $row['userclass_name']; 
-				} 
-			} 
-        	$this->fields['userclass_id']['writeParms'] = $this->userclass_id;
+			//$this->userclass_id[0] = 'Select User Class';
+			//if($sql->select("userclass_classes", "*")) 
+			//{ 
+			//	while ($row = $sql->fetch())
+			//	{
+			//	$this->userclass_id[$row['userclass_id']] = $row['userclass_name']; 
+			//	} 
+			//} 
+        	//$this->fields['userclass_id']['writeParms'] = $this->userclass_id;
 			
 			$this->checkOrder();
 			if($this->getAction() == 'edit')
@@ -299,6 +299,48 @@ class roster_sys_ui extends e_admin_ui
 				
 class roster_sys_form_ui extends e_admin_form_ui
 {
+	function userclass_id($curVal,$mode)
+	{
+		$frm = e107::getForm();
+		$e_userclass = e107::getUserClass();
+		//$pref = e107::getPref();
+		//$user_data = $this->getParam('user_data');
+		//if (!isset ($user_data['user_class'])) $user_data['user_class'] = varset($pref['initial_user_classes'])
+		 		
+		switch($mode)
+		{
+			case 'read': // List Page
+				return $curVal;
+			break;
+			
+			case 'write': // Edit Page
+				//return $this->text('user_id',$curVal, 255, 'size=large');
+				$temp = $e_userclass->vetted_tree('class', array($e_userclass, 'checkbox_desc'), $this->userclass_id['userclass_id'], 'classes, no-excludes');
+
+				if ($temp)
+				{
+					$text .= "<tr style='vertical-align:top'>
+					<td>
+						User Class (Select Only One):
+					</td>
+					<td>
+						<a href='#set_class' class='btn btn-default e-expandit'>User Class</a>
+						<div class='e-hideme' id='set_class'>
+							{$temp}
+						</div>
+					</td>
+					</tr>\n";
+				}
+				return $text;		
+			break;
+			
+			case 'filter':
+			case 'batch':
+				return  array();
+			break;
+		}
+	}
+	
 	function roster_name($curVal,$mode,$parm)
 	{
 			$frm = e107::getForm();
@@ -406,7 +448,6 @@ class roster_sys_form_ui extends e_admin_form_ui
 					break;
 			}
 		}
-
 }		
 		
 
@@ -439,7 +480,7 @@ class ranks_sys_ui extends e_admin_ui
 		
 	//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
 	
-		protected $listOrder		= 'rank_id DESC';
+		//protected $listOrder		= 'rank_id DESC';
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'rank_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
@@ -1078,14 +1119,21 @@ class service_records_sys_ui extends e_admin_ui
         		$this->fields['user_id']['writeParms'] = $this->user_id;
 				
 			// Will Change Later - For Now User	
-			$this->recruiter_id[0] = 'Select Recruiter';
-			if($sql->select("user", "*")) { while ($row = $sql->fetch()) {
-				$this->recruiter_id[$row['user_id']] = $row['user_name']; } 	} 
-        		$this->fields['user_id']['writeParms'] = $this->recruiter_id;
+			//$this->recruiter_id[0] = 'Select Recruiter';
+			//if($sql2->select("user", "*")) { while ($row = $sql2->fetch()) {
+			//	$this->recruiter_id[$row['user_id']] = $row['user_name']; } 	} 
+        	//	$this->fields['user_id']['writeParms'] = $this->recruiter_id;
+			$sql2 = e107::getDB()->retrieve('user', 'user_id,user_name', 'user_name != 0',true);
+			$this->user_id[0] = 'Select Recruiter';
+			foreach($sql2 as $val2)
+			{
+				$id2 = $val2['recruiter_id'];
+			}
+			$this->fields['recruiter_id']['writeParms'] = $this->user_id;
 			
 			$sql3 = e107::getDB()->retrieve('ranks_sys', 'rank_id,rank_name,rank_parent', 'rank_id != 0',true);
 			$this->rank_id[0] = 'Select Rank';
-			foreach($sql2 as $val)
+			foreach($sql3 as $val)
 			{
 				$id = $val['rank_id'];
 
@@ -1099,7 +1147,7 @@ class service_records_sys_ui extends e_admin_ui
 			
 			// Set drop-down values (if any). 
 			$this->fields['application_status']['writeParms']['optArray'] = array('application_status_0','application_status_1', 'application_status_2'); // Example Drop-down array. 
-			$this->fields['rank_id']['writeParms']['optArray'] = array('rank_id_0','rank_id_1', 'rank_id_2'); // Example Drop-down array. 
+			//$this->fields['rank_id']['writeParms']['optArray'] = array('rank_id_0','rank_id_1', 'rank_id_2'); // Example Drop-down array. 
 			$this->fields['awol_status']['writeParms']['optArray'] = array('awol_status_0','awol_status_1', 'awol_status_2'); // Example Drop-down array. 
 			$this->fields['transfer_status']['writeParms']['optArray'] = array('transfer_status_0','transfer_status_1', 'transfer_status_2'); // Example Drop-down array. 
 			$this->fields['post_id']['writeParms']['optArray'] = array('post_id_0','post_id_1', 'post_id_2'); // Example Drop-down array. 
