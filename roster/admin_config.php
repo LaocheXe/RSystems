@@ -24,16 +24,7 @@ class roster_adminArea extends e_admin_dispatcher
 			'uipath' 		=> null
 		),
 		
-
-		'cat'	=> array(
-			'controller' 	=> 'ranks_sys_ui',
-			'path' 			=> null,
-			'ui' 			=> 'ranks_sys_form_ui',
-			'uipath' 		=> null
-		),
-		
-
-		'cat'	=> array(
+		'other1'	=> array(
 			'controller' 	=> 'postition_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'postition_sys_form_ui',
@@ -41,26 +32,39 @@ class roster_adminArea extends e_admin_dispatcher
 		),
 		
 		'other1'	=> array(
+			'controller' 	=> 'ranks_sys_ui',
+			'path' 			=> null,
+			'ui' 			=> 'ranks_sys_form_ui',
+			'uipath' 		=> null
+		),
+		
+		'other2'	=> array(
 			'controller' 	=> 'qualifications_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'qualifications_sys_form_ui',
 			'uipath' 		=> null
 		),
 		
-		'other1'	=> array(
+		'other3'	=> array(
 			'controller' 	=> 'awards_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'awards_sys_form_ui',
 			'uipath' 		=> null
 		),
 		
-		'other1'	=> array(
+		'other4'	=> array(
 			'controller' 	=> 'service_records_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'service_records_sys_form_ui',
 			'uipath' 		=> null
 		),
 		
+		'other5'	=> array(
+			'controller' 	=> 'cshops_cats_sys_ui',
+			'path' 			=> null,
+			'ui' 			=> 'cshops_cats_sys_form_ui',
+			'uipath' 		=> null
+		),
 
 	);	
 	
@@ -70,20 +74,23 @@ class roster_adminArea extends e_admin_dispatcher
 		'main/list'			=> array('caption'=> 'Roster Manager', 'perm' => 'P'),
 		'main/create'		=> array('caption'=> 'Create Roster', 'perm' => 'P'),
 
-		'cat/list'			=> array('caption'=> 'Ranks Manager', 'perm' => 'P'),
-		'cat/create'		=> array('caption'=> 'Create Ranks', 'perm' => 'P'),
-
 		'cat/list'			=> array('caption'=> 'Postition Manager', 'perm' => 'P'),
 		'cat/create'		=> array('caption'=> 'Create Postition', 'perm' => 'P'),
 		
-		'other1/list'			=> array('caption'=> 'Qualifications Manager', 'perm' => 'P'),
-		'other1/create'		=> array('caption'=> 'Create Qualification', 'perm' => 'P'),
+		'other1/list'			=> array('caption'=> 'Ranks Manager', 'perm' => 'P'),
+		'other1/create'		=> array('caption'=> 'Create Ranks', 'perm' => 'P'),
 		
-		'other1/list'			=> array('caption'=> 'Awards Manager', 'perm' => 'P'),
-		'other1/create'		=> array('caption'=> 'Create Awards', 'perm' => 'P'),
+		'other2/list'			=> array('caption'=> 'Qualifications Manager', 'perm' => 'P'),
+		'other2/create'		=> array('caption'=> 'Create Qualification', 'perm' => 'P'),
+		
+		'other3/list'			=> array('caption'=> 'Awards Manager', 'perm' => 'P'),
+		'other3/create'		=> array('caption'=> 'Create Awards', 'perm' => 'P'),
 
-		'other1/list'			=> array('caption'=> 'Service Records Manager', 'perm' => 'P'),
-		'other1/create'		=> array('caption'=> 'Create Service Records', 'perm' => 'P'),
+		'other4/list'			=> array('caption'=> 'Service Records Manager', 'perm' => 'P'),
+		'other4/create'		=> array('caption'=> 'Create Service Records', 'perm' => 'P'),
+		
+		'other5/list'			=> array('caption'=> 'C-Shops Manager', 'perm' => 'P'),
+		'other5/create'		=> array('caption'=> 'Create C-Shop', 'perm' => 'P'),
 
 		// 'main/custom'		=> array('caption'=> 'Custom Page', 'perm' => 'P')
 	);
@@ -95,13 +102,9 @@ class roster_adminArea extends e_admin_dispatcher
 	protected $menuTitle = 'Roster System';
 }
 
-
-
-
 				
 class roster_sys_ui extends e_admin_ui
-{
-			
+{		
 		protected $pluginTitle		= 'Roster System';
 		protected $pluginName		= 'roster';
 	//	protected $eventName		= 'roster-roster_sys'; // remove comment to enable event triggers in admin. 		
@@ -120,11 +123,8 @@ class roster_sys_ui extends e_admin_ui
 	//	protected $sortField		= 'somefield_order';
 	//	protected $sortParent      = 'somefield_parent';
 	//	protected $treePrefix      = 'somefield_title';
-
 	//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
-		
 	//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
-	
 		//protected $listOrder		= 'ros_id DESC';
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
@@ -314,7 +314,6 @@ class roster_sys_form_ui extends e_admin_form_ui
 			break;
 			
 			case 'write': // Edit Page
-				//return $this->text('user_id',$curVal, 255, 'size=large');
 				$temp = $e_userclass->vetted_tree('class', array($e_userclass, 'checkbox_desc'), $this->userclass_id['userclass_id'], 'classes, no-excludes');
 
 				if ($temp)
@@ -449,54 +448,371 @@ class roster_sys_form_ui extends e_admin_form_ui
 			}
 		}
 }		
-		
 
+class cshops_cats_sys_ui extends e_admin_ui
+{		
+		protected $pluginTitle		= 'Roster System';
+		protected $pluginName		= 'roster';
+	//	protected $eventName		= 'roster-roster_sys'; // remove comment to enable event triggers in admin. 		
+		protected $table			= 'cshops_cats_sys';
+		protected $pid				= 'cshop_id';
+		protected $perPage			= 15; 
+		protected $batchDelete		= true;
+		protected $sortField		= 'cshop_order';
+		protected $sortParent       = 'cshop_parent';
+		protected $batchExport     = true;
+		protected $batchCopy		= true;
+		protected $orderStep		= 10;
+		protected $listQry          = "SELECT a. *, CASE WHEN a.cshop_parent = 0 THEN a.cshop_order ELSE b.cshop_order + (( a.cshop_order)/1000) END AS Sort FROM `#cshops_cats_sys` AS a LEFT JOIN `#cshops_cats_sys` AS b ON a.cshop_parent = b.cshop_id ";
+		protected $listOrder		= 'Sort,cshop_order ';
+
+		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
+		  'cshop_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'method', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'cshop_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'inline'=>true,  'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'cshop_des' => array ( 'title' => LAN_DESCRIPTION, 'type' => 'textarea', 'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'cshop_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => '10%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'cshop_sub' =>   array ( 'title' => 'Sub-Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'center', 'thclass' => 'center',  ),
+		  'cshop_order' =>   array ( 'title' => LAN_ORDER, 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'cshop_show' =>   array ( 'title' => 'Show', 'type' => 'boolean', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1',  ),
+		);		
+		
+		protected $fieldpref = array('cshop_name', 'cshop_parent', 'cshop_sub', 'cshop_order', 'cshop_show');
+		
+		public $forumParents = array();
+		
+		private function checkOrder()
+		{
+			$sql = e107::getDb();
+			$sql2 = e107::getDb('sql2');
+			$count = $sql->select('cshops_cats_sys', 'cshop_id', 'cshop_order = 0');
+
+			if($count > 1)
+			{
+				$sql->gen("SELECT cshop_id,cshop_name,cshop_parent,cshop_sub,cshop_order FROM `#cshops_cats_sys` ORDER BY COALESCE(NULLIF(cshop_parent,0), cshop_id), cshop_parent > 0, cshop_order ");
+				$c = 0;
+				while($row = $sql->fetch())
+				{
+					if($row['cshop_parent'] == 0)
+					{
+						$c = $c + 100;
+					}
+					else
+					{
+						$c = $c+1;
+					}
+
+					$sql2->update('cshops_cats_sys', 'cshop_order = '.$c.' WHERE cshop_id = '.$row['cshop_id'].' LIMIT 1');
+				}
+			}
+		}
+
+		protected $prefs = array(); 
+	
+		public function init()
+		{
+			
+			$sql = e107::getDb();
+			$this->checkOrder();
+			if($this->getAction() == 'edit')
+			{
+				$this->fields['cshop_order']['noedit'] = true;
+			}
+			$data = e107::getDb()->retrieve('cshops_cats_sys', 'cshop_id,cshop_name,cshop_parent,cshop_sub', 'cshop_id != 0',true);
+			$this->cshopParents[0] = "(New Parent)";
+			$forumSubParents = array();
+
+			foreach($data as $val)
+			{
+				$id = $val['cshop_id'];
+
+				if($val['cshop_parent'] == 0)
+				{
+					$this->rankParents[$id] = $val['cshop_name'];
+				}
+				else
+				{
+					$forumSubParents[$id] = $val['cshop_name'];
+				}
+
+			}
+
+			$this->fields['cshop_parent']['writeParms'] = $this->cshopParents;
+			$this->fields['cshop_sub']['writeParms']['optArray'] = $forumSubParents;
+			$this->fields['cshop_sub']['writeParms']['default'] = 'blank';	
+		}
+
+		// ------- Customize Create --------		
+		public function afterSort($result, $selected)
+		{
+
+			return;
+
+			$sql = e107::getDb();
+
+			$data2 = $sql->retrieve('cshops_cats_sys','cshop_id,cshop_parent,cshop_name,cshop_order','cshop_parent = 0',true);
+			foreach($data2 as $val)
+			{
+				$id = $val['cshop_id'];
+				$parent[$id] = $val['cshop_order'];
+
+			}
+
+			$previous = 0;
+
+			$data = $sql->retrieve('cshops_cats_sys','*','cshop_parent != 0 ORDER BY cshop_order',true);
+			foreach($data as $row)
+			{
+				$p = $row['cshop_parent'];
+
+				if($p != $previous)
+				{
+					$c = $parent[$p];
+				}
+
+				$c++;
+				$previous = $p;
+				
+				$sql->update('cshops_cats_sys','cshop_order = '.$c.' WHERE cshop_id = '.intval($row['cshop_id']).' LIMIT 1');
+			}
+		}
+		
+		public function beforeCreate($new_data,$old_data)
+		{
+			$sql = e107::getDb();
+			$parentOrder = $sql->retrieve('cshops_cats_sys','cshop_order','cshop_id='.$new_data['cshop_parent']." LIMIT 1");
+
+			$new_data['cshop_order'] = $parentOrder + 50;
+			return $new_data;
+		}
+	
+		public function afterCreate($new_data, $old_data, $id)
+		{
+			// do something
+		}
+
+		public function onCreateError($new_data, $old_data)
+		{
+			// do something		
+		}		
+		
+		// ------- Customize Update --------
+		
+		public function beforeUpdate($new_data, $old_data, $id)
+		{
+			return $new_data;
+		}
+
+		public function afterUpdate($new_data, $old_data, $id)
+		{
+			// do something	
+		}
+		
+		public function onUpdateError($new_data, $old_data, $id)
+		{
+			// do something		
+		}		
+		
+		// left-panel help menu area. 
+		public function renderHelp()
+		{
+			$caption = LAN_HELP;
+			$text = 'Some help text';
+
+			return array('caption'=>$caption,'text'=> $text);
+
+		}
+}
+				
+class cshops_cats_sys_form_ui extends e_admin_form_ui
+{
+	function userclass_id($curVal,$mode)
+	{
+		$frm = e107::getForm();
+		$e_userclass = e107::getUserClass();
+		 		
+		switch($mode)
+		{
+			case 'read': // List Page
+				return $curVal;
+			break;
+			
+			case 'write': // Edit Page
+				$temp = $e_userclass->vetted_tree('class', array($e_userclass, 'checkbox_desc'), $this->userclass_id['userclass_id'], 'classes, no-excludes');
+
+				if ($temp)
+				{
+					$text .= "<tr style='vertical-align:top'>
+					<td>
+						User Class (Select Only One):
+					</td>
+					<td>
+						<a href='#set_class' class='btn btn-default e-expandit'>User Class</a>
+						<div class='e-hideme' id='set_class'>
+							{$temp}
+						</div>
+					</td>
+					</tr>\n";
+				}
+				return $text;		
+			break;
+			
+			case 'filter':
+			case 'batch':
+				return  array();
+			break;
+		}
+	}
+	
+	function cshop_name($curVal,$mode,$parm)
+	{
+			$frm = e107::getForm();
+
+			if($mode == 'read')
+			{
+				$parent 	= $this->getController()->getListModel()->get('cshop_parent');
+				$id			= $this->getController()->getListModel()->get('cshop_id');
+				$sub     = $this->getController()->getListModel()->get('cshop_sub');
+
+
+
+				$level = 1;
+
+				if(!empty($sub))
+				{
+					$level = 3;
+				}
+
+				$linkQ = e_SELF."?searchquery=&filter_options=page_chapter__".$id."&mode=page&action=list";
+				$level_image = $parent ? str_replace('level-x','level-'.$level, ADMIN_CHILD_ICON) : '';
+
+				return ($parent) ?  $level_image.$curVal : $curVal;
+			}
+
+			if($mode == 'write')
+			{
+				return $frm->text('cshop_name',$curVal,255,'size=xxlarge');
+			}
+
+			if($mode == 'filter')
+			{
+				return;
+			}
+			if($mode == 'batch')
+			{
+				return;
+			}
+
+			if($mode == 'inline')
+			{
+				$parent 	= $this->getController()->getListModel()->get('rank_parent');
+				$sub     = $this->getController()->getListModel()->get('forum_sub');
+				
+				if(!empty($parent))
+				{
+
+					$level = 1;
+
+					if(!empty($sub))
+					{
+						$level = 2;
+					}
+
+					$ret['inlineParms'] = array('pre'=> str_replace('level-x','level-'.$level, ADMIN_CHILD_ICON));
+				}
+				
+				return $ret;
+				
+			}
+		}
+
+
+		// Custom Method/Function
+		function cshop_parent($curVal,$mode)
+		{
+			$frm = e107::getForm();
+
+			switch($mode)
+			{
+				case 'read': // List Page
+					return $curVal;
+					break;
+
+				case 'write': // Edit Page
+					return $frm->text('cshop_parent',$curVal);
+					break;
+
+				case 'filter':
+				case 'batch':
+				//	return  $array;
+					break;
+			}
+		}
+
+
+		// Custom Method/Function
+		function cshop_sub($curVal,$mode)
+		{
+			$frm = e107::getForm();
+
+			switch($mode)
+			{
+				case 'read': // List Page
+					return $curVal;
+					break;
+
+				case 'write': // Edit Page
+					return $frm->text('cshop_sub',$curVal);
+					break;
+
+				case 'filter':
+				case 'batch':
+				//	return  $array;
+					break;
+			}
+		}
+}		
+		
 				
 class ranks_sys_ui extends e_admin_ui
 {
 			
 		protected $pluginTitle		= 'Roster System';
 		protected $pluginName		= 'roster';
-	//	protected $eventName		= 'roster-ranks_sys'; // remove comment to enable event triggers in admin. 		
+	//	protected $eventName		= 'unitexe-ranks_sys'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'ranks_sys';
 		protected $pid				= 'rank_id';
-		protected $perPage			= 10; 
+		protected $perPage			= 50; 
 		protected $batchDelete		= true;
-		protected $batchExport     = true;
-		protected $batchCopy		= true;
+	//	protected $batchCopy		= true;		
 		protected $sortField		= 'rank_order';
 		protected $sortParent       = 'rank_parent';
 		protected $orderStep		= 50;
 	//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
 		
-		protected $listQry          = "SELECT a. *, CASE WHEN a.rank_parent = 0 THEN a.rank_order ELSE b.rank_order + (( a.rank_order)/1000) END AS Sort FROM `#ranks_exesystem` AS a LEFT JOIN `#ranks_exesystem` AS b ON a.rank_parent = b.rank_id ";
+		protected $listQry          = "SELECT a. *, CASE WHEN a.rank_parent = 0 THEN a.rank_order ELSE b.rank_order + (( a.rank_order)/1000) END AS Sort FROM `#ranks_sys` AS a LEFT JOIN `#ranks_sys` AS b ON a.rank_parent = b.rank_id ";
 	
 		protected $listOrder		= 'Sort,rank_order ';
-	//	protected $sortField		= 'somefield_order';
-	//	protected $sortParent      = 'somefield_parent';
-	//	protected $treePrefix      = 'somefield_title';
-
-	//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
-		
-	//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
-	
-		//protected $listOrder		= 'rank_id DESC';
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'rank_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'rank_shortname' =>   array ( 'title' => 'Abbreviation', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'rank_shortname' =>   array ( 'title' => LAN_TAGS, 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_description' =>   array ( 'title' => LAN_DESCRIPTION, 'type' => 'textarea', 'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_image' =>   array ( 'title' => LAN_IMAGE, 'type' => 'image', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => 'thumb=80x80', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_order' =>   array ( 'title' => LAN_ORDER, 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1',  ),
+		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1', 'sort'=>1 ),
 		);		
 		
-		protected $fieldpref = array('rank_name', 'rank_shortname', 'rank_image', 'rank_parent', 'rank_order');
+		protected $fieldpref = array('rank_name','rank_shortname', 'rank_image', 'rank_parent', 'Sort', 'rank_order');
 		
+
+	//	protected $preftabs        = array('General', 'Other' );
+	//	protected $prefs = array();
 		public $forumParents = array();
-		
+	
 		private function checkOrder()
 		{
 			$sql = e107::getDb();
@@ -505,7 +821,7 @@ class ranks_sys_ui extends e_admin_ui
 
 			if($count > 1)
 			{
-				$sql->gen("SELECT rank_id,rank_fullname,rank_parent,rank_order FROM `#ranks_sys` ORDER BY COALESCE(NULLIF(rank_parent,0), rank_id), rank_parent > 0, rank_order ");
+				$sql->gen("SELECT rank_id,rank_name,rank_parent,rank_order FROM `#ranks_sys` ORDER BY COALESCE(NULLIF(rank_parent,0), rank_id), rank_parent > 0, rank_order ");
 
 				$c = 0;
 				while($row = $sql->fetch())
@@ -526,17 +842,16 @@ class ranks_sys_ui extends e_admin_ui
 			}
 			
 		}
-		
-		
-	
+
 		public function init()
 		{
+			// Set drop-down values (if any). 
 			$this->checkOrder();
 			if($this->getAction() == 'edit')
 			{
 				$this->fields['rank_order']['noedit'] = true;
 			}
-			$data = e107::getDb()->retrieve('ranks_sys', 'rank_id,rank_fullname,rank_parent', 'rank_id != 0',true);
+			$data = e107::getDb()->retrieve('ranks_sys', 'rank_id,rank_name,rank_parent', 'rank_id != 0',true);
 			$this->rankParents[0] = "(New Parent)";
 
 			foreach($data as $val)
@@ -545,17 +860,16 @@ class ranks_sys_ui extends e_admin_ui
 
 				if($val['rank_parent'] == 0)
 				{
-					$this->rankParents[$id] = $val['rank_fullname'];
+					$this->rankParents[$id] = $val['rank_name'];
 				}
 				else
 				{
-					$forumSubParents[$id] = $val['rank_fullname'];
+					$forumSubParents[$id] = $val['rank_name'];
 				}
 
 			}
 
 			$this->fields['rank_parent']['writeParms'] = $this->rankParents;
-
 		}
 
 		
@@ -567,7 +881,7 @@ class ranks_sys_ui extends e_admin_ui
 
 			$sql = e107::getDb();
 
-			$data2 = $sql->retrieve('ranks_sys','rank_id,rank_fullname,rank_parent,rank_order','rank_parent = 0',true);
+			$data2 = $sql->retrieve('ranks_sys','rank_id,rank_name,rank_parent,rank_order','rank_parent = 0',true);
 			foreach($data2 as $val)
 			{
 				$id = $val['rank_id'];
@@ -594,8 +908,6 @@ class ranks_sys_ui extends e_admin_ui
 
 			}
 		}
-
-		
 		
 		public function beforeCreate($new_data,$old_data)
 		{
@@ -605,7 +917,6 @@ class ranks_sys_ui extends e_admin_ui
 			$new_data['rank_order'] = $parentOrder + 50;
 			
 			return $new_data;
-
 		}
 	
 		public function afterCreate($new_data, $old_data, $id)
@@ -636,37 +947,25 @@ class ranks_sys_ui extends e_admin_ui
 			// do something		
 		}		
 		
-		// left-panel help menu area. 
-		public function renderHelp()
-		{
-			$caption = LAN_HELP;
-			$text = 'Some help text';
-
-			return array('caption'=>$caption,'text'=> $text);
-
-		}
 			
 	/*	
 		// optional - a custom page.  
 		public function customPage()
 		{
 			$text = 'Hello World!';
-			$otherField  = $this->getController()->getFieldVar('other_field_name');
 			return $text;
 			
 		}
-		
-	
-		
-		
 	*/
 			
 }
 				
+
+
 class ranks_sys_form_ui extends e_admin_form_ui
 {
-
-	function rank_fullname($curVal,$mode,$parm)
+	
+	function rank_name($curVal,$mode,$parm)
 	{
 
 			$frm = e107::getForm();
@@ -676,7 +975,9 @@ class ranks_sys_form_ui extends e_admin_form_ui
 				$parent 	= $this->getController()->getListModel()->get('rank_parent');
 				$id			= $this->getController()->getListModel()->get('rank_id');
 				//$sub     = $this->getController()->getListModel()->get('forum_sub');
-				
+
+
+
 				$level = 1;
 
 				//if(!empty($sub))
@@ -694,7 +995,7 @@ class ranks_sys_form_ui extends e_admin_form_ui
 
 			if($mode == 'write')
 			{
-				return $frm->text('rank_fullname',$curVal,255,'size=xxlarge');
+				return $frm->text('rank_name',$curVal,255,'size=xxlarge');
 			}
 
 			if($mode == 'filter')
@@ -740,8 +1041,7 @@ class ranks_sys_form_ui extends e_admin_form_ui
 					break;
 		}
 	}
-	
-}		
+}
 				
 class postition_sys_ui extends e_admin_ui
 {

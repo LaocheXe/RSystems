@@ -13,6 +13,20 @@ CREATE TABLE IF NOT EXISTS `roster_sys` (
   KEY `ros_sub` (`ros_sub`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
+CREATE TABLE IF NOT EXISTS `cshops_cats_sys` (
+  `cshop_id` int(10) NOT NULL AUTO_INCREMENT,
+  `userclass_id` smallint(5) UNSIGNED NOT NULL DEFAULT '0',
+  `cshop_name` varchar(250) NOT NULL default '',
+  `cshop_des` text,
+  `cshop_parent` int(10) unsigned NOT NULL default '0',
+  `cshop_sub` int(10) unsigned NOT NULL default '0',
+  `cshop_order` int(10) unsigned NOT NULL default '0',
+  `cshop_show` int(10) NOT NULL,
+  PRIMARY KEY (`cshop_id`),
+  KEY `ros_parent` (`cshop_parent`),
+  KEY `ros_sub` (`cshop_sub`)
+) ENGINE=MyISAM AUTO_INCREMENT=1;
+
 CREATE TABLE IF NOT EXISTS `ranks_sys` (
   `rank_id` int(10) NOT NULL AUTO_INCREMENT,
   `rank_name` varchar(250) NOT NULL default '',
