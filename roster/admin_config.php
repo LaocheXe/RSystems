@@ -31,35 +31,35 @@ class roster_adminArea extends e_admin_dispatcher
 			'uipath' 		=> null
 		),
 		
-		'other1'	=> array(
+		'other2'	=> array(
 			'controller' 	=> 'ranks_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'ranks_sys_form_ui',
 			'uipath' 		=> null
 		),
 		
-		'other2'	=> array(
+		'other3'	=> array(
 			'controller' 	=> 'qualifications_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'qualifications_sys_form_ui',
 			'uipath' 		=> null
 		),
 		
-		'other3'	=> array(
+		'other4'	=> array(
 			'controller' 	=> 'awards_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'awards_sys_form_ui',
 			'uipath' 		=> null
 		),
 		
-		'other4'	=> array(
+		'other5'	=> array(
 			'controller' 	=> 'service_records_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'service_records_sys_form_ui',
 			'uipath' 		=> null
 		),
 		
-		'other5'	=> array(
+		'other6'	=> array(
 			'controller' 	=> 'cshops_cats_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'cshops_cats_sys_form_ui',
@@ -74,23 +74,23 @@ class roster_adminArea extends e_admin_dispatcher
 		'main/list'			=> array('caption'=> 'Roster Manager', 'perm' => 'P'),
 		'main/create'		=> array('caption'=> 'Create Roster', 'perm' => 'P'),
 
-		'cat/list'			=> array('caption'=> 'Postition Manager', 'perm' => 'P'),
-		'cat/create'		=> array('caption'=> 'Create Postition', 'perm' => 'P'),
+		'other1/list'			=> array('caption'=> 'Postition Manager', 'perm' => 'P'),
+		'other1/create'		=> array('caption'=> 'Create Postition', 'perm' => 'P'),
 		
-		'other1/list'			=> array('caption'=> 'Ranks Manager', 'perm' => 'P'),
-		'other1/create'		=> array('caption'=> 'Create Ranks', 'perm' => 'P'),
+		'other2/list'			=> array('caption'=> 'Ranks Manager', 'perm' => 'P'),
+		'other2/create'		=> array('caption'=> 'Create Ranks', 'perm' => 'P'),
 		
-		'other2/list'			=> array('caption'=> 'Qualifications Manager', 'perm' => 'P'),
-		'other2/create'		=> array('caption'=> 'Create Qualification', 'perm' => 'P'),
+		'other3/list'			=> array('caption'=> 'Qualifications Manager', 'perm' => 'P'),
+		'other3/create'		=> array('caption'=> 'Create Qualification', 'perm' => 'P'),
 		
-		'other3/list'			=> array('caption'=> 'Awards Manager', 'perm' => 'P'),
-		'other3/create'		=> array('caption'=> 'Create Awards', 'perm' => 'P'),
+		'other4/list'			=> array('caption'=> 'Awards Manager', 'perm' => 'P'),
+		'other4/create'		=> array('caption'=> 'Create Awards', 'perm' => 'P'),
 
-		'other4/list'			=> array('caption'=> 'Service Records Manager', 'perm' => 'P'),
-		'other4/create'		=> array('caption'=> 'Create Service Records', 'perm' => 'P'),
+		'other5/list'			=> array('caption'=> 'Service Records Manager', 'perm' => 'P'),
+		'other5/create'		=> array('caption'=> 'Create Service Records', 'perm' => 'P'),
 		
-		'other5/list'			=> array('caption'=> 'C-Shops Manager', 'perm' => 'P'),
-		'other5/create'		=> array('caption'=> 'Create C-Shop', 'perm' => 'P'),
+		'other6/list'			=> array('caption'=> 'C-Shops Manager', 'perm' => 'P'),
+		'other6/create'		=> array('caption'=> 'Create C-Shop', 'perm' => 'P'),
 
 		// 'main/custom'		=> array('caption'=> 'Custom Page', 'perm' => 'P')
 	);
