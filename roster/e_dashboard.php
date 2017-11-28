@@ -126,10 +126,10 @@ class roster_dashboard // include plugin-folder in the name.
 	function status() // Status Panel in the admin area
 	{
 
-		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />";
-		$var[0]['title'] 	= "My Title";
-		$var[0]['url']		= e_PLUGIN_ABS."roster/roster.php";
-		$var[0]['total'] 	= 10;
+		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
+		$var[0]['title'] 	= "Current Members";
+		$var[0]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
+		$var[0]['total'] 	= 10; // TODO - Get Value
 
 		return $var;
 	}	
@@ -137,10 +137,20 @@ class roster_dashboard // include plugin-folder in the name.
 	
 	function latest() // Latest panel in the admin area.
 	{
-		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />";
-		$var[0]['title'] 	= "My Title";
-		$var[0]['url']		= e_PLUGIN_ABS."roster/roster.php";
-		$var[0]['total'] 	= 10;
+		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
+		$var[0]['title'] 	= "Applications";
+		$var[0]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
+		$var[0]['total'] 	= 0; // TODO - Get Value
+		
+		$var[1]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
+		$var[1]['title'] 	= "Promotion Request";
+		$var[1]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
+		$var[1]['total'] 	= 0; // TODO - Get Value
+		
+		$var[2]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
+		$var[2]['title'] 	= "Transfer Request";
+		$var[2]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
+		$var[2]['total'] 	= 0; // TODO - Get Value
 
 		return $var;
 	}	
