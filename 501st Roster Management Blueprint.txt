@@ -1,0 +1,178 @@
+Applications:
+ Database Table with Entities: (WIP)
+  app_id
+  user_id -> who submitted the application (app)
+  arma_id -> Arma 3 ID
+  recruiter_id -> If other ~
+  recruiter_name -> if used other, then who, or what
+  name_request -> Request a name (Crusie, Klein, Del, etc...)
+  clone_number -> Request Clone Number (will need to cross check server records table to make sure no duplicate)
+
+Citations:
+ Database Table with Entities:
+  cit_id
+  cit_chapter -> Citation Name
+  cit_description -> Citation Description
+
+History - Service Records DB:
+ Database Name: sr_logs_sys
+ Databate Table Entities:
+  log_uniqueid
+  sys_id
+  sys_datestamp -> Stamp the current date of change
+  sys_microtime -> Stamp the current time of change
+  sys_user_id -> User account who made the change
+  sys_ip -> User IP address who made the change
+  sr_id -> Service Record ID
+  user_id -> User ID
+  clone_id -> Save players Clone ID
+  arma_id -> Save players ArmA 3 ID
+  ts_guid -> Save players TeamSpeak GUID
+  battleeye_guid -> Save players GUID
+  recruiter_id -> Save players recruiter id
+  application_date -> Save players applicatiom submission date
+  application_status -> Save players application status
+  application_reason -> Save players application reasons if any
+  application_rep -> Save players who accepted the applciation
+  join_date -> Save players if accepted Join Date
+  citations -> Save players Citations
+  awards_id -> Save players awards
+  ranks_id -> Save players ranks
+  rank_change_date -> Save players Rank Change Dates
+  awol_id -> Save players awol status
+  awol_datestamp -> Save players awol status date stamp
+  discharge_id -> Save players discharge grades
+  discharge_date -> Save players discharge dates
+  discharge_rep -> Save who process the players discharge
+  transfer_from -> Save where the players requested transfer from
+  transfer_from_date -> Datestamp the players transfer from
+  transfer_to -> Save the players requested transfer to
+  transfer_status -> Save the players transfer status
+  transfer_complete_date -> Save the players transfer completion date
+  transfer_rep -> Save who process the players transfer
+  promotion_id -> Save the promotion ID
+  promotion_from -> Save the promotion from
+  promotion_to -> Save the promotion to
+  promotion_status -> Save the status of promotion
+  promotion_date -> Save the Datestamp of the promotion
+  promotion_rep_y -> Save who submit the promotion
+  promotion_rep_p -> Save who process the promotion
+  promotion_reason_y -> Save the reason for promotion
+  promotion_reason_p -> Save the reason for accepting/deniing promotion
+  promotion_process_date -> Save the date of the promottion process
+  qualification_id -> Save the Qualififcation ID
+  qualification_reason -> Save why the players got the qualification
+  qualification_date -> Save the players qualification date
+  qualification_rep -> Save who gave the qualification
+  trainings_id -> Save trainings ID
+  trainings_attended -> Save what trainings they attended
+  trainings_attended_date -> Save players attended tranings date
+  trainings_passed -> Save players trainings they completed
+  trainings_passed_date -> Save players completed trainings date
+  trainings_rep -> Save who process the players training
+  cshops_id -> Save players cshops
+  cshops_date -> Save players cshops date when changed
+  post_id -> Save players positions
+  post_date -> Save players positions dates
+  tis_date -> Save time in service date
+  tig_date -> Save time in grade date
+  demotion_id -> Save players demotion ID
+  demotion_from -> Save players demoted from rank
+  demotion_to -> Save players demoted to rank
+  demotion_date -> Save the date when the demotion was submitted
+  demotion_reason_y -> Save the reason why of the demotion
+  demotion_status -> Save the status of the demotion
+  demotion_rep_y -> Save whp submit the demotion
+  demotion_rep_p -> Save who process the demotion
+  demotion_reason_p -> Save reason why the promotion was process
+  demotion_process_date -> Save process date for demotion
+
+Service Records: (Remove past/log entities)
+record_id
+user_id
+clone_number -> clone number
+arma3_id -> arma3/steam id
+recruiter_id -> who recruited them
+application_date -> When did they submit an application
+application_status -> Denied  - Pending - Accepted - Issue
+application_reason -> Who accepted/denied/had issue with the application
+date_join -> if accepted, the day the application is accepted
+citations -> Probation/trouble user
+discharge_grade -> Honorable, etc...
+discharge_date -> when was the discharge
+discharge_rep -> who did the discharge
+transfer_from -> where they transfer from
+transfer_to -> where they going
+transfer_status -> Accepter/Pending/Denied/Issue
+transfer_rep -> who accepted/denied transfer
+trainings -> which trainings did they complete
+past_cshops_id -> cshops where id's
+cshops_id -> what cshops are they currently in
+awards -> list of awards by award ID
+past_post_id -> what posistions/roles they where in
+post_id -> current posistion/role in now
+past_ranks_id -> past ranks
+rank_id -> current rank
+tis_date -> Time in service date
+tig_date -> Time in grade date
+trainings_attended -> attended trainings
+trainings_status -> Complete/Failed/Not Attended
+player_status -> Active/Inactive
+player_portrate -> For In Game Portrate
+
+==================================================
+
+Admin Area:
+ Roster Page (Format)
+ Ranks
+ Posistion (Fire Team Lead, Squad Lead, Support, Trooper)
+ Player Details (ArmA 3 ID, Teamspeak GUID, Awards, Training, ATT Training, Ranks, Probation (number of probations), User Classes Added - C-Shops (User Classes))
+  Player Details History (Save Trainings, Probations, Ranks, positions, placements/ type of log) <-- Late Implmention
+ Placement (Place Players on Roster)
+Frontend:
+ Roster Page (ORBAT, RESERVICES)
+
+
+User Classes -> Structure
+501st -> Unit
+ 1st Regiment, 3rd Battalion -> Company
+  Avalanche Company -> Company Command Goes Here
+   1st Platoon -> Platoon Command Goes Here
+    1st Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    2nd Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    3rd Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    4th Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+   2nd Platoon -> Platoon Command Goes Here
+    1st Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    2nd Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    3rd Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    4th Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+   3rd Platoon -> Platoon Command Goes Here
+    1st Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    2nd Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    3rd Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
+    4th Squad -> Squad Lead Goes Here
+     Alpha -> Alpha Fire Team
+     Bravo -> Bravo Fire Team
