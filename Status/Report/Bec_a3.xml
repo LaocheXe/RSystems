@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?xml-stylesheet href="reports.xsl" type="text/xsl" ?>
+<BecStatus>
+	<hostname>N/A</hostname>
+	<gamever>N/A</gamever>
+	<mapname>N/A</mapname>
+	<mission>N/A</mission>
+	<difficulty>N/A</difficulty>
+	<numplayers>0/N/A</numplayers>
+	<lastupdate>09:06:05 - 2014/07/09</lastupdate>
+	<nextupdate>09:07:05 - 2014/07/09</nextupdate>
+	<becversion>1.60</becversion>
+	<beversion>1.190</beversion>
+	<becuptime>0:01:00</becuptime>
+	<becreporter>1</becreporter>
+	<serveruptime>0:15:28</serveruptime>
+	<kts>0</kts>
+	<bts>0</bts>
+	<hts>0</hts>
+	<cts>0</cts>
+	<uts>0</uts>
+	<numadmins>0</numadmins>
+	<numtmpadmins>0</numtmpadmins>
+	<gametype>N/A</gametype>
+	<gamemode>N/A</gamemode>
+	<gameState>N/A</gameState>
+	<mod>N/A</mod>
+	<password>N/A</password>
+	<equalModRequired>N/A</equalModRequired>
+	<verifySignatures>N/A</verifySignatures>
+	<requiredVersion>N/A</requiredVersion>
+	<reqSecureId>N/A</reqSecureId>
+	<players>
+	</players>
+</BecStatus>
