@@ -12,6 +12,10 @@
 	<copyright>LaocheXeCopyRight</copyright>
 	<adminLinks>
 		<link url="admin_config.php" description="" icon="" iconSmall="" icon128="" primary="true" >LAN_CONFIGURE</link>
+		<link url="admin_application.php" description="" icon="" iconSmall="" icon128="" primary="false" >Applications</link>
+		<link url="admin_sr.php" description="" icon="" iconSmall="" icon128="" primary="false" >Service Records</link>
+		<link url="admin_roster.php" description="" icon="" iconSmall="" icon128="" primary="false" >Roster Management</link>
+		<link url="admin_rs_logs.php" description="" icon="" inconSmall="" icon128="" primary="false" >Roster Logs</link>
 	</adminLinks>
 	
 </e107Plugin>

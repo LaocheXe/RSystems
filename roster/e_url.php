@@ -40,6 +40,13 @@ class roster_url // plugin-folder + '_url'
 			'redirect'		=> '{e_PLUGIN}roster/roster.php', 		// file-path of what to load when the regex returns true.
 
 		);
+		
+		$config['rank_category'] = array(
+			'alias'         => 'ranks',
+			'regex'			=> '^{alias}/(.*)$',
+			'sef'			=> '{alias}/ranks',			// {faq_info_sef} is substituted with database value when parsed by e107::url();
+			'redirect'		=> '{e_PLUGIN}roster/ranks_wip.php?cat=$1'			
+		);
 
 		return $config;
 	}

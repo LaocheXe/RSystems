@@ -1,0 +1,85 @@
+
+.imageas {
+	height: 50px;
+	width: 50px;	
+}
+
+.rank-start {
+
+}
+
+.rank-submit-question-container {
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+div.rank-extras {
+    text-align: right;
+    margin-top: 10px
+}
+
+div.rank-tags {
+    font-size: 80%;
+    display: inline-block;
+    padding-right: 10px;
+}
+
+div.rank-datestamp {
+    font-size: 80%;
+    display: inline-block;
+    padding-right: 15px;
+}
+
+div.rank-share {
+    display: inline-block;
+}
+
+a.rank-submit-question {
+    text-align: right;
+    float: right;
+    margin-top: -50px;
+    margin-bottom: 10px;
+
+}
+
+.rank-submit-question-form {
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+}
+
+.rank-search {
+    padding: 20px;
+}
+
+.rank-listall-category {
+
+}
+
+.rank-listall-container {
+
+}
+
+li.rank-listall-loop {
+    list-style: circle outside;
+    margin-bottom: 8px;
+}
+
+.rank-question {
+
+}
+
+.rank-question.rank-new {
+    font-weight: bold;
+}
+
+.rank-answer {
+    margin: 20px 0px;
+    border: 1px solid #DDDDDD;
+    background-color: #F5F5F5;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.rank-char-limit { text-align:right }
+

@@ -1,18 +1,38 @@
 <?php
+/*
+ * e107 website system
+ *
+ * Copyright (C) 2008-2009 e107 Inc (e107.org)
+ * Released under the terms and conditions of the
+ * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
+ *
+ */
 
-// Template File
-// roster Template file
+//$RANK_TEMPLATE['start']	= "
+//<div class='faq-start'>{FAQ_SUBMIT_QUESTION: expand=1}
+//{FAQ_SUBMIT_QUESTION_LIST}
+//";
 
-if (!defined('e107_INIT')) { exit; }
+$RANK_TEMPLATE['start']	= "<div class='rank-start'>";
 
+$RANK_TEMPLATE['end']	= "
+	<div class='rank-end'></div>
+</div>
+";
 
-$ROSTER_TEMPLATE = array();
+$RANK_TEMPLATE['all']['start'] = "
+<div>
+	<h2 class='raank-listall'>{RANK_CATEGORY=extend}</h2>
+	<ul class='rank-listall'>
+";
+$RANK_TEMPLATE['all']['item'] = "
+		<li class='rank-listall'>{RANK_RANKS=expand|share=1}</li>
+";
+$RANK_TEMPLATE['all']['end'] = "
+	</ul>
+</div>
+";
 
-$ROSTER_TEMPLATE['default']['start'] 	= '{SETIMAGE: w=400&h=300}';
-
-$ROSTER_TEMPLATE['default']['item'] 	= '';
-
-$ROSTER_TEMPLATE['default']['end'] 	= '';
-
+$RANK_TEMPLATE['caption'] = "{RANK_CAPTION} <small>{RANK_COUNT}</small>";
 
 
