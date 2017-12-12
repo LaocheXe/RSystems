@@ -22,25 +22,31 @@ $tp = e107::getParser();
 $text = '';
 
 $sparrowAwards = $sql->retrieve('awards_sys', 'award_id, award_name, award_description, award_image', false, true);
-
-$text .= "<table border='1'>";
+// TODO: LAN Files LAN_Awards
+$text .= "<table border='0' style='width:100%'>
+<tr>
+	<th><center>Award</center></th>
+	<th>&nbsp;&nbsp;</th>
+	<th>Name</th>
+	<th>&nbsp;&nbsp;</th>
+	<th>Description</th>
+</tr>";
 
 
 foreach($sparrowAwards as $awards)
 {
-	
-	$att = array('w' => '250px', 'h' => '250px', 'class' => 'Awards', 'alt' => $awards['award_name'], 'x' => 1, 'crop' => 1);
+	// TODO: Add Pref for Awards Hight and Width - Award Name
+	$att = array('w' => 250, 'h' => 75, 'class' => 'Awards', 'alt' => $awards['award_name'], 'x' => 0, 'crop' => 0);
 
 	$imageCode = $tp->toImage($awards['award_image'], $att);
 	
 	$text .= '
 	<tr>
-		<td><center>'.$awards['award_name'].'<br />'.$imageCode.'</center></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td><center>'.$awards['award_description'].'</center></td>
-		<td></td>
+		<td>'.$imageCode.'</td>
+		<td>&nbsp;&nbsp;</td>
+		<td>'.$awards['award_name'].'</td>
+		<td>&nbsp;&nbsp;</td>
+		<td>'.$awards['award_description'].'</td>
 	</tr>
 	';
 }

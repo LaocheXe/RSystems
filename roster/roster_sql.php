@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `cshops_cats_sys` (
 CREATE TABLE IF NOT EXISTS `ranks_sys` (
   `rank_id` int(10) NOT NULL AUTO_INCREMENT,
   `rank_name` varchar(250) NOT NULL default '',
-  `rank_shortname` varchar(5) NOT NULL,
+  `rank_shortname` varchar(25) NOT NULL,
   `rank_description` text,
   `rank_image` varchar(255) DEFAULT NULL,
   `rank_parent` int(10) unsigned NOT NULL DEFAULT '0',

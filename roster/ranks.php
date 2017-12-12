@@ -1,159 +1,108 @@
 <?php
-/*
- * e107 website system
- *
- * Copyright (C) 2008-2013 e107 Inc (e107.org)
- * Released under the terms and conditions of the
- * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
- *
- * e107 Blank Plugin
- *
-*/
+
 if (!defined('e107_INIT'))
 {
 	require_once("../../class2.php");
 }
 
-//if (!vartrue($RANKS_VIEW_TEMPLATE))
-//{
-//	if (file_exists(THEME."ranks_template.php"))
-//	{
-	//	require_once (THEME."faqs_template.php");
-//	}
-//	else
-//	{
-	//	require_once (e_PLUGIN."faqs/templates/faqs_template.php");
-//	}
-//}
+require_once(HEADERF);
 
+//e107::lan('voice', true, true); // LAN
+//e107::css('roster','roster.css'); // CSS FIle
 
+$sql  = e107::getDB();
+$tp = e107::getParser();
+$text = '';
 
-class roster_ranks_front
+if(!$sql->count('ranks_sys'))
 {
-
-	function __construct()
-	{
-		//e107::js('roster','js/my.js','jquery');	// Load Plugin javascript and include jQuery framework
-		e107::css('roster','css/ranks.css');		// load css file
-		//e107::lan('roster'); 					// load language file ie. e107_plugins/roster/languages/English.php
-		//e107::meta('keywords','some words');	// add meta data to <HEAD>
-
-	}
-
-
-	public function run()
-	{
-
-		$sql = e107::getDB(); 					// mysql class object
-		$tp = e107::getParser(); 				// parser for converting to HTML and parsing templates etc.
-		$ns = e107::getRender();				// render in theme box.
-		
-		$rows = $sql->retrieve('ranks_sys', '*', false, '', true);
-		$parent = $rows['rank_parent'];
-		$order = $rows['rank_order'];
-
-		$this->permList = array();
-		$qryList = array();
-
-		$qryList['view'] = "
-		SELECT r.rank_id, r.rank_parent
-		FROM `#ranks_sys` AS r
-		LEFT JOIN `#ranks_sys` AS rp ON r.rank_parent = rp.rank_id
-		WHERE r.rank_parent != 0 AND rp.rank_id IS NOT NULL
-		";
-		
-		$text = '';
-		
-		foreach($qryList as $key => $qry)
-		{
-			if($sql->gen($qry))
-			{
-				$tmp = array();
-				while($row = $sql->fetch())
-				{
-					$tmp[$row['rank_id']] = 1;
-					$tmp[$row['rank_parent']] = 1;
-				}
-				$text .= $qryList;
-			}
-		}
-		
-		$ns->tablerender("Ranks", $text);
-		//return (in_array('Ranks', $this->permList[$type]));
-
-	/*	if($rows = $sql->retrieve('ranks_sys', 'rank_id, rank_name, rank_shortname, rank_description, rank_image, rank_parent, rank_order', false, '', true))
-		{
-			//$rows = $sql->select('ranks_exesystem', '*');
-			//foreach($rows as $key=>$value)
-			//{
-			//	if($value['rank_parent'] == '0')
-			//	{
-					//$text .= $row['rank_name'].' '.$row['rank_id'];
-			//		$text .= $tp->toHtml($value['rank_name'])."<br />";
-					//$text .=  $tp->toHtml($value['roster_type'])."<br />";
-					//$text .= $tp->parseTemplate($template['item'],true, $sc);
-			//	}
-			//	else if($value['rank_parent'] == '1')
-			//	{
-					//$text .= $row['rank_name'].' '.$row['rank_id'];
-			//		$text .= $tp->toHtml($value['rank_name'])."<br />";
-			//	}
-			//	else if($value['rank_parent'] == '2')
-			//	{
-					//$text .= $row['rank_name'].' '.$row['rank_id'];
-			//		$text .= $tp->toHtml($value['rank_name'])."<br />";
-			//	}
-			//}
-			foreach ($rows['rank_parent'] == 0 as $parent)
-			{
-				$text .= $rows['rank_name'];
-			//	foreach($parent =)
-			//	{
-					
-			//	}
-			}
-			
-			$ns->tablerender("My Caption", $text);
-		}
- 	*/
-
-	}
-
-
-/*	private function renderComments()
-	{
-		 // Returns a rendered commenting area. (html) v2.x
-		 // This is the only method a plugin developer should require in order to include user comments.
-		 // @param string $plugin - directory of the plugin that will own these comments.
-		 // @param int $id - unique id for this page/item. Usually the primary ID of your plugin's database table.
-		 // @param string $subject
-		 // @param bool|false $rate true = will rendered rating buttons, false will not.
-		 // @return null|string
-		 //
-
-		$plugin = 'roster';
-		$id     = 3;
-		$subject = 'My roster item subject';
-		$rate   = true;
-
-		$ret = e107::getComment()->render($plugin, $id, $subject, $rate);
-
-		e107::getRender()->tablerender($ret['caption'],$ret['comment_form']. $ret['comment']);
-
-
-	}
-*/
-
-
+  $text = "No ranks found.";
+  e107::getRender()->tablerender('Ranks_WIP', $text);
+  require_once(FOOTERF);
+  exit;
 }
 
+// Should show the ranks in order under parents (parents do now show in the query test) - eXe
+$query1 = "
+SELECT r.rank_id, r.rank_parent, r.rank_shortname, r.rank_name, r.rank_description, r.rank_image FROM `#ranks_sys` AS r
+LEFT JOIN `#ranks_sys` AS rp ON r.rank_parent = rp.rank_id
+WHERE r.rank_parent != 0 AND rp.rank_id IS NOT NULL ORDER BY r.rank_order
+";
 
-$rosterFront = new roster_ranks_front;
-require_once(HEADERF); 					// render the header (everything before the main content area)
-$rosterFront->run();
-require_once(FOOTERF);					// render the footer (everything after the main content area)
-exit; 
+// Should show the rank parents in order
+$query2 = "
+SELECT rank_id, rank_parent, rank_shortname, rank_name, rank_description, rank_image, rank_order 
+FROM `#ranks_sys` 
+WHERE rank_parent = 0 ORDER BY rank_order";
 
-// For a more elaborate plugin - please see e107_plugins/gallery
+// For the rest of the ranks
+$sqlRanks = $sql->retrieve($query1, true);
 
+// For the Parents first
+$sqlParents = $sql->retrieve($query2, true);
+
+// Start the table
+$text .= "<table border='0' style='width:100%'>
+<tr>
+	<th><center>Rank</center></th>
+	<th>&nbsp;&nbsp;</th>
+	<th>Name</th>
+	<th>&nbsp;&nbsp;</th>
+	<th>Abbreviation</th>
+	<th>&nbsp;&nbsp;</th>
+	<th>&nbsp;&nbsp;</th>
+	<th>Description</th>
+</tr>";
+
+// For each parent - Table Header - eXe
+foreach($sqlParents as $parent)
+{
+	$text .= '
+			<tr>
+				<td colspan="7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td><b><i><u>'.$parent['rank_name'].'</u></i></b></td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td><i><u>'.$parent['rank_description'].'</u></i></td>
+			</tr>';
+	
+	foreach($sqlRanks as $rank)
+	{
+		$att = array('w' => 50, 'h' => 50, 'class' => $rank['rank_name'], 'alt' => $awards['award_name'], 'x' => 0, 'crop' => 0);
+		$imageCode = $tp->toImage($rank['rank_image'], $att);
+		// Display ranks and Parents - if parent id equals rank parent then display under
+		if($parent['rank_id'] == $rank['rank_parent'])
+		{
+			$text .='
+				<tr>
+					<td colspan="7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+				<tr>
+						<td><center>'.$imageCode.'</center></td>
+						<td>&nbsp;&nbsp;</td>
+						<td>'.$rank['rank_name'].'</td>
+						<td>&nbsp;</td>
+						<td><center>'.$rank['rank_shortname'].'</center></td>
+						<td>&nbsp;&nbsp;</td>
+						<td>&nbsp;&nbsp;</td>
+						<td>'.$rank['rank_description'].'</td>
+					</tr>';
+		}
+	}	
+}
+
+// Close the table off
+$text .= "</table>";
+
+
+
+e107::getRender()->tablerender('Ranks', $text);
+require_once(FOOTERF);
+exit;
 ?>

@@ -41,11 +41,18 @@ class roster_url // plugin-folder + '_url'
 
 		);
 		
-		$config['rank_category'] = array(
+		$config['ranks'] = array(
 			'alias'         => 'ranks',
 			'regex'			=> '^{alias}/(.*)$',
-			'sef'			=> '{alias}/ranks',			// {faq_info_sef} is substituted with database value when parsed by e107::url();
-			'redirect'		=> '{e_PLUGIN}roster/ranks_wip.php?cat=$1'			
+			'sef'			=> '{alias}/ranks',
+			'redirect'		=> '{e_PLUGIN}roster/ranks.php'			
+		);
+		
+		$config['awards'] = array(
+			'alias'         => 'awards',
+			'regex'			=> '^{alias}/(.*)$',
+			'sef'			=> '{alias}/awards',
+			'redirect'		=> '{e_PLUGIN}roster/awards.php'			
 		);
 
 		return $config;
