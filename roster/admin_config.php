@@ -129,7 +129,7 @@ class roster_sys_ui extends e_admin_ui
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'ros_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'method', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'userclass', 'data' => 'int', 'width' => 'auto', 'batch' => true, 'filter' => true, 'inline' => true, 'help' => '', 'readParms' => array('classlist'=>'public,guest,nobody,member,admin,main,new,mods,classes'), 'writeParms' => array('classlist'=>'public,guest,nobody,member,admin,main,new,mods,classes'), 'class' => 'left', 'thclass' => 'left',  ),
 		  'ros_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'inline'=>true,  'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ros_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => '10%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ros_sub' =>   array ( 'title' => 'Sub-Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'center', 'thclass' => 'center',  ),
@@ -173,45 +173,36 @@ class roster_sys_ui extends e_admin_ui
 		protected $prefs = array(); 
 	
 		public function init()
-		{
-			
+		{	
 			$sql = e107::getDb();
-			//$this->userclass_id[0] = 'Select User Class';
-			//if($sql->select("userclass_classes", "*")) 
-			//{ 
-			//	while ($row = $sql->fetch())
-			//	{
-			//	$this->userclass_id[$row['userclass_id']] = $row['userclass_name']; 
-			//	} 
-			//} 
-        	//$this->fields['userclass_id']['writeParms'] = $this->userclass_id;
-			
+
+			$this->fields['userclass_id']['batch'] = false;
 			$this->checkOrder();
 			if($this->getAction() == 'edit')
 			{
 				$this->fields['ros_order']['noedit'] = true;
 			}
-			$data = e107::getDb()->retrieve('roster_sys', 'ros_id,ros_name,ros_parent,ros_sub', 'ros_id != 0',true);
+			$data = e107::getDb()->retrieve('roster_sys', 'ros_id,ros_name,ros_parent', 'ros_id != 0',true);
 			$this->rosParents[0] = "(New Parent)";
-			$forumSubParents = array();
+			$rosterSubParents = array();
 
 			foreach($data as $val)
 			{
 				$id = $val['ros_id'];
 
-				if($val['ros_parent'] == 0)
-				{
-					$this->rankParents[$id] = $val['ros_name'];
-				}
-				else
-				{
-					$forumSubParents[$id] = $val['ros_name'];
-				}
+				//if($val['ros_parent'] >= 0)
+				//{
+					$this->rosParents[$id] = $val['ros_name'];
+				//}
+				//elseif($val['ros_parent'] >= 0)
+				//{
+					$rosterSubParents[$id] = $val['ros_name'];
+				//}
 
 			}
 
 			$this->fields['ros_parent']['writeParms'] = $this->rosParents;
-			$this->fields['ros_sub']['writeParms']['optArray'] = $forumSubParents;
+			$this->fields['ros_sub']['writeParms']['optArray'] = $rosterSubParents;
 			$this->fields['ros_sub']['writeParms']['default'] = 'blank';	
 		}
 
