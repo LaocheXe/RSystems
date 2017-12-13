@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `awards_sys` (
   PRIMARY KEY (`award_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `qualifications_exesystem` (
+CREATE TABLE IF NOT EXISTS `qualifications_sys` (
   `qual_id` int(10) NOT NULL AUTO_INCREMENT,
   `qual_name` varchar(200) NOT NULL,
   `qual_description` text NOT NULL,

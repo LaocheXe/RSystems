@@ -4,11 +4,11 @@
 * 
 * E107 Plugin (www.e107.org)
 *
-* Roster eXeSystem front language defines
+* Roster System front language defines
 */
-// Example Below
-//define("LAN_VOIPLUG_NAME",	"Voice");
 
+define("LAN_RSYS_RANKS", "Ranks and Insignia");
+define("LAN_RSYS_AWARDS", "Awards and Commendations");
 
 
 ?>

@@ -43,14 +43,14 @@ class roster_url // plugin-folder + '_url'
 		
 		$config['ranks'] = array(
 			'alias'         => 'ranks',
-			'regex'			=> '^{alias}/(.*)$',
+			'regex'			=> '^{alias}(.*)$',
 			'sef'			=> '{alias}/ranks',
 			'redirect'		=> '{e_PLUGIN}roster/ranks.php'			
 		);
 		
 		$config['awards'] = array(
 			'alias'         => 'awards',
-			'regex'			=> '^{alias}/(.*)$',
+			'regex'			=> '^{alias}(.*)$',
 			'sef'			=> '{alias}/awards',
 			'redirect'		=> '{e_PLUGIN}roster/awards.php'			
 		);

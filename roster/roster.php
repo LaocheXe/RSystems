@@ -69,33 +69,6 @@ class roster_front
 	}
 
 
-	private function renderComments()
-	{
-
-		/**
-		 * Returns a rendered commenting area. (html) v2.x
-		 * This is the only method a plugin developer should require in order to include user comments.
-		 * @param string $plugin - directory of the plugin that will own these comments.
-		 * @param int $id - unique id for this page/item. Usually the primary ID of your plugin's database table.
-		 * @param string $subject
-		 * @param bool|false $rate true = will rendered rating buttons, false will not.
-		 * @return null|string
-		 */
-
-		$plugin = 'roster';
-		$id     = 3;
-		$subject = 'My roster item subject';
-		$rate   = true;
-
-		$ret = e107::getComment()->render($plugin, $id, $subject, $rate);
-
-		e107::getRender()->tablerender($ret['caption'],$ret['comment_form']. $ret['comment']);
-
-
-	}
-
-
-
 }
 
 

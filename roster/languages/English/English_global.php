@@ -12,4 +12,8 @@ define("LAN_ROSTERPLUGIN_DESCRIPTION",	"TBD Later");
 define("LAN_ROSTERPLUGIN_BATCH",	"Create a roster for your website");
 //define("LAN_ROSTERPLUGIN_NAME",	"Roster System");
 
+define("LAN_RSYS_RANKS", "Ranks and Insignia");
+define("LAN_RSYS_AWARDS", "Awards and Commendations");
+
+
 ?>

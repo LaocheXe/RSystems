@@ -15,7 +15,10 @@ if (!defined('e107_INIT'))
 }
 require_once(HEADERF);
 
-e107::css('roster','roster.css');
+e107::lan('roster');
+//e107::js('roster','js/roster.js','jquery');	// Load Plugin javascript and include jQuery framework
+//e107::css('roster','css/roster.css');		// load css file
+e107::meta('keywords', 'awards, commendations, metals, ribbons, pins, trophies');
 
 $sql  = e107::getDB();
 $tp = e107::getParser();
@@ -54,7 +57,7 @@ foreach($sparrowAwards as $awards)
 $text .= "</table>";
 
 
-e107::getRender()->tablerender('Awards', $text);
+e107::getRender()->tablerender(LAN_RSYS_AWARDS, $text);
 require_once(FOOTERF);
 exit; 
 ?>

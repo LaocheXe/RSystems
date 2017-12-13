@@ -7,8 +7,10 @@ if (!defined('e107_INIT'))
 
 require_once(HEADERF);
 
-//e107::lan('voice', true, true); // LAN
-//e107::css('roster','roster.css'); // CSS FIle
+e107::lan('roster');
+//e107::js('roster','js/my.js','jquery');	// Load Plugin javascript and include jQuery framework
+//e107::css('roster','css/my.css');		// load css file
+e107::meta('keywords', 'ranks, insignia');
 
 $sql  = e107::getDB();
 $tp = e107::getParser();
@@ -17,7 +19,7 @@ $text = '';
 if(!$sql->count('ranks_sys'))
 {
   $text = "No ranks found.";
-  e107::getRender()->tablerender('Ranks_WIP', $text);
+  e107::getRender()->tablerender(LAN_RSYS_RANKS, $text);
   require_once(FOOTERF);
   exit;
 }
@@ -102,7 +104,7 @@ $text .= "</table>";
 
 
 
-e107::getRender()->tablerender('Ranks', $text);
+e107::getRender()->tablerender(LAN_RSYS_RANKS, $text);
 require_once(FOOTERF);
 exit;
 ?>

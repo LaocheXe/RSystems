@@ -7,6 +7,15 @@ Applications:
   recruiter_name -> if used other, then who, or what
   name_request -> Request a name (Crusie, Klein, Del, etc...)
   clone_number -> Request Clone Number (will need to cross check server records table to make sure no duplicate)
+  birth_date -> Current Age (16 or older)
+  
+
+After Action Report (Form)
+ Database Table with Entities: (WIP)
+  
+
+Leave of Absents (Form)
+ Database Table with Entities: (WIP)
 
 Citations:
  Database Table with Entities:
