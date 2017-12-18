@@ -13,6 +13,10 @@ if (!defined('e107_INIT'))
 {
 	require_once("../../class2.php");
 }
+
+// To Get Page Title To Display
+define('PAGE_NAME', LAN_RSYS_PAGE_AWARDS);
+
 require_once(HEADERF);
 
 e107::lan('roster');

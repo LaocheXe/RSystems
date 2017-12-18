@@ -10,5 +10,7 @@
 define("LAN_RSYS_RANKS", "Ranks and Insignia");
 define("LAN_RSYS_AWARDS", "Awards and Commendations");
 
+define("LAN_RSYS_PAGE_RANKS", "Ranks");
+define("LAN_RSYS_PAGE_AWARDS", "Awards");
 
 ?>
