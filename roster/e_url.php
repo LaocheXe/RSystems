@@ -69,10 +69,10 @@ class roster_url // plugin-folder + '_url'
 			'redirect'		=> '{e_PLUGIN}roster/application.php'			
 		);
 		
-		$config['leaveofabsents'] = array(
-			'alias'         => 'leave-of-absents',
+		$config['leaveofabsence'] = array(
+			'alias'         => 'leave-of-absence',
 			'regex'			=> '^{alias}(.*)$',
-			'sef'			=> '{alias}/leave-of-absents',
+			'sef'			=> '{alias}/leave-of-absence',
 			'redirect'		=> '{e_PLUGIN}roster/loa.php'			
 		);
 		
