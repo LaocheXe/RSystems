@@ -16,6 +16,7 @@
 		<link url="admin_sr.php" description="" icon="" iconSmall="" icon128="" primary="false" >Service Records</link>
 		<link url="admin_roster.php" description="" icon="" iconSmall="" icon128="" primary="false" >Roster Management</link>
 		<link url="admin_rs_logs.php" description="" icon="" inconSmall="" icon128="" primary="false" >Roster Logs</link>
+		<link url="admin_cshops.php" description="" icon="" inconSmall="" icon128="" primary="false" >C-Shops</link>
 	</adminLinks>
 	
 </e107Plugin>

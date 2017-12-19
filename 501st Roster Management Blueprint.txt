@@ -5,23 +5,60 @@ Applications:
   arma_id -> Arma 3 ID
   recruiter_id -> If other ~
   recruiter_name -> if used other, then who, or what
+  found_us -> How they found the unit (textarea)
   name_request -> Request a name (Crusie, Klein, Del, etc...)
+  hours_played -> how many hours have they played in arma 3
   clone_number -> Request Clone Number (will need to cross check server records table to make sure no duplicate)
   birth_date -> Current Age (16 or older)
+  status -> Pending, Accepted, Denied
   
 
 After Action Report (Form)
  Database Table with Entities: (WIP)
-  
+  aar_id -> auto increment
+  user_id -> Form ID of user submission
+  aar_desk_id -> Desk of Squad/Platoon Leaders (dropdown)
+  aar_submit_date -> date AAR was submitted
+  aar_battalion -> Default would be 3rd Battalion
+  aar_company -> Default Company A
+  aar_platoon -> For The Platoons
+  aar_squad -> For the Squads
+  aar_subject -> AAR Subject
+  aar_to_id -> AAR To Whom
+  arr_date -> AAR Date
+  aar_time -> AAR Time
+  aar_location -> Server 1, 2, 3, 4, 5, etc...
+  aar_general -> textarea - General Information
+  aar_results -> textarea - Results that happen
+  aar_present -> SR_ID's (string or array)
+  aar_present_other -> text - Names who showed up if not in Service Records
 
+  
 Leave of Absents (Form)
+ Database Table with Entities:
+  loa_id -> auto increment
+  user_id -> Form ID of user submission
+  sr_id -> Any user on the site must have a sr_id (service record id)
+  rank_id -> grabs current rank from service record
+  post_id
+  submit_date -> date of submission
+  effective_date -> date when LOA starts
+  expected_date -> date when expected to return
+  explanation -> explanation of reason for LOA
+  auth_id -> who accepted loa (requires another page or function)
+  auth_status -> 0 = pending/1 = accepted - 2 would be denied but no reason to do so
+
+
+OPORD (Form)
  Database Table with Entities: (WIP)
+
 
 Citations:
  Database Table with Entities:
   cit_id
   cit_chapter -> Citation Name
   cit_description -> Citation Description
+
 
 History - Service Records DB:
  Database Name: sr_logs_sys
@@ -95,6 +132,7 @@ History - Service Records DB:
   demotion_rep_p -> Save who process the demotion
   demotion_reason_p -> Save reason why the promotion was process
   demotion_process_date -> Save process date for demotion
+
 
 Service Records: (Remove past/log entities)
 record_id

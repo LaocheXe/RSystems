@@ -372,8 +372,8 @@ class roster_sys_form_ui extends e_admin_form_ui
 
 			if($mode == 'inline')
 			{
-				$parent 	= $this->getController()->getListModel()->get('rank_parent');
-				$sub     = $this->getController()->getListModel()->get('forum_sub');
+				$parent 	= $this->getController()->getListModel()->get('ros_parent');
+				$sub     = $this->getController()->getListModel()->get('ros_sub');
 				
 				if(!empty($parent))
 				{
@@ -459,7 +459,7 @@ class cshops_cats_sys_ui extends e_admin_ui
 
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'cshop_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'method', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'userclass', 'data' => 'int', 'width' => 'auto', 'batch' => true, 'filter' => true, 'inline' => true, 'help' => '', 'readParms' => array('classlist'=>'public,guest,nobody,member,admin,main,new,mods,classes'), 'writeParms' => array('classlist'=>'public,guest,nobody,member,admin,main,new,mods,classes'), 'class' => 'left', 'thclass' => 'left',  ),
 		  'cshop_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'inline'=>true,  'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'cshop_des' => array ( 'title' => LAN_DESCRIPTION, 'type' => 'textarea', 'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'cshop_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => '10%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
@@ -512,25 +512,25 @@ class cshops_cats_sys_ui extends e_admin_ui
 			}
 			$data = e107::getDb()->retrieve('cshops_cats_sys', 'cshop_id,cshop_name,cshop_parent,cshop_sub', 'cshop_id != 0',true);
 			$this->cshopParents[0] = "(New Parent)";
-			$forumSubParents = array();
+			$cshopSubParents = array();
 
 			foreach($data as $val)
 			{
 				$id = $val['cshop_id'];
 
-				if($val['cshop_parent'] == 0)
-				{
-					$this->rankParents[$id] = $val['cshop_name'];
-				}
-				else
-				{
-					$forumSubParents[$id] = $val['cshop_name'];
-				}
+				//if($val['cshop_parent'] == 0)
+				//{
+					$this->cshopParents[$id] = $val['cshop_name'];
+				//}
+				//else
+				//{
+					$cshopSubParents[$id] = $val['cshop_name'];
+				//}
 
 			}
 
 			$this->fields['cshop_parent']['writeParms'] = $this->cshopParents;
-			$this->fields['cshop_sub']['writeParms']['optArray'] = $forumSubParents;
+			$this->fields['cshop_sub']['writeParms']['optArray'] = $cshopSubParents;
 			$this->fields['cshop_sub']['writeParms']['default'] = 'blank';	
 		}
 
@@ -622,6 +622,9 @@ class cshops_cats_sys_form_ui extends e_admin_form_ui
 	{
 		$frm = e107::getForm();
 		$e_userclass = e107::getUserClass();
+		//$pref = e107::getPref();
+		//$user_data = $this->getParam('user_data');
+		//if (!isset ($user_data['user_class'])) $user_data['user_class'] = varset($pref['initial_user_classes'])
 		 		
 		switch($mode)
 		{
@@ -697,8 +700,8 @@ class cshops_cats_sys_form_ui extends e_admin_form_ui
 
 			if($mode == 'inline')
 			{
-				$parent 	= $this->getController()->getListModel()->get('rank_parent');
-				$sub     = $this->getController()->getListModel()->get('forum_sub');
+				$parent 	= $this->getController()->getListModel()->get('cshop_parent');
+				$sub     = $this->getController()->getListModel()->get('cshop_sub');
 				
 				if(!empty($parent))
 				{

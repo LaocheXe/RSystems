@@ -25,21 +25,21 @@ class roster_url // plugin-folder + '_url'
 	{
 		$config = array();
 
-		$config['other'] = array(
-			'alias'         => 'roster',                            // default alias 'roster'. {alias} is substituted with this value below. Allows for customization within the admin area.
-			'regex'			=> '^{alias}/?$', 						// matched against url, and if true, redirected to 'redirect' below.
-			'sef'			=> '{alias}', 							// used by e107::url(); to create a url from the db table.
-			'redirect'		=> '{e_PLUGIN}roster/roster.php', 		// file-path of what to load when the regex returns true.
+//		$config['other'] = array(
+//			'alias'         => 'roster',                            // default alias 'roster'. {alias} is substituted with this value below. Allows for customization within the admin area.
+//			'regex'			=> '^{alias}/?$', 						// matched against url, and if true, redirected to 'redirect' below.
+//			'sef'			=> '{alias}', 							// used by e107::url(); to create a url from the db table.
+//			'redirect'		=> '{e_PLUGIN}roster/roster.php', 		// file-path of what to load when the regex returns true.
+//
+//		);
 
-		);
 
-
-		$config['index'] = array(
-			'regex'			=> '^roster/?$', 						// matched against url, and if true, redirected to 'redirect' below.
-			'sef'			=> 'roster', 							// used by e107::url(); to create a url from the db table.
-			'redirect'		=> '{e_PLUGIN}roster/roster.php', 		// file-path of what to load when the regex returns true.
-
-		);
+//		$config['index'] = array(
+//			'regex'			=> '^roster/?$', 						// matched against url, and if true, redirected to 'redirect' below.
+//			'sef'			=> 'roster', 							// used by e107::url(); to create a url from the db table.
+//			'redirect'		=> '{e_PLUGIN}roster/roster.php', 		// file-path of what to load when the regex returns true.
+//
+//		);
 		
 		$config['ranks'] = array(
 			'alias'         => 'ranks',
@@ -53,6 +53,48 @@ class roster_url // plugin-folder + '_url'
 			'regex'			=> '^{alias}(.*)$',
 			'sef'			=> '{alias}/awards',
 			'redirect'		=> '{e_PLUGIN}roster/awards.php'			
+		);
+		
+		$config['postistions'] = array(
+			'alias'         => 'postistions',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/postistions',
+			'redirect'		=> '{e_PLUGIN}roster/postistions.php'			
+		);
+		
+		$config['application'] = array(
+			'alias'         => 'application',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/application',
+			'redirect'		=> '{e_PLUGIN}roster/application.php'			
+		);
+		
+		$config['leaveofabsents'] = array(
+			'alias'         => 'leave-of-absents',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/leave-of-absents',
+			'redirect'		=> '{e_PLUGIN}roster/loa.php'			
+		);
+		
+		$config['afteractionreport'] = array(
+			'alias'         => 'after-action-report',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/after-action-reports',
+			'redirect'		=> '{e_PLUGIN}roster/aar.php'			
+		);
+		
+		$config['operationcenter'] = array(
+			'alias'         => 'operationcenter',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/operation-center',
+			'redirect'		=> '{e_PLUGIN}roster/opcenter.php'			
+		);
+		
+		$config['orbat'] = array(
+			'alias'         => 'orbat',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/ORBAT',
+			'redirect'		=> '{e_PLUGIN}roster/roster.php'			
 		);
 
 		return $config;

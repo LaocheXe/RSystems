@@ -23,8 +23,23 @@ CREATE TABLE IF NOT EXISTS `cshops_cats_sys` (
   `cshop_order` int(10) unsigned NOT NULL default '0',
   `cshop_show` int(10) NOT NULL,
   PRIMARY KEY (`cshop_id`),
-  KEY `ros_parent` (`cshop_parent`),
-  KEY `ros_sub` (`cshop_sub`)
+  KEY `cshop_parent` (`cshop_parent`),
+  KEY `cshop_sub` (`cshop_sub`)
+) ENGINE=MyISAM AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `loa_sys` (
+  `loa_id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  `sr_id` int(10) NOT NULL,
+  `rank_id` int(10) NOT NULL,
+  `post_id` int(10) NOT NULL,
+  `submit_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `effective_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `expected_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `explanation` text,
+  `auth_id` int(10) NOT NULL,
+  `auth_status` tinyinc(3) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`loa_id`),
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `ranks_sys` (
@@ -47,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `postition_sys` (
   PRIMARY KEY(`post_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
-
 CREATE TABLE IF NOT EXISTS `service_records_sys` (
   `sr_id` int(10) NOT NULL auto_increment,
   `user_id` int(10) NOT NULL,
@@ -57,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `service_records_sys` (
   `battleeye_guid` varchar(255) DEFAULT NULL,
   `recruiter_id` int(10) NOT NULL,
   `application_date` int(10) NOT NULL,
-  `application_status` int(10) NOT NULL,
+  `application_status` tinyint(3) NOT NULL,
   `application_rep` int(10) NOT NULL,
   `application_reason` text,
   `date_join` int(10) UNSIGNED NOT NULL DEFAULT '0',
@@ -100,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `qualifications_sys` (
   PRIMARY KEY (`qual_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
-CREATE TABLE logstats (
+CREATE TABLE history_sys (
   `log_uniqueid` int(11) NOT NULL auto_increment,
   `sys_id` varchar(50) NOT NULL default '',
   `sys_datestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',
