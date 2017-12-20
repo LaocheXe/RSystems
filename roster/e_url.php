@@ -83,10 +83,10 @@ class roster_url // plugin-folder + '_url'
 			'redirect'		=> '{e_PLUGIN}roster/aar.php'			
 		);
 		
-		$config['operationcenter'] = array(
-			'alias'         => 'operationcenter',
+		$config['operationhub'] = array(
+			'alias'         => 'operation-hub',
 			'regex'			=> '^{alias}(.*)$',
-			'sef'			=> '{alias}/operation-center',
+			'sef'			=> '{alias}/operation-hub',
 			'redirect'		=> '{e_PLUGIN}roster/opcenter.php'			
 		);
 		

@@ -1,83 +1,119 @@
 <?php
-/*
- * e107 website system
- *
- * Copyright (C) 2008-2013 e107 Inc (e107.org)
- * Released under the terms and conditions of the
- * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
- *
- * e107 Blank Plugin
- *
-*/
+//////////// HEADER SECTION //////////////////////////////////
 if (!defined('e107_INIT'))
 {
 	require_once("../../class2.php");
 }
 
+// To Get Page Title To Display
+define('PAGE_NAME', 'Operation Hub'); // TODO: LAN
 
+require_once(HEADERF);
+//////////////////////////////////////////////////////////
+e107::lan('roster');
+//e107::js('roster','js/my.js','jquery');	// Load Plugin javascript and include jQuery framework
+//e107::css('roster','css/my.css');		// load css file
+e107::meta('keywords', 'operation center, operation hub, hub, operation');
 
-class roster_front
-{
+$sql  = e107::getDB();
+$tp = e107::getParser();
+$ns = e107::getRender();
+$text = '';
 
-	function __construct()
-	{
-		e107::js('roster','js/my.js','jquery');	// Load Plugin javascript and include jQuery framework
-		e107::css('roster','css/my.css');		// load css file
-		e107::lan('roster'); 					// load language file ie. e107_plugins/roster/languages/English.php
-		e107::meta('keywords','some words');	// add meta data to <HEAD>
+$text .= "<table border='0' style='width:100%'>
+			<tr>
+				<th>Unit Statistics</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+			</tr>
+		 ";
+			
+$text .= "
+			<tr>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Total Active Clones</b></td>
+				<td><i>".$valueChange."</i></td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Pacific Time</b>
+				<td>".$valueChange_PacificTime."
+				<td>&nbsp;&nbsp;</td>
+			</tr>
+		 ";
+			
+$text .= "
+			<tr>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Total Clones on Leave</b></td>
+				<td><i>".$valueChange."</i></td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Mountain Time</b>
+				<td>".$valueChange_MountainTime."
+				<td>&nbsp;&nbsp;</td>
+			</tr>
+		 ";
+		 
+$text .= "
+			<tr>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Total After Action Reports</b></td>
+				<td><i>".$valueChange."</i></td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Central Time</b>
+				<td>".$valueChange_CentralTime."
+				<td>&nbsp;&nbsp;</td>
+			</tr>
+		 ";
+		 
+$text .= "
+			<tr>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Total Ranks</b></td>
+				<td><i>".$valueChange."</i></td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Eastern Time</b>
+				<td>".$valueChange_EasternTime."
+				<td>&nbsp;&nbsp;</td>
+			</tr>
+		 ";
 
-	}
+$text .= "
+			<tr>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Total Awards</b></td>
+				<td><i>".$valueChange."</i></td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Eurpeian Time</b>
+				<td>".$valueChange_EurpeianTime."
+				<td>&nbsp;&nbsp;</td>
+			</tr>
+		 ";
+		 
+$text .= "</table>
+		  <table border='0' style='width:100%'>
+			<tr>
+				<th>Active Clones on Leave</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+			</tr>
+		";
 
+$text .= "</table>";
 
-	public function run()
-	{
-
-		$sql = e107::getDB(); 					// mysql class object
-		$tp = e107::getParser(); 				// parser for converting to HTML and parsing templates etc.
-		$frm = e107::getForm(); 				// Form element class.
-		$ns = e107::getRender();				// render in theme box.
-
-
-		$text = '';
-
-
-	//	$sc = e107::getScBatch('roster',true, 'roster');
-	//	$template = e107::getTemplate('roster','roster','default');
-
-	//	$text = $tp->parseTemplate($template['start'],true, $sc);
-
-		if($rows = $sql->retrieve('roster','*',false,'',true)) 	// combined select and fetch function - returns an array.
-		{
-			// print_a($rows);
-			foreach($rows as $key=>$value)		// loop throug
-			{
-
-			//	$sc->setVars($value); // if shortcodes are enabled.
-			//	$text .= $tp->parseTemplate($template['item'],true, $sc);
-
-				$text .=  $tp->toHtml($value['roster_type'])."<br />";
-			}
-
-		//	$text .= $tp->parseTemplate($template['end'],true, $sc);
-
-			$ns->tablerender("My Caption", $text);
-
-		}
-
-
-
-	}
-
-
-}
-
-
-$rosterFront = new roster_front;
-require_once(HEADERF); 					// render the header (everything before the main content area)
-$rosterFront->run();
-require_once(FOOTERF);					// render the footer (everything after the main content area)
+e107::getRender()->tablerender('<h4>Operation Hub</4><br /><h6>All unit operations may be viewed here.</h6>', $text); // TODO: LANS
+require_once(FOOTERF);
 exit; 
-
-// For a more elaborate plugin - please see e107_plugins/gallery
 
 ?>
