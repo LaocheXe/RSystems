@@ -37,7 +37,7 @@ if(!USERID) // If Not Logged In - eXe
 elseif(USERID) // If Logged In - eXe
 {
 	// Create Query to scna service records - eXe
-	$query = "SELECT sr_id, user_id FROM service_records_sys";
+	$query = "SELECT user_id FROM #service_records_sys";
 	// $srU - SQL Retreve user_id from service records table - eXe
 	$srU = $sql->retrieve($query, true);
 	// If $srU['user_id'] == USERID then display form - eXe
@@ -105,9 +105,9 @@ class submitLOA
 		$explanation  = $tp->filter($_POST['explanation']);
 		$submitloa_error = false;
 
-		if (!$submitnews_user || !$submitnews_email)
+		if (!$effective_date || !$expected_date || !$explanation)
 		{
-			$message = "This needs to be changed, is this an error?";
+			$message = "You need to select a Effective Date, Expected Date, and give an Explanation for the Leave of Absence."; // TODO: LAN
 			$submitloa_error = TRUE;
 		}
 
@@ -129,7 +129,7 @@ class submitLOA
 
 			if(!$sql->insert("loa_sys", $insertQry))
 			{
-				$mes->addError('This is Error Message 2 - Change Later');
+				$mes->addError('Leave of Absence has been filed, and is currently pending for approval.'); // TODO: LAN
 				return false;
 			}
 
@@ -140,7 +140,7 @@ class submitLOA
 			e107::getEvent()->trigger("user_loa_submit", $edata_sn);
 
 
-			$mes->addSuccess(LAN_134);
+			$mes->addSuccess('Leave of Absence has been filed, and is currently pending for approval.'); // TODO: LAN
 		//	echo $mes->render();
 			unset($_POST);
 
