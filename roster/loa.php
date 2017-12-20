@@ -63,7 +63,7 @@ elseif(USERID) // If Logged In - eXe
 		&nbsp;&nbsp;&nbsp;- Automated System Message
 		<br />';
 		
-		$tp->tablerender('Error - Service Record', $text); // TODO: Lan
+		$ns->tablerender('Error - Service Record', $text); // TODO: Lan
 	}
 }
 

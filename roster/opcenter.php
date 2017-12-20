@@ -32,7 +32,8 @@ $text .= "<table border='0' style='width:100%'>
 				<th>&nbsp;&nbsp;</th>
 			</tr>
 		 ";
-			
+		 
+// Count Total of sr_id in service_records table + Time	
 $text .= "
 			<tr>
 				<td>&nbsp;&nbsp;</td>
@@ -41,24 +42,40 @@ $text .= "
 				<td>&nbsp;&nbsp;</td>
 				<td>&nbsp;&nbsp;</td>
 				<td><b>Pacific Time</b>
-				<td>".$valueChange_PacificTime."
+				<td>{PACIFIC_TIME}</td>
 				<td>&nbsp;&nbsp;</td>
 			</tr>
 		 ";
-			
+
+// Count Total of auth_status = 0 in loa table + Time	
 $text .= "
 			<tr>
 				<td>&nbsp;&nbsp;</td>
-				<td><b>Total Clones on Leave</b></td>
-				<td><i>".$valueChange."</i></td>
+				<td><b>Total Pending on Leave</b></td>
+				<td><i>{LOA_P}</i></td>
 				<td>&nbsp;&nbsp;</td>
 				<td>&nbsp;&nbsp;</td>
 				<td><b>Mountain Time</b>
-				<td>".$valueChange_MountainTime."
+				<td>".$time."</td>
 				<td>&nbsp;&nbsp;</td>
 			</tr>
 		 ";
-		 
+
+// Count Total of auth_status = 1 in loa table + Time	
+$text .= "
+			<tr>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Total Approved on Leave</b></td>
+				<td><i>{LOA_A}</i></td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td><b>Mountain Time</b>
+				<td>".$valueChange_MountainTime."</td>
+				<td>&nbsp;&nbsp;</td>
+			</tr>
+		 ";
+
+// Count Total of aar_id in after action report table + Time			 
 $text .= "
 			<tr>
 				<td>&nbsp;&nbsp;</td>
@@ -67,10 +84,11 @@ $text .= "
 				<td>&nbsp;&nbsp;</td>
 				<td>&nbsp;&nbsp;</td>
 				<td><b>Central Time</b>
-				<td>".$valueChange_CentralTime."
+				<td>".$valueChange_CentralTime."</td>
 				<td>&nbsp;&nbsp;</td>
 			</tr>
 		 ";
+
 		 
 $text .= "
 			<tr>
@@ -80,7 +98,7 @@ $text .= "
 				<td>&nbsp;&nbsp;</td>
 				<td>&nbsp;&nbsp;</td>
 				<td><b>Eastern Time</b>
-				<td>".$valueChange_EasternTime."
+				<td>".$valueChange_EasternTime."</td>
 				<td>&nbsp;&nbsp;</td>
 			</tr>
 		 ";
@@ -93,7 +111,7 @@ $text .= "
 				<td>&nbsp;&nbsp;</td>
 				<td>&nbsp;&nbsp;</td>
 				<td><b>Eurpeian Time</b>
-				<td>".$valueChange_EurpeianTime."
+				<td>".$valueChange_EurpeianTime."</td>
 				<td>&nbsp;&nbsp;</td>
 			</tr>
 		 ";

@@ -1,64 +1,135 @@
 <?php
-/*
-* Copyright (c) e107 Inc e107.org, Licensed under GNU GPL (http://www.gnu.org/licenses/gpl.txt)
-* $Id: e_shortcode.php 12438 2011-12-05 15:12:56Z secretr $
-*
-* Featurebox shortcode batch class - shortcodes available site-wide. ie. equivalent to multiple .sc files.
-*/
-
-if(!defined('e107_INIT'))
-{
-	exit;
-}
-
-
 
 class roster_shortcodes extends e_shortcode
 {
-	//public $override = false; // when set to true, existing core/plugin shortcodes matching methods below will be overridden. 
-	public $counter = 1;
-	public $item = false;
-	private $share = false;
-	private $datestamp = false;
-	private $questionCharLimit = 255;
-
-	// Example: {_BLANK_CUSTOM} shortcode - available site-wide.
-	//function sc_roster_custom($parm = null)  // Naming:  "sc_" + [plugin-directory] + '_uniquename'
-	//{
-	//	return "Hello World!";
-	//}
 	
-	function sc_rank_counter($parm='')
+	public function __construct()
 	{
-		return $this->counter;	
+		
 	}
 	
-	function sc_rank_category($parm = '')
-	{		
-		$tp = e107::getParser();
-		$url = e107::url('roster','rank_category', $this->var); //@See faqs/e_url.php 
-		return "<a href='".$url."'>".$tp->toHTML($this->var['rank_name'])."</a>";	
-	}
-	
-	function sc_rank_caturl()
+	// Count the number of ranks in the database - {RANK_COUNTER} - eXe
+	function sc_rank_counter()
 	{
-		return e107::url('roster', 'ranks_category', $this->var);
+		// TODO		
+		//return $this->counter;	
 	}
 	
-	function sc_rank_caption()
+	// Count the number of service records in the database - {ACTIVE_MEMBERS} - eXe
+	function sc_active_members()
 	{
-
-		$customCaption = e107::pref('roster', 'page_title');
-
-		if(!empty($customCaption))
-		{
-			return e107::getParser()->toHtml($customCaption,true);
-		}
-
-		return 'This is Caption';
+		//TODO	
 	}
 	
+	// Count the number of leave of absence that are pending in the database - {LOA_P} - eXe
+	function sc_loa_p()
+	{
+		//TODO
+		$sql  = e107::getDB();
+		
+		$query = "SELECT * FROM #loa_sys WHERE auth_status = 0";
+		
+		$result = $sql->count($query, true);
+		
+		return $result;
+	}
 	
+	// Count the number of leave of absence that are approved in the database - {LOA_A} - eXe
+	function sc_loa_a()
+	{
+		$sql  = e107::getDB();
+		
+		$query = "SELECT * FROM #loa_sys WHERE auth_status = 1";
+		
+		$result = $sql->count($query, true);
+		
+		return $result;
+	}
+	
+	// Count the number of after action reports in the database - {AAR_COUNTER} - eXe
+	function sc_aar_counter()
+	{
+		//TODO	
+	}
+	
+	// Count the number of awards in the database - {AWARDS_COUNTER} - eXe
+	function sc_awards_counter()
+	{
+		//TODO	
+	}
+	
+	////////////////////////////////////
+	//////// Next set is for Time Zones
+	// Pacific Standard Time - {PACIFIC_TIME} - eXe
+	function sc_pacific_time()
+	{
+		// Set PST
+		date_default_timezone_set("US/Pacific");
+		//$this->times['pacific'] = strftime($this->settings['clock_long']);
+		$dateTime = date('M d, Y - h:I');
+		
+		return $dateTime;
+		
+		
+		
+		// Set MST
+//		date_default_timezone_set("US/Mountain");
+//		$this->times['mountain'] = strftime($this->settings['clock_long']);
 
+		// Set CST
+//		date_default_timezone_set("US/Central");
+//		$this->times['central'] = strftime($this->settings['clock_long']);
+
+		// Set EST
+//		date_default_timezone_set("US/Eastern");
+//		$this->times['eastern'] = strftime($this->settings['clock_long']);
+	}
+	
+	function sc_mountain_time()
+	{
+		
+	}
+	
+	function sc_central_time()
+	{
+		
+	}
+	
+	function sc_eastern_time()
+	{
+		
+	}
+	
+	function sc_sa_time()
+	{
+		
+	}
+	
+	function sc_ss_time()
+	{
+		
+	}
+	
+	function sc_sd_time()
+	{
+		
+	}
+	
+	function sc_sf_time()
+	{
+		
+	}
+	
+	function sc_sg_time()
+	{
+		
+	}
+	
+	function sc_sh_time()
+	{
+		
+	}
 	
 }
+
+?>
