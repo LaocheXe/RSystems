@@ -77,6 +77,8 @@ function show_loa_form()
 	$frm = e107::getForm();
 	$ns = e107::getRender();
 	$text .= e107::getForm()->token();
+	$effDp .= $frm->datepicker('effective_date',time(), 'type=date');
+	$expDp .= $frm->datepicker('expected_date',time(), 'type=date');
 	$text .= "All fields are required, Please fill out all fields below.<br /><br />";
 	$text .= "
 			<div>
@@ -86,9 +88,8 @@ function show_loa_form()
 	$text .= "
 			<tr>
 			  <td style='width:20%' class='forumheader3'>Effective Date</td>
-				<td style='width:80%' class='forumheader3'>".$frm->datepicker('effective_date',time(), 'type=date')."</td>";
+				<td style='width:80%' class='forumheader3'>".$effDp."</td>";
 				
-	
 	
 	$tp->tablerender('Leave of Absence - Form', $text);
 }
