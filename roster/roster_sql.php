@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS `loa_sys` (
   `expected_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `explanation` text,
   `auth_id` int(10) NOT NULL,
-  `auth_status` tinyinc(3) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`loa_id`),
+  `auth_status` int(3) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`loa_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `ranks_sys` (
