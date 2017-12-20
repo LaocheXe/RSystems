@@ -27,12 +27,6 @@ $tp = e107::getParser();
 $ns = e107::getRender();
 $text = '';
 
-// For debugging the form
-$queryAdmin = "SELECT user_admin FROM user";
-
-// Check USer Database for Admin
-$isAdmin = $sql->retrieve($queryAdmin, true);
-
 // LOA Checks - eXe
 if(!USERID) // If Not Logged In - eXe
 {
