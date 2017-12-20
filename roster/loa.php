@@ -25,8 +25,6 @@ e107::meta('keywords', 'leave, of, absence, loa');
 $sql  = e107::getDB();
 $tp = e107::getParser();
 $ns = e107::getRender();
-$frm = e107::getForm();
-$effdp = e107::getForm()->datepicker();
 $text = '';
 
 // For debugging the form
@@ -75,6 +73,9 @@ elseif(USERID) // If Logged In - eXe
 
 function show_loa_form()
 {
+	$tp = e107::getParser();
+	$frm = e107::getForm();
+	$ns = e107::getRender();
 	$text .= e107::getForm()->token();
 	$text .= "All fields are required, Please fill out all fields below.<br /><br />";
 	$text .= "
@@ -85,7 +86,7 @@ function show_loa_form()
 	$text .= "
 			<tr>
 			  <td style='width:20%' class='forumheader3'>Effective Date</td>
-				<td style='width:80%' class='forumheader3'>".$frm->datepicker()."</td>";
+				<td style='width:80%' class='forumheader3'>".$frm->datepicker('effective_date',time(), 'type=date')."</td>";
 				
 	
 	
