@@ -5,48 +5,54 @@
 
 if (!defined('e107_INIT')) { exit; }
 
-class plugin_roster_roster_shortcodes extends e_shortcode
+class plugin_roster_shortcodes extends e_shortcode
 {
 	
-	public function __construct()
+	function __construct()
 	{
 		
 	}
-		// Count the number of leave of absence that are pending in the database - {LOA_P} - eXe
+
+	// Count the number of ranks in the database - {RANK_COUNTER} - eXe
+	function sc_rank_counter()
+	{	
+		$result = '<a href="/ranks">'.$sql->count("ranks_sys", "(*)", "where rank_parent != '0'").'</a>';
+		return $result;
+	}
+	
+	// Count the number of service records in the database - {ACTIVE_MEMBERS} - eXe
+	function sc_active_members()
+	{
+		$result = $sql->count("service_records_sys", "(*)");
+		return $result;
+	}
+	
+	// Count the number of leave of absence that are pending in the database - {LOA_P} - eXe
 	function sc_loa_p()
 	{
-		//TODO
-		$sql  = e107::getDB();
-		
-		$query = "SELECT * FROM #loa_sys WHERE auth_status = 0";
-		
-		$result = $sql->count($query, true);
-		
+		$result = $sql->count("loa_sys", "(*)", "where auth_status = '0'");
 		return $result;
 	}
 	
 	// Count the number of leave of absence that are approved in the database - {LOA_A} - eXe
 	function sc_loa_a()
 	{
-		$sql  = e107::getDB();
-		
-		$query = "SELECT * FROM #loa_sys WHERE auth_status = 1";
-		
-		$result = $sql->count($query, true);
-		
+		$result = $sql->count("loa_sys", "(*)", "where auth_status = '1'");
 		return $result;
 	}
 	
 	// Count the number of after action reports in the database - {AAR_COUNTER} - eXe
 	function sc_aar_counter()
 	{
-		//TODO	
+		//$resultLOAa = $sql->count("aar_sys", "(*)", "where auth_status = '1'");
+		//return $resultLOAa;
 	}
 	
 	// Count the number of awards in the database - {AWARDS_COUNTER} - eXe
 	function sc_awards_counter()
 	{
-		//TODO	
+		$result = '<a href="/awards">'.$sql->count("awards_sys", "(*)").'</a>';
+		return $result;	
 	}
 	
 	////////////////////////////////////
@@ -54,25 +60,65 @@ class plugin_roster_roster_shortcodes extends e_shortcode
 	// Pacific Standard Time - {PACIFIC_TIME} - eXe
 	function sc_pacific_time()
 	{
-		// Set PST
 		date_default_timezone_set("US/Pacific");
-		//$this->times['pacific'] = strftime($this->settings['clock_long']);
-		$dateTime = date('M d, Y - h:I');
-		
+		$dateTime = date('F d, Y - h:i A');	
 		return $dateTime;
+	}
+	// Moutain Standard Time - {MOUNTAIN_TIME} - eXe
+	function sc_mountain_time()
+	{
+		date_default_timezone_set("US/Mountain");
+		$dateTime = date('F d, Y - h:i A');	
+		return $dateTime;	
+	}
+	// Central Standard Time - {CENTRAL_TIME} - eXe
+	function sc_central_time()
+	{
+		date_default_timezone_set("US/Central");
+		$dateTime = date('F d, Y - h:i A');	
+		return $dateTime;
+	}
+	// Eastern Standard Time - {EASTERN_TIME} - eXe
+	function sc_eastern_time()
+	{
+		date_default_timezone_set("US/Eastern");
+		$dateTime = date('F d, Y - h:i A');	
+		return $dateTime;
+	}
+	// London Standard Time - {LONDON_TIME} - eXe
+	function sc_london_time()
+	{
+		date_default_timezone_set("Europe/London");
+		$dateTime = date('F d, Y - h:i A');	
+		return $dateTime;	
+	}
+	// Rome Standard Time - {ROME_TIME} - eXe
+	function sc_rome_time()
+	{
+		date_default_timezone_set("Europe/Rome");
+		$dateTime = date('F d, Y - h:i A');	
+		return $dateTime;	
+	}
+	
+	function sc_sd_time()
+	{
 		
+	}
+	
+	function sc_sf_time()
+	{
 		
+	}
+	
+	function sc_sg_time()
+	{
 		
-		// Set MST
-//		date_default_timezone_set("US/Mountain");
-//		$this->times['mountain'] = strftime($this->settings['clock_long']);
-
-		// Set CST
-//		date_default_timezone_set("US/Central");
-//		$this->times['central'] = strftime($this->settings['clock_long']);
-
-		// Set EST
-//		date_default_timezone_set("US/Eastern");
-//		$this->times['eastern'] = strftime($this->settings['clock_long']);
+	}
+	
+	function sc_sh_time()
+	{
+		
 	}
 }
+
+?>
