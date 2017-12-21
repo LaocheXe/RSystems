@@ -20,16 +20,10 @@ $tp = e107::getParser();
 $ns = e107::getRender();
 $text = '';
 
-// For Some Odd Ball Reason, the query does not function right with FROM `#database_table_name` - but with full namme i.e e107_
-$queryLOAp = "SELECT COUNT(*) FROM `e107_loa_sys` WHERE auth_status = 0";
-$queryLOAa = "SELECT COUNT(*) FROM `e107_loa_sys` WHERE auth_status = 1";
-$queryRANKs = "SELECT COUNT(*) FROM `e107_ranks_sys` WHERE rank_parent != 0";
-$queryAWARDs = "SELECT COUNT(*) FROM `e107_ranks_sys`";
-
-$resultLOAp = $sql->count($queryLOAp, true);
-$resultLOAa = $sql->count($queryLOAa, true);
-$resultRANKS = '<a href="/ranks">'.$sql->count($queryRANKs, true).'</a>';
-$resultAWARDS = '<a href="/awards">'.$sql->count($queryAWARDs, true).'</a>';
+$resultLOAp = $sql->count("loa_sys", "(*)", "where auth_status = '0'");
+$resultLOAa = $sql->count("loa_sys", "(*)", "where auth_status = '1'");
+$resultRANKS = '<a href="/ranks">'.$sql->count("ranks_sys", "(*)", "where rank_parent != '0'").'</a>';
+$resultAWARDS = '<a href="/awards">'.$sql->count("awards_sys", "(*)").'</a>';
 
 function pacific_time()
 {
@@ -103,8 +97,7 @@ function pacific_time()
 */
 
 
-$text .= '<div class="r-title">Unit Statistics</div>';
-		 
+$text .= '<div class="r-title">Unit Statistics</div>';	 
 // Count Total of sr_id in service_records table + Time
 $value = "To many to count";
 $text .= "<div class='ninePad'><div class='r_container ninePad'>
@@ -155,7 +148,7 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Mountain Time</span>
-								<span class='row_data'>".mountain_time()."</span>
+								<span class='row_data'>{MOUNTAIN_TIME}</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>London Time</span>
@@ -171,26 +164,17 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 			</tbody>
 		</table>
 		</div>
-		</div>
-		 ";
+		</div>";
 
-/*		 
-$text .= "</table>
-		  <table border='0' style='width:100%'>
-			<tr>
-				<th>Active Clones on Leave</th>
-				<th>&nbsp;&nbsp;</th>
-				<th>&nbsp;&nbsp;</th>
-				<th>&nbsp;&nbsp;</th>
-				<th>&nbsp;&nbsp;</th>
-				<th>&nbsp;&nbsp;</th>
-			</tr>
-		";
+$text .= '<div class="r-title">Active </div>';
+// Coment	
+$text .="
 
-$text .= "</table>";
-*/
+";
 
-$ns->tablerender('<h4>Operation Hub</4><br /><h6>All unit operations may be viewed here.</h6>', $text); // TODO: LANS
+
+
+$ns->tablerender('<h3>Operation Hub</3><br /><h6>All unit operations may be viewed here.</h6>', $text); // TODO: LANS
 require_once(FOOTERF);
 exit; 
 

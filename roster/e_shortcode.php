@@ -87,7 +87,9 @@ class roster_shortcodes extends e_shortcode
 	
 	function sc_mountain_time()
 	{
-		
+		date_default_timezone_set("US/Mountain");
+		$dateTime = date('F d, Y - h:i A');	
+		return $dateTime;	
 	}
 	
 	function sc_central_time()
