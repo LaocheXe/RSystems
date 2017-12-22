@@ -16,7 +16,7 @@ e107::css('roster','roster.css');		// load css file
 e107::meta('keywords', 'operation center, operation hub, hub, operation');
 
 $sc = e107::getScBatch('roster', true); // loads e107_plugins/myplugin/roster_shortcodes.php
-var_dump($sc);
+//var_dump($sc); // For debugging Shortcode
 
 $sql  = e107::getDB();
 $tp = e107::getParser();
@@ -38,11 +38,11 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 49%;'>Total Pending on Leave</span>
-								<span class='row_data'>{LOA_P}</span>
+								<span class='row_data'>".$sc->sc_loa_p()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 49%;'>Total Approved on Leave</span>
-								<span class='row_data'>{LOA_A}</span>
+								<span class='row_data'>".$sc->sc_loa_a()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 49%;'>Total After Action Reports</span>
@@ -50,11 +50,11 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 49%;'>Total Ranks</span>
-								<span class='row_data'>{RANK_COUNTER}</span>
+								<span class='row_data'>".$sc->sc_rank_counter()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 49%;'>Total Awards</span>
-								<span class='row_data'>{AWARDS_COUNTER}</span>
+								<span class='row_data'>".$sc->sc_awards_counter()."</span>
 							</li>
 						</ul>
 					</td>
@@ -62,27 +62,27 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 						<ul class='rList_data r-clearfix'>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Eastern Time</span>
-								<span class='row_data'>{EASTERN_TIME}</span>
+								<span class='row_data'>".$sc->sc_eastern_time()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Central Time</span>
-								<span class='row_data'>{CENTRAL_TIME}</span>
+								<span class='row_data'>".$sc->sc_central_time()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Pacific Time</span>
-								<span class='row_data'>{PACIFIC_TIME}</span>
+								<span class='row_data'>".$sc->sc_pacific_time()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Mountain Time</span>
-								<span class='row_data'>{MOUNTAIN_TIME}</span>
+								<span class='row_data'>".$sc->sc_mountain_time()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>London Time</span>
-								<span class='row_data'>{LONDON_TIME}</span>
+								<span class='row_data'>".$sc->sc_london_time()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Rome Time</span>
-								<span class='row_data'>{ROME_TIME}</span>
+								<span class='row_data'>".$sc->sc_rome_time()."</span>
 							</li>
 						</ul>
 					</td>
@@ -98,9 +98,8 @@ $text .= '<div class="r-title">Active Clones on Leave</div>';
 
 //";
 
-echo $sc->sc_central_time();
 
-$ns->tablerender('<h3>Operation Hub</h3><br /><h6>All unit operations may be viewed here.</h6>', $text, $sc); // TODO: LANS
+$ns->tablerender('<h3>Operation Hub</h3><br /><h6>All unit operations may be viewed here.</h6>', $text); // TODO: LANS
 require_once(FOOTERF);
 exit; 
 

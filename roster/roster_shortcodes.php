@@ -16,6 +16,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	// Count the number of ranks in the database - {RANK_COUNTER} - eXe
 	function sc_rank_counter()
 	{	
+		$sql  = e107::getDB();
 		$result = '<a href="/ranks">'.$sql->count("ranks_sys", "(*)", "where rank_parent != '0'").'</a>';
 		return $result;
 	}
@@ -23,6 +24,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	// Count the number of service records in the database - {ACTIVE_MEMBERS} - eXe
 	function sc_active_members()
 	{
+		$sql  = e107::getDB();
 		$result = $sql->count("service_records_sys", "(*)");
 		return $result;
 	}
@@ -30,6 +32,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	// Count the number of leave of absence that are pending in the database - {LOA_P} - eXe
 	function sc_loa_p()
 	{
+		$sql  = e107::getDB();
 		$result = $sql->count("loa_sys", "(*)", "where auth_status = '0'");
 		return $result;
 	}
@@ -37,6 +40,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	// Count the number of leave of absence that are approved in the database - {LOA_A} - eXe
 	function sc_loa_a()
 	{
+		$sql  = e107::getDB();
 		$result = $sql->count("loa_sys", "(*)", "where auth_status = '1'");
 		return $result;
 	}
@@ -51,6 +55,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	// Count the number of awards in the database - {AWARDS_COUNTER} - eXe
 	function sc_awards_counter()
 	{
+		$sql  = e107::getDB();
 		$result = '<a href="/awards">'.$sql->count("awards_sys", "(*)").'</a>';
 		return $result;	
 	}
