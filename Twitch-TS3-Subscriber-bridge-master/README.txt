@@ -1,1 +1,0 @@
-This folder is for example code to bridge the plugin with teamspea

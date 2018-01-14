@@ -50,7 +50,8 @@ elseif(USERID) // If Logged In - eXe
 	elseif(ADMIN) // For Debug - eXe
 	{
 		//show_loa_form();
-		new submitLOA;
+		new showLOA;
+		//new submitLOA;
 	}
 	else
 	{
@@ -75,6 +76,145 @@ class submitLOA
 		$mes = e107::getMessage();
 
 		if(isset($_POST['submitloa_submit']) && !empty($_POST['effective_date']) && !empty($_POST['expected_date']))
+		{
+			$this->process();
+		}
+
+		echo $mes->render();
+
+		$this->form();
+	}
+	
+	function process()
+	{
+		//$ip = e107::getIPHandler()->getIP(FALSE);
+		$tp = e107::getParser();
+		$sql = e107::getDb();
+		$mes = e107::getMessage();
+		
+		$fp = new floodprotect;
+		
+		if ($fp->flood("loa_sys", "submit_date") == false)
+		{
+			e107::redirect();
+			exit;
+		}
+		
+		$user_id  = (USER ? USERID  : trim($tp->toDB($_POST['user_id'])));
+		$effective_date = $tp->filter($_POST['effective_date']);
+		$expected_date  = $tp->filter($_POST['expected_date']);
+		$explanation  = $tp->filter($_POST['explanation']);
+		$submitloa_error = false;
+
+		if (!$effective_date || !$expected_date || !$explanation)
+		{
+			$message = "You need to select a Effective Date, Expected Date, and give an Explanation for the Leave of Absence."; // TODO: LAN
+			$submitloa_error = TRUE;
+		}
+
+		if ($submitloa_error === false)
+		{
+			$insertQry = array(
+				'loa_id'            		=> 0,
+				'user_id'          			=> USERID,
+				'sr_id'						=> '0',
+				'rank_id'          			=> '0',
+				'post_id'			 	    => '0',
+				'submit_date'      			=> time(),
+				'effective_date'            => $effective_date,
+				'expected_date'           	=> $expected_date,
+				'explanation'           	=> $explanation,
+				'auth_id'       			=> '0',
+                'auth_status'    			=> '0',
+			);
+
+			if(!$sql->insert("loa_sys", $insertQry))
+			{
+				$mes->addError('Leave of Absence has been filed, and is currently pending for approval.'); // TODO: LAN
+				return false;
+			}
+
+			// This below is for event triggers - eXe
+			$edata_sn = array("user" => $user_id, "effective_date" => $effective_date, "expected_date" => $expected_date, "explanation" => $explanation);
+
+			e107::getEvent()->trigger("subloa", $edata_sn); // bc
+			e107::getEvent()->trigger("user_loa_submit", $edata_sn);
+
+
+			$mes->addSuccess('Leave of Absence has been filed, and is currently pending for approval.'); // TODO: LAN
+		//	echo $mes->render();
+			unset($_POST);
+
+			// $ns->tablerender(LAN_THANK_YOU, "<div style='text-align:center'>".LAN_134."</div>");
+
+		}
+		else
+		{
+		//	message_handler("P_ALERT", $message);
+			$mes->addWarning($message);
+		}
+
+	}
+	
+	function form()
+	{
+		$tp = e107::getParser();
+		$frm = e107::getForm();
+		$ns = e107::getRender();
+		$text .= e107::getForm()->token();
+		$effDp .= $frm->datepicker('effective_date',time(), 'type=date');
+		$expDp .= $frm->datepicker('expected_date',time(), 'type=date');
+		$text .= "All fields are required, Please fill out all fields below.<br /><br />";
+		$text .= "
+			<div>
+			  <form id='dataform' method='post' action='".e_SELF."' enctype='multipart/form-data' onsubmit='return frmVerify()'>
+			    <table class='table fborder'>";
+				
+		$text .= "
+			<tr>
+			  <td style='width:20%' class='forumheader3'>Effective Date</td>
+				<td style='width:80%' class='forumheader3'>".e107::getForm()->datepicker('effective_date',time(), 'type=date')."
+				</td>
+			</tr>";
+			
+		$text .= "
+			<tr>
+			  <td style='width:20%' class='forumheader3'>Expected Date</td>
+				<td style='width:80%' class='forumheader3'>".e107::getForm()->datepicker('expected_date',time(), 'type=date')."
+				</td>
+			</tr>";
+				
+		$text .= "
+			<tr>
+			  <td style='width:20%' class='forumheader3'>Explanation</td>
+				<td style='width:80%' class='forumheader3'>".e107::getForm()->text('explanation',$tp->toHTML(vartrue($_POST['explanation']),TRUE,'explanation'),400, array('required'=>1))."
+			    </td>
+			</tr>
+			";
+	
+		$text .= "
+			      <tr>
+			        <td colspan='2' style='text-align:center' class='forumheader'>
+			          <input class='btn btn-success button' type='submit' name='submitloa_submit' value='Submit' />
+			           <input type='hidden' name='e-token' value='".e_TOKEN."' />
+			        </td>
+			      </tr>
+			    </table>
+			  </form>
+			</div>";
+	
+		$ns->tablerender('Leave of Absence - Form', $text);
+	}
+}
+
+class showLOA
+{
+	
+	function __construct()
+	{
+		$mes = e107::getMessage();
+
+		if(isset($_POST['updateloa_submit']) && !empty($_POST['effective_date']) && !empty($_POST['expected_date']))
 		{
 			$this->process();
 		}

@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `loa_sys` (
   `explanation` text,
   `auth_id` int(10) NOT NULL,
   `auth_status` int(3) UNSIGNED NOT NULL DEFAULT '0',
+  `return_status` int(3) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`loa_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
@@ -70,27 +71,13 @@ CREATE TABLE IF NOT EXISTS `service_records_sys` (
   `ts_guid` varchar(255) DEFAULT NULL,
   `battleeye_guid` varchar(255) DEFAULT NULL,
   `recruiter_id` int(10) NOT NULL,
-  `application_date` int(10) NOT NULL,
-  `application_status` tinyint(3) NOT NULL,
-  `application_rep` int(10) NOT NULL,
-  `application_reason` text,
+  `application_id` int(10) NOT NULL,
   `date_join` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `citations` text,
+  `qual_id` text,
   `awards_id` text,
   `rank_id` int(10) NOT NULL,
   `awol_status` int(10) NOT NULL,
-  `discharge_grade` text,
-  `discharge_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `discharge_rep` int(11) NOT NULL,
-  `transfer_from` text,
-  `transfer_date_s` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `transfer_to` text,
-  `transfer_rep` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `transfer_status` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `transfer_date_a` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `trainings_attended` text,
-  `trainings_pass` text,
-  `cshops_id` text,
+  `discharge_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `post_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `tis_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `tig_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
@@ -114,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `qualifications_sys` (
   PRIMARY KEY (`qual_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
-CREATE TABLE history_sys (
+CREATE TABLE IF NOT EXISTS history_sys (
   `log_uniqueid` int(11) NOT NULL auto_increment,
   `sys_id` varchar(50) NOT NULL default '',
   `sys_datestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',

@@ -17,7 +17,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	function sc_rank_counter()
 	{	
 		$sql  = e107::getDB();
-		$result = '<a href="/ranks">'.$sql->count("ranks_sys", "(*)", "where rank_parent != '0'").'</a>';
+		$result = '<a href="/ranks">'.$sql->count("ranks_sys", "(*)", "WHERE rank_parent != '0'").'</a>';
 		return $result;
 	}
 	
@@ -25,7 +25,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	function sc_active_members()
 	{
 		$sql  = e107::getDB();
-		$result = $sql->count("service_records_sys", "(*)");
+		$result = $sql->count("service_records_sys", "(*)", "WHERE awol_status <= '1'");
 		return $result;
 	}
 	
@@ -33,7 +33,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	function sc_loa_p()
 	{
 		$sql  = e107::getDB();
-		$result = $sql->count("loa_sys", "(*)", "where auth_status = '0'");
+		$result = $sql->count("loa_sys", "(*)", "WHERE auth_status = '0'");
 		return $result;
 	}
 	
@@ -41,7 +41,7 @@ class plugin_roster_shortcodes extends e_shortcode
 	function sc_loa_a()
 	{
 		$sql  = e107::getDB();
-		$result = $sql->count("loa_sys", "(*)", "where auth_status = '1'");
+		$result = $sql->count("loa_sys", "(*)", "WHERE auth_status = '1'");
 		return $result;
 	}
 	
@@ -58,6 +58,31 @@ class plugin_roster_shortcodes extends e_shortcode
 		$sql  = e107::getDB();
 		$result = '<a href="/awards">'.$sql->count("awards_sys", "(*)").'</a>';
 		return $result;	
+	}
+	
+	function sc_active_loa_clonenumber()
+	{
+		// Working On It
+		$text .= "1138";
+		return $text;
+	}
+	
+	function sc_active_loa_name()
+	{
+		$text .= "Cruisie";
+		return $text;
+	}
+	
+	function sc_active_loa_explanation()
+	{
+		$text .= "Still working on adding new bugs to the system";
+		return $text;
+	}
+	
+	function sc_active_loa_returndate()
+	{
+		$text .= "Sometime in 2018";
+		return $text;
 	}
 	
 	////////////////////////////////////
@@ -105,9 +130,11 @@ class plugin_roster_shortcodes extends e_shortcode
 		return $dateTime;	
 	}
 	
-	function sc_sd_time()
+	function sc_german_time()
 	{
-		
+		date_default_timezone_set("Europe/Berlin");
+		$dateTime = date('F d, Y - h:i A');	
+		return $dateTime;
 	}
 	
 	function sc_sf_time()

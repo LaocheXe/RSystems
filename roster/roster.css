@@ -24,6 +24,7 @@ td {
 
 table {
     border-spacing: 0;
+    width: 100%;
 }
 
 div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
@@ -63,4 +64,43 @@ ol, ul {
 	font-weight: bold;
 	overflow: hidden;
 	position: relative;
+}
+
+.table_tpr {
+    float: left;
+    width: 50%;
+    table-layout: fixed;
+    border-spacing: 5px 0px;
+    border-collapse: separate;
+}
+
+#table_container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.table_loa {
+
+    float: left;
+    width: 50%;
+    table-layout: fixed;
+    border-spacing: 5px 0px;
+    border-collapse: separate;
+
+}
+
+.information tr {
+	text-align: center;
+}
+
+.information th {
+	border-bottom: 1px solid #f3f3f3;
+	text-align: center;
+	font-weight: bold;
+	padding: 6px;
+}
+
+.bar {
+	box-shadow: none;
+	border-radius: 0;	
 }

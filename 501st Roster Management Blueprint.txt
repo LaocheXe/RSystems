@@ -1,3 +1,9 @@
+
+
+GARC Transfers:
+ Database Table with Entities: (WIP)
+  
+
 Applications:
  Database Table with Entities: (WIP)
   app_id
@@ -47,6 +53,7 @@ Leave of Absents (Form)
   explanation -> explanation of reason for LOA
   auth_id -> who accepted loa (requires another page or function)
   auth_status -> 0 = pending/1 = accepted - 2 would be denied but no reason to do so
+  has_returned -> yes/no requires users to check in if they are back or not.
 
 
 OPORD (Form)
