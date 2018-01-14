@@ -62,11 +62,12 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 							</li>
 						</ul>
 					</td>
+					<div id='bottom-bar'>
 					<td style='width: 33%;'>
 						<ul class='rList_data r-clearfix'>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Eastern Time</span>
-								<span class='row_data'>".$sc->sc_eastern_time()."</span>
+								<span class='row_data'><div id='bottom-bar'>".$sc->sc_eastern_time()."</div></span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Central Time</span>
@@ -94,6 +95,7 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 							</li>
 						</ul>
 					</td>
+					</div>
 				</tr>
 			</tbody>
 		</table>
