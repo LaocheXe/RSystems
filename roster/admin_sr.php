@@ -31,11 +31,12 @@ class roster_adminArea extends e_admin_dispatcher
 	protected $adminMenu = array(
 												// TODO - Generate The LAN's - eXe
 		'main/list'			=> array('caption'=> 'Service Records', 'perm' => 'P'),
-		'main/create'		=> array('caption'=> 'Add New Service Record', 'perm' => 'P'),
+		'main/create'		=> array('caption'=> 'Add Service Record', 'perm' => 'P'),
+		'main/back'	  	=> array('caption'=> 'Roster System', 'perm' => 'P'),
 	);
 
 	protected $adminMenuAliases = array(
-		'main/edit'	=> 'main/list'				
+		'main/edit'	=> 'main/list'			
 	);	
 	
 	protected $menuTitle = 'Roster System';
@@ -50,7 +51,7 @@ class service_records_sys_ui extends e_admin_ui
 	//	protected $eventName		= 'testing-service_records_sys'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'service_records_sys';
 		protected $pid				= 'sr_id';
-		protected $perPage			= 15; 
+		protected $perPage			= 25; 
 		protected $batchDelete		= true;
 		protected $batchExport     = true;
 		protected $batchCopy		= true;
@@ -96,27 +97,21 @@ class service_records_sys_ui extends e_admin_ui
 	
 		public function init()
 		{	
-			/*$query1 = "SELECT r.rank_id, r.rank_parent, r.rank_shortname, r.rank_name, r.rank_description, r.rank_image FROM `#ranks_sys` AS r
-						LEFT JOIN `#ranks_sys` AS rp ON r.rank_parent = rp.rank_id
-						WHERE r.rank_parent != 0 AND rp.rank_id IS NOT NULL ORDER BY r.rank_order";*/
-		//	$sqlSRcheck = e107::getDB()->retrieve('service_records_sys', '*', true);
-		//	$sqlUser = e107::getDb()->retrieve('user', '*', true);
-			//$sqlCheck = e107::getDB()->retrieve($uCheckqry, true);
-		//	$this->user_id[0] = 'Select User';
-		//	if($sqlSRcheck['user_id'] != $sqlUser['user_id'])
-		//	{
-		//		while($row = $sqlUser)
-		//		{
-		//			$this->user_id[$row['user_id']] = $this->$row['user_name'];	
-		//		}
-		//	}
+			$filterQuery = "SELECT u.user_id, u.user_name FROM `#user` AS u
+							LEFT JOIN `#service_records_sys` AS sr ON sr.user_id = u.user_id
+							WHERE sr.user_id IS NULL";
 			$sql = e107::getDB();
-			if($sql->select("user", "*"))
+			if($sql->retrieve($filterQuery))
 			{
 				while ($row = $sql->fetch())
+				//while ($row = $sqlUser)
 				{
 					$this->user_id[$row['user_id']] = $row['user_name'];
 				}
+				//foreach($row as $sqlUser)
+				//{
+				//	$this->user_id[$row['user_id']] = $row['user_name'];
+				//}
 			} 
         	$this->fields['user_id']['writeParms'] = $this->user_id;
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -226,11 +221,34 @@ class service_records_sys_ui extends e_admin_ui
 		public function renderHelp()
 		{
 			$caption = 'Information';
-			$text = 'Some help text';
+			$text = 'When Adding a new service record:<br />
+			User - User Name<br />
+			Clone Number - 4 Digit Number<br />
+			Arma ID - Their Arma 3 ID<br />
+			TS GUID - TeamSpeak GUID<br />
+			BattleEye GUID - BattleEye GUID<br />
+			Recruiter - Who Recruited Them<br />
+			Application ID - If they submitted an Application<br />
+			Join Date - When they joined the website<br />
+			Qualification - WIP<br />
+			Awards - WIP<br />
+			Rank - What is their current rank<br />
+			AWOL Status - Are the active, etc...<br />
+			Discharge ID - WIP (None)<br />
+			Position - Their MOS/Role<br />
+			Time in Service - TiS<br />
+			Time in Grade - TiG<br />
+			Portrate - Their own Picture if they want it';
 
 			return array('caption'=>$caption,'text'=> $text);
 
 		}
+		
+		public function backPage()
+    	{
+     		$mainadmin = e_SELF.'/../admin_config.php';
+     		header("location:".$mainadmin); exit; 
+    	} 
 }
 				
 

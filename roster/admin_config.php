@@ -53,13 +53,6 @@ class roster_adminArea extends e_admin_dispatcher
 		),
 		
 		'other5'	=> array(
-			'controller' 	=> 'service_records_sys_ui',
-			'path' 			=> null,
-			'ui' 			=> 'service_records_sys_form_ui',
-			'uipath' 		=> null
-		),
-		
-		'other6'	=> array(
 			'controller' 	=> 'cshops_cats_sys_ui',
 			'path' 			=> null,
 			'ui' 			=> 'cshops_cats_sys_form_ui',
@@ -85,12 +78,13 @@ class roster_adminArea extends e_admin_dispatcher
 		
 		'other4/list'			=> array('caption'=> 'Awards Manager', 'perm' => 'P'),
 		'other4/create'		=> array('caption'=> 'Create Awards', 'perm' => 'P'),
-
-		'other5/list'			=> array('caption'=> 'Service Records Manager', 'perm' => 'P'),
-		'other5/create'		=> array('caption'=> 'Create Service Records', 'perm' => 'P'),
 		
-		'other6/list'			=> array('caption'=> 'C-Shops Manager', 'perm' => 'P'),
-		'other6/create'		=> array('caption'=> 'Create C-Shop', 'perm' => 'P'),
+		'other5/list'			=> array('caption'=> 'C-Shops Manager', 'perm' => 'P'),
+		'other5/create'		=> array('caption'=> 'Create C-Shop', 'perm' => 'P'),
+		
+		'opt1'              => array('divider'=> true),
+		
+		'main/back'			=> array('caption'=> 'Service Records', 'perm' => 'P'),
 
 		// 'main/custom'		=> array('caption'=> 'Custom Page', 'perm' => 'P')
 	);
@@ -286,6 +280,12 @@ class roster_sys_ui extends e_admin_ui
 			return array('caption'=>$caption,'text'=> $text);
 
 		}
+		
+		public function backPage()
+    	{
+     		$mainadmin = e_SELF.'/../admin_sr.php';
+     		header("location:".$mainadmin); exit; 
+    	}
 }
 				
 class roster_sys_form_ui extends e_admin_form_ui

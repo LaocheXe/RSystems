@@ -16,12 +16,12 @@ if (!defined('e107_INIT')) { exit; }
 
 if(USER_AREA) // prevents inclusion of JS/CSS/meta in the admin area.
 {
-	e107::js('roster', 'roster.js');      // loads e107_plugins/roster/js/roster.js on every page.
-	e107::js('roster', '/js/jquery-latest.js');
+	//e107::js('roster', 'roster.js');      // loads e107_plugins/roster/js/roster.js on every page.
+	//e107::js('roster', '/js/jquery-latest.js');
 	e107::css('roster', 'roster.css');    // loads e107_plugins/roster/css/roster.css on every page
 	e107::meta('keywords', 'roster,rsystem,prescom,c-com,ccom,clonecom,awards,ranks');   // sets meta keywords on every page.
 	
-	$damnScript = "<script>
+/*	$damnScript = "<script>
 						var cacheData;
 						var data = $('#bottom-bar').html();
 						var auto_refresh = setInterval(
@@ -50,7 +50,7 @@ if(USER_AREA) // prevents inclusion of JS/CSS/meta in the admin area.
                     document.getElementById("test").innerHTML = "Testing " + counter;
                 }
             </script> ';
-	return $damnScript;
+	return $damnScript;*/
 }
 
 
