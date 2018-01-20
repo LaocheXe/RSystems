@@ -221,24 +221,24 @@ class service_records_sys_ui extends e_admin_ui
 		public function renderHelp()
 		{
 			$caption = 'Information';
-			$text = 'When Adding a new service record:<br />
-			User - User Name<br />
-			Clone Number - 4 Digit Number<br />
-			Arma ID - Their Arma 3 ID<br />
-			TS GUID - TeamSpeak GUID<br />
-			BattleEye GUID - BattleEye GUID<br />
-			Recruiter - Who Recruited Them<br />
-			Application ID - If they submitted an Application<br />
-			Join Date - When they joined the website<br />
-			Qualification - WIP<br />
-			Awards - WIP<br />
-			Rank - What is their current rank<br />
-			AWOL Status - Are the active, etc...<br />
-			Discharge ID - WIP (None)<br />
-			Position - Their MOS/Role<br />
-			Time in Service - TiS<br />
-			Time in Grade - TiG<br />
-			Portrate - Their own Picture if they want it';
+			$text = 'When Adding a new service record:<br /><br />
+			•User - User Name<br />
+			•Clone Number - 4 Digit Number<br />
+			•Arma ID - Their Arma 3 ID<br />
+			•TS GUID - TeamSpeak GUID<br />
+			•BattleEye GUID - BattleEye GUID<br />
+			•Recruiter - Who Recruited Them<br />
+			•Application ID - If they submitted an Application<br />
+			•Join Date - When they joined the website<br />
+			•Qualification - WIP<br />
+			•Awards - WIP<br />
+			•Rank - What is their current rank<br />
+			•AWOL Status - Are the active, etc...<br />
+			•Discharge ID - WIP (None)<br />
+			•Position - Their MOS/Role<br />
+			•Time in Service - TiS<br />
+			•Time in Grade - TiG<br />
+			•Portrate - Their own Picture if they want it';
 
 			return array('caption'=>$caption,'text'=> $text);
 

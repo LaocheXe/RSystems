@@ -79,7 +79,7 @@ foreach($sqlParents as $parent)
 	
 	foreach($sqlRanks as $rank)
 	{
-		$att = array('w' => 50, 'h' => 50, 'class' => $rank['rank_name'], 'alt' => $awards['award_name'], 'x' => 0, 'crop' => 0);
+		$att = array('w' => 50, 'h' => 50, 'class' => $rank['rank_name'], 'alt' => $rank['rank_name'], 'x' => 0, 'crop' => 0);
 		$imageCode = $tp->toImage($rank['rank_image'], $att);
 		// Display ranks and Parents - if parent id equals rank parent then display under
 		if($parent['rank_id'] == $rank['rank_parent'])

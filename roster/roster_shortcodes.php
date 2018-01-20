@@ -26,7 +26,14 @@ class plugin_roster_shortcodes extends e_shortcode
 	{
 		$sql  = e107::getDB();
 		$result = $sql->count("service_records_sys", "(*)", "WHERE awol_status <= '1'");
-		return $result;
+		if(!empty($result))
+		{
+			return $result;
+		}
+		else
+		{
+			return "To many to count";
+		}
 	}
 	
 	// Count the number of leave of absence that are pending in the database - {LOA_P} - eXe
@@ -62,8 +69,9 @@ class plugin_roster_shortcodes extends e_shortcode
 	
 	function sc_active_loa_clonenumber()
 	{
-		// Working On It
-		$text .= "1138";
+		$sql = e107::getDB();
+		
+		$text .= "";
 		return $text;
 	}
 	

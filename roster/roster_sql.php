@@ -27,6 +27,12 @@ CREATE TABLE IF NOT EXISTS `cshops_cats_sys` (
   KEY `cshop_sub` (`cshop_sub`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
+CREATE TABLE IF NOT EXISTS `cshops_sys` (
+  `cshp_id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  PRIMARY KEY (`cshp_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1;
+
 CREATE TABLE IF NOT EXISTS `loa_sys` (
   `loa_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,

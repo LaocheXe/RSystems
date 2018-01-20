@@ -62,12 +62,12 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 							</li>
 						</ul>
 					</td>
-					<div id='bottom-bar'>
+					<div class='banner'>
 					<td style='width: 33%;'>
 						<ul class='rList_data r-clearfix'>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Eastern Time</span>
-								<span class='row_data'><div id='bottom-bar'>".$sc->sc_eastern_time()."</div></span>
+								<span class='row_data'>".$sc->sc_eastern_time()."</span>
 							</li>
 							<li class='clear r-clearfix'>
 								<span class='row_title' style='width: 45%;'>Central Time</span>
@@ -90,8 +90,8 @@ $text .= "<div class='ninePad'><div class='r_container ninePad'>
 								<span class='row_data'>".$sc->sc_rome_time()."</span>
 							</li>
 							<li class='clear r-clearfix'>
-								<span class='row_title' style='width: 45%;'>Berlin Time</span>
-								<span class='row_data'>".$sc->sc_german_time()."</span>
+								<span class='row_title' style='width: 45%;'></span>
+								<span class='row_data'></span>
 							</li>
 						</ul>
 					</td>
@@ -117,10 +117,11 @@ $text .= "<table class='table_tpr table_overflow information'>
 			</thead>
 			<tbody>";
 			
-$queryLOA_S = "SELECT l.user_id, l.effective_date, l.expected_date, l.explanation, l.auth_status FROM `#loa_sys` AS l
-LEFT JOIN `#service_records_sys` AS sr ON l.user_id = sr.user_id";
+$queryLOA_S = "SELECT l.user_id, l.effective_date, l.expected_date, l.explanation, l.auth_status, sr.clone_number, u.user_name FROM `#loa_sys` AS l
+LEFT JOIN `#service_records_sys` AS sr ON l.user_id = sr.user_id
+LEFT JOIN `#user` AS u ON l.user_id = u.user_id";
 // Is User on LOA - eXe			
-$queryLOA_A = "SELECT l.user_id, l.effective_date, l.expected_date, l.explanation, l.auth_status FROM `#loa_sys` AS l
+$queryLOA_A = "SELECT l.user_id, l.effective_date, l.expected_date, l.explanation, l.auth_status, sr.clone_number FROM `#loa_sys` AS l
 LEFT JOIN `#service_records_sys` AS sr ON l.user_id = sr.user_id
 LEFT JOIN `#user` AS u ON l.user_id = u.user_id
 WHERE l.effective_date < ".time();
@@ -147,37 +148,18 @@ LEFT JOIN `#user` AS u ON l.user_id = u.user_id";
 //$cwriter_where = "WHERE cw_challenge_starttime = '' OR cw_challenge_starttime < ".time();
 			// Requires Foreach loop
 			$resultsA = $sql->retrieve($queryLOA_A, true);
-			$resultsN = $sql->retrieve($queryName, true);
-			$disableE = "disable";
+			//$resultsN = $sql->retrieve($queryName, true);
 			foreach($aResults as $resultsA)
 			{
-				if($disableE == 'enable')
-				{
-			/*	$text .="
-				<tr>
-					<td>".$sc->sc_active_loa_clonenumber()."</td>
-					<td>".$sc->sc_active_loa_name()."</td>
-					<td><u>".$sc->sc_active_loa_explanation()."</u></td>
-					<td>".$sc->sc_active_loa_returndate()."</td>
-				</tr>
-				";
-				*/
 				
 				$text .="
 				<tr>
-					<td>".$aResults['sr.clone_number']."</td>
-					<td>".$resultsN['u.user_name']."</td>
-					<td><u>".$aResults['l.explanation']."</u></td>
-					<td>".$aResults['l.effective_date']."</td>
+					<td>".$aResults['clone_number']."</td>
+					<td>".$resultsN['user_name']."</td>
+					<td><u>".$aResults['explanation']."</u></td>
+					<td>".$aResults['effective_date']."</td>
 				</tr>
 				";
-				}
-				else
-				{
-				//	$text .= "<tr></tr>";
-					$text .= "<tr>
-					<td>Currently Under Construction</td></tr>";
-				}
 			}
 			
 			$text .= "</tbody>
@@ -201,8 +183,8 @@ LEFT JOIN `#user` AS u ON l.user_id = u.user_id";
 				if($disableE == 'enable')
 				{
 					$text .= "<tr>
-								<td>".$value."</td>
-								<td>".$value."</td>
+								<td>".$uResults['clone_number']."</td>
+								<td>".$uResults['user_name']."</td>
 								<td>".$value."</td>
 								<td>".$value."</td>
 								<td>".$value."</td>

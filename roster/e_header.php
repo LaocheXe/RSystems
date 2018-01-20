@@ -17,7 +17,7 @@ if (!defined('e107_INIT')) { exit; }
 if(USER_AREA) // prevents inclusion of JS/CSS/meta in the admin area.
 {
 	//e107::js('roster', 'roster.js');      // loads e107_plugins/roster/js/roster.js on every page.
-	//e107::js('roster', '/js/jquery-latest.js');
+	//e107::js('roster', 'js/jquery-latest.js');
 	e107::css('roster', 'roster.css');    // loads e107_plugins/roster/css/roster.css on every page
 	e107::meta('keywords', 'roster,rsystem,prescom,c-com,ccom,clonecom,awards,ranks');   // sets meta keywords on every page.
 	
@@ -51,6 +51,17 @@ if(USER_AREA) // prevents inclusion of JS/CSS/meta in the admin area.
                 }
             </script> ';
 	return $damnScript;*/
+	
+	$damScript = "<script src='https://code.jquery.com/jquery-2.1.1.min.js' type='text/javascript'></script>
+<script>
+$(document).ready(function(){
+setInterval(function(){
+$('#screen').load('e107_plugins/roster/roster_shortcodes.php')
+}, 60000);
+});
+</script>";
+
+return $damScript;
 }
 
 
