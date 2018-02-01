@@ -97,9 +97,11 @@ class service_records_sys_ui extends e_admin_ui
 	
 		public function init()
 		{	
-			$filterQuery = "SELECT u.user_id, u.user_name FROM `#user` AS u
+			
+			/*$filterQuery = "SELECT u.user_id, u.user_name FROM `#user` AS u
 							LEFT JOIN `#service_records_sys` AS sr ON sr.user_id = u.user_id
-							WHERE sr.user_id IS NULL";
+							WHERE sr.user_id IS NULL";*/
+			$filterQuery = "SELECT user_id, user_name FROM `#user`";
 			$sql = e107::getDB();
 			if($sql->retrieve($filterQuery))
 			{
@@ -114,6 +116,7 @@ class service_records_sys_ui extends e_admin_ui
 				//}
 			} 
         	$this->fields['user_id']['writeParms'] = $this->user_id;
+			
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 			// Will Change Later - For Now User	
@@ -255,6 +258,46 @@ class service_records_sys_ui extends e_admin_ui
 
 class service_records_sys_form_ui extends e_admin_form_ui
 {
+	
+	function user_id($curVal,$mode)
+	{
+		switch($mode)
+		{
+			case 'read':
+				$userIDsr = "SELECT u.user_id, u.user_name FROM `#user` AS u
+							LEFT JOIN `#service_recprds_sys` AS sr ON sr.user_id = u.user_id";
+				$sqlSRui = e107::getDB();
+				$curVal = $sqlSRui->retrieve($userIDsr);
+				return $curVal;
+			break;
+			
+			case 'write':
+				$filterQuery = "SELECT u.user_id, u.user_name FROM `#user` AS u
+								LEFT JOIN `#service_records_sys` AS sr ON sr.user_id = u.user_id
+								WHERE sr.user_id IS NULL";
+				$sql = e107::getDB();
+				if($sql->retrieve($filterQuery))
+				{
+					while ($row = $sql->fetch())
+					//while ($row = $sqlUser)
+					{
+						$this->user_id[$row['user_id']] = $row['user_name'];
+					}
+				//foreach($row as $sqlUser)
+				//{
+				//	$this->user_id[$row['user_id']] = $row['user_name'];
+				//}
+				} 
+        		$this->fields['user_id']['writeParms'] = $this->user_id;
+			break;
+			
+			case 'filter':
+			case 'batch':
+				return  array();
+			break;
+
+		}
+	}
 	
 	// Custom Method/Function 
 	function awards_id($curVal,$mode)
