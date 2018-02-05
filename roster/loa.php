@@ -18,8 +18,6 @@ define('PAGE_NAME', 'Leave of Absence'); // TODO: LAN
 require_once(HEADERF);
 //////////////////////////////////////////////////////////
 e107::lan('roster');
-//e107::js('roster','js/my.js','jquery');	// Load Plugin javascript and include jQuery framework
-//e107::css('roster','css/my.css');		// load css file
 e107::meta('keywords', 'leave, of, absence, loa');
 
 $sql  = e107::getDB();
@@ -37,25 +35,26 @@ if(!USERID) // If Not Logged In - eXe
 elseif(USERID) // If Logged In - eXe
 {
 	// Create Query to scna service records - eXe
-	$query = "SELECT user_id FROM #service_records_sys";
+	//$query = "SELECT user_id FROM #service_records_sys";
+	$query2 = "SELECT user_id, sr_id FROM `#service_records_sys` WHERE user_id = ".USERID."";
 	// $srU - SQL Retreve user_id from service records table - eXe
-	$srU = $sql->retrieve($query, true);
+	//$srU = $sql->retrieve($query, true);
+	//$srU = $sql->retrieve("service_records_sys", "user_id", "WHERE user_id = ".USERID);
+	$srU = $sql->retrieve($query2);
 	// If $srU['user_id'] == USERID then display form - eXe
-	if(USERID == $srU['user_id'])
+	if($srU = 2)
 	{
+		echo $srU;
 		// The LOA Form - eXe
 		//show_loa_form();
 		new submitLOA;
+		// Show Current LOA of User in SR, with Edit/Cancle/Add buttons Or Create a new LOA
+		//new loaListView;
 	}
-	elseif(ADMIN) // For Debug - eXe
+	elseif($srU = 2) // For Debug - eXe
 	{
-		//show_loa_form();
-		new showLOA;
-		//new submitLOA;
-	}
-	else
-	{
-		$text = '<b><i><u>Error Code: 00-254</b></i></u> <b>-</b> <i>No Personnel Data Found for</i> <b>'.USERNAME.'</b>.
+		echo $srU;
+		$text = '<b><i><u>Error Code: 00-253</b></i></u> <b>-</b> <i>No Service Record Found for</i> <b>'.USERNAME.'</b>.
 		<br />
 		The system has detected that you are logged in! However, the system has found an error. <br />
 		You are not qualified to fill out an Leave of Absence Form.<br />
@@ -65,6 +64,37 @@ elseif(USERID) // If Logged In - eXe
 		<br />';
 		
 		$ns->tablerender('Error - Service Record', $text); // TODO: Lan
+	}
+	else
+	{
+		$text = '<b><i><u>Error Code: 00-254</b></i></u> <b>-</b> <i>No Service Record Found for</i> <b>'.USERNAME.'</b>.
+		<br />
+		The system has detected that you are logged in! However, the system has found an error. <br />
+		You are not qualified to fill out an Leave of Absence Form.<br />
+		If you believe this error code is false, please contact the C-4 Website Support Team.<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;- Automated System Message
+		<br />';
+		
+		$ns->tablerender('Error - Service Record', $text); // TODO: Lan
+	}
+}
+
+class loaListView
+{
+	function __construct()
+	{
+		$mes = e107::getMessage();
+		
+	}
+	
+	function loalist()
+	{
+		$tp = e107::getParser();
+		$sql = e107::getDb();
+		$mes = e107::getMessage();
+		
+		
 	}
 }
 
