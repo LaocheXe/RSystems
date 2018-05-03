@@ -52,16 +52,6 @@ if(USER_AREA) // prevents inclusion of JS/CSS/meta in the admin area.
             </script> ';
 	return $damnScript;*/
 	
-	$damScript = "<script src='https://code.jquery.com/jquery-2.1.1.min.js' type='text/javascript'></script>
-<script>
-$(document).ready(function(){
-setInterval(function(){
-$('#screen').load('e107_plugins/roster/roster_shortcodes.php')
-}, 60000);
-});
-</script>";
-
-return $damScript;
 }
 
 

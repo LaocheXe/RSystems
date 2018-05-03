@@ -55,6 +55,13 @@ foreach($sparrowAwards as $awards)
 		<td>&nbsp;&nbsp;</td>
 		<td>'.$awards['award_description'].'</td>
 	</tr>
+	<tr>
+		<td>&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;</td>
+	</tr>
 	';
 }
 
