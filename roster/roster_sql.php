@@ -91,14 +91,6 @@ CREATE TABLE IF NOT EXISTS `service_records_sys` (
   PRIMARY KEY(`sr_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `awards_sys` (
-  `award_id` int(10) NOT NULL AUTO_INCREMENT,
-  `award_name` varchar(200) NOT NULL,
-  `award_description` text NOT NULL,
-  `award_image` varchar(255) NOT NULL,
-  PRIMARY KEY (`award_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1;
-
 CREATE TABLE IF NOT EXISTS `qualifications_sys` (
   `qual_id` int(10) NOT NULL AUTO_INCREMENT,
   `qual_name` varchar(200) NOT NULL,
@@ -180,4 +172,12 @@ CREATE TABLE IF NOT EXISTS history_sys (
   `demotion_process_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY  (log_uniqueid),
   UNIQUE KEY sys_id (sys_id)
+) ENGINE=MyISAM AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `qualified_sys` (
+  `qualified_id` int(10) NOT NULL AUTO_INCREMENT,
+  `qual_id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `qualified_date` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`qualified_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;

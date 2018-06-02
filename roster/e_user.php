@@ -87,18 +87,29 @@ class roster_user // plugin-folder + '_user'
 		
 	function profile($udata)  // display on user profile page.
 	{
-		$sqlSR = e107::getDB();
+		$sql = e107::getDB();
 		$tp = e107::getParser();
 		//$count = $sql->retrieve('user_extended', 'user_plugin_forum_posts', 'user_extended_id = '.$udata['user_id']);
 		//$service_records = $sql->retrieve('service_records_sys', '*', true);
-		$sr = $sqlSR->retrieve('service_records_sys', '*', 'WHERE user_id = ' .$udata['user_id']);
-		$srRI = $sqlSR->retrieve('ranks_sys', '*', 'WHERE rank_id = '  .$sr['rank_id']);
-		$srPO = $sqlSR->retrieve('postition_sys', '*', 'WHERE post_id = ' .$sr['post_id']);
+		$sr = $sql->retrieve('service_records_sys', '*', 'WHERE user_id = ' .$udata['user_id']);
+		$srRI = $sql->retrieve('ranks_sys', '*', 'WHERE rank_id = '  .$sr['rank_id']);
+		$srPO = $sql->retrieve('postition_sys', '*', 'WHERE post_id = ' .$sr['post_id']);
 		$att = array('w' => 50, 'h' => 50, 'class' => $srRI['rank_name'], 'alt' => $srRI['rank_name'], 'x' => 0, 'crop' => 0);
 		$imageCode = $tp->toImage($srRI['rank_image'], $att);
 		$now = time();
 		$tIs = $sr['tis_date'];
 		$tIg = $sr['tig_date'];
+		$qualQuery = "SELECT q.qual_id,q.qual_name,q.qual_image FROM `#qualifications_sys` AS q
+		LEFT JOIN `#qualified_sys` AS qd ON q.qual_id = qd.qual_id
+		WHERE qd.user_id = ".$udata['user_id']."";
+		
+		$qualifications = $sql->retrieve($qualQuery, true);
+		foreach ($qualifications as $qualification)
+		{
+			$qualAtt = array('w' => 75, 'h' => 25, 'class' => $qualification['qual_name'], 'alt' => $qualification['qual_name'], 'x' => 0, 'crop' => 0);
+			$qualImage .= $tp->toImage($qualification['qual_image'], $qualAtt);
+			//$text = "<marquee>".$imageCode."</marquee>";
+		}
 		if(!empty($sr))
 		{
 			$var = array(
@@ -106,7 +117,8 @@ class roster_user // plugin-folder + '_user'
 			1 => array('label' => "Rank", 'text' => $imageCode, 'url' => "/ranks"),
 			2 => array('label' => "Position", 'text' => $srPO['post_name'], 'url' => ""),
 			3 => array('label' => "Time in Service", 'text' => $this->dateDiff(time(),$tIs-1000000, 2), 'url' => ""),
-			4 => array('label' => "Time in Grade", 'text' => $this->dateDiff(time(),$tIg-1000000, 2), 'url' => "")
+			4 => array('label' => "Time in Grade", 'text' => $this->dateDiff(time(),$tIg-1000000, 2), 'url' => ""),
+			5 => array('label' => "Qualifications", 'text' => $qualImage)
 			);
 		}
 		else

@@ -13,4 +13,7 @@ define("LAN_RSYS_AWARDS", "Awards and Commendations");
 define("LAN_RSYS_PAGE_RANKS", "Ranks");
 define("LAN_RSYS_PAGE_AWARDS", "Awards");
 
+define("LAN_RSYS_PAGE_QUAL", "Qualifications");
+define("LAN_RSYS_QUAL", "Qualifications");
+
 ?>

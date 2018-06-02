@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="Awards" lan="LAN_AWARDS" version="1.0" date="2018-05-04" compatibility="2.0" installRequired="true" >
+<e107Plugin name="Awards eXeSystem" lan="LAN_AWARDS" version="1.0" date="2018-05-04" compatibility="2.0" installRequired="true" >
 	<author name="LaocheXe" url="https://github.com/laochexe" />
-	<summary lan="">create, and give user awards</summary>
+	<summary lan="">Create, and give user awards</summary>
 	<description lan="">Create you're own awards, and assign them to users on you're website.</description>
 	<keywords>
 		<word>gaming</word>
@@ -9,9 +9,9 @@
 		<word>stats</word>
 	</keywords>
 	<category>users</category>
-	<copyright>LaocheXeCopyRight</copyright>
+	<copyright>GNU General Public License v2</copyright>
 	<adminLinks>
-		<link url="admin_config.php" description="" icon="" iconSmall="" icon128="" primary="true" >LAN_CONFIGURE</link>
+		<link url="admin_config.php" description="" icon="images/icon_32.png" iconSmall="images/icon_16.png" icon128="images/icon_128.png" primary="true" >LAN_CONFIGURE</link>
 	</adminLinks>
 	
 </e107Plugin>

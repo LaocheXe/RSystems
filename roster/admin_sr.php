@@ -68,7 +68,7 @@ class service_records_sys_ui extends e_admin_ui
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'sr_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'user_id' =>   array ( 'title' => 'User', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'user_id' =>   array ( 'title' => 'User', 'type' => 'user', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'clone_number' =>   array ( 'title' => 'Clone Number', 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'arma_id' =>   array ( 'title' => 'Arma ID', 'type' => 'text', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ts_guid' =>   array ( 'title' => 'TS Guid', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
@@ -97,26 +97,6 @@ class service_records_sys_ui extends e_admin_ui
 	
 		public function init()
 		{	
-			
-			/*$filterQuery = "SELECT u.user_id, u.user_name FROM `#user` AS u
-							LEFT JOIN `#service_records_sys` AS sr ON sr.user_id = u.user_id
-							WHERE sr.user_id IS NULL";*/
-			$filterQuery = "SELECT user_id, user_name FROM `#user`";
-			$sql = e107::getDB();
-			if($sql->retrieve($filterQuery))
-			{
-				while ($row = $sql->fetch())
-				//while ($row = $sqlUser)
-				{
-					$this->user_id[$row['user_id']] = $row['user_name'];
-				}
-				//foreach($row as $sqlUser)
-				//{
-				//	$this->user_id[$row['user_id']] = $row['user_name'];
-				//}
-			} 
-        	$this->fields['user_id']['writeParms'] = $this->user_id;
-			
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 			// Will Change Later - For Now User	

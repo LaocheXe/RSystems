@@ -245,14 +245,10 @@ $text .= "</tbody>
 							</thead>
 							<tbody>";
 // TODO - Values
-foreach($aResults as $resultsA)
-{
-$text .= "<tr>
-			<td>".$value."</td>
-			<td>".$value."</td>
-			<td>".$value."</td>
-		</tr>";
-}
+//foreach($aResults as $resultsA)
+//{
+$text .= "".$sc->sc_recent_awards()."";
+//}
 $text .= "</tbody></table></td></tr></table>
 	</div></div>";
 

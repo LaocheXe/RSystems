@@ -89,6 +89,13 @@ class roster_url // plugin-folder + '_url'
 			'sef'			=> '{alias}/ORBAT',
 			'redirect'		=> '{e_PLUGIN}roster/roster.php'			
 		);
+		
+		$config['qualifications'] = array(
+			'alias'         => 'qualifications',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/qualifications',
+			'redirect'		=> '{e_PLUGIN}roster/qualifications.php'			
+		);
 
 		return $config;
 	}

@@ -93,6 +93,33 @@ class plugin_roster_shortcodes extends e_shortcode
 		return $text;
 	}
 	
+	function sc_recent_awards()
+	{
+		$sql  = e107::getDB();
+		$tp = e107::getParser();
+		//$users = $sql->retrieve('user', true);
+		//$countAwarded = $sql->count("awarded_sys", "(*)");
+		$number_rows = $countAwarded - 5;
+		$awardsQuery = "SELECT ar.award_id,ar.award_name,ar.award_image,ad.awarded_date,us.user_name FROM `#awards_sys` AS ar
+		LEFT JOIN `#awarded_sys` AS ad ON ar.award_id = ad.award_id
+		LEFT JOIN `#user` AS us ON ad.user_id = us.user_id
+		ORDER BY ad.awarded_id DESC LIMIT 5";
+		$results = $sql->retrieve($awardsQuery, true);
+		foreach($results as $result)
+		{
+			$att = array('w' => 75, 'h' => 25, 'class' => $result['award_name'], 'alt' => $result['award_name'], 'x' => 0, 'crop' => 0);
+			$imageCode = $tp->toImage($result['award_image'], $att);
+			$theDate = $result['awarded_date'];
+			
+			$text .= "<tr>
+						<td><a href='../user/".$result['user_name']."'>".$result['user_name']."</a></td>".//Name
+						"<td>".$imageCode."</td>".//Award
+						"<td>".$tp->toDate($theDate)."</td>".// Date
+					"</tr>";
+		}
+		return $text;	
+	}
+	
 	////////////////////////////////////
 	//////// Next set is for Time Zones
 	// Pacific Standard Time - {PACIFIC_TIME} - eXe
