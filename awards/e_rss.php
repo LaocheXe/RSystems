@@ -59,7 +59,7 @@ class awards_rss // plugin-folder + '_rss'
 
 				$rss[$i]['author']			= $row['user_name'];
 				$rss[$i]['author_email']	= '';
-				$rss[$i]['link']			= "awards";
+				$rss[$i]['link']			= "awards/index.php";
 				$rss[$i]['linkid']			= $row['award_id'];
 				$rss[$i]['title']			= "".$row['user_name']." recieved the ".$row['award_name'];
 				$rss[$i]['description']		= $row['award_description'];
