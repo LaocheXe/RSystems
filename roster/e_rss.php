@@ -55,8 +55,8 @@ class roster_rss // plugin-folder + '_rss'
 				$rss[$i]['author_email']	.= "";
 				$rss[$i]['link']			.= "roster/loa.php?rssID=".$row['loa_id'];
 				$rss[$i]['linkid']			.= $row['loa_id'];
-				$rss[$i]['title']			.= "".$tp->toDate($row['effective_date'], 'short')." - ".$tp->toDate($row['expected_date'], 'short')."";
-				$rss[$i]['description']		.= $row['roster_message'];
+				$rss[$i]['title']			.= "".$row['user_name']." ".$tp->toDate($row['effective_date'], 'short')." - ".$tp->toDate($row['expected_date'], 'short')."";
+				$rss[$i]['description']		.= $row['explanation'];
 				$rss[$i]['category_name']	.= '';
 				$rss[$i]['category_link']	.= '';
 				$rss[$i]['datestamp']		.= $tp->toDate($row['submit_date'], 'short');

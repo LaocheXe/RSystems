@@ -79,7 +79,7 @@ class loaListView
 			}
 			elseif(isset($_GET['loa_id']) || varset($_GET['rssID'])==$id)
 			{
-				$this->rssID($_GET['loa_id']);
+				$this->rssID();
 			}
 			else
 			{
@@ -179,6 +179,8 @@ class loaListView
 							{
 								$return_status = ""; // TODO - Get User Name	
 							}
+							
+							//$text .= "<li class='text-right'><a href='".e_REQUEST_URI."' data-forum-action='delete' data-forum-thread='".$id."'>".LAN_DELETE." ".$tp->toGlyph('trash')."</a></li>";
 							$getOptions = '<div class="btn-group pull-right">
 										<button aria-expanded="false" class="btn btn-default btn-secondary btn-user-action dropdown-toggle" data-toggle="dropdown">
 											<span class="user-action-indicators" id="user-action-indicator-'.$row['loa_id'].'">'.e107::getParser()->toGlyph('cog').'</span>
@@ -339,6 +341,16 @@ class loaListView
 
 	}
 	
+	function deletion()
+	{
+		$tp = e107::getParser();
+		$sql = e107::getDb();
+		$mes = e107::getMessage();
+		
+		//$deletionQuery = "DELETE FROM `#loa_sys` WHERE loa_id=".$_GET['loa_id'];
+		$deletion = $sql->delete('loa_sys','loa_id='.$ID_LOA);
+	}
+	
 	function form()
 	{
 		$sql  = e107::getDB();
@@ -437,46 +449,47 @@ class loaListView
 		$tp = e107::getParser();
 		$ns = e107::getRender();
 		
-		$thisQuery = "SELECT l.loa_id,l.user_id,l.sr_id,l.rank_id,l.post_id,l.submit_date,l.effective_date,l.expected_date,l.explanation,l.auth_id,l.auth_status,l.return_status,u.user_id,u.user_name,u.user_image,r.rank_id,r.rank_name,r.rank_image,p.post_id,p.post_name FROM `#loa_sys` AS l
-		LEFT JOIN `#user` AS u ON l.user_id = u.user_id
+		$thisQuery = "SELECT l.loa_id,l.user_id,l.sr_id,l.rank_id,l.post_id,l.submit_date,l.effective_date,l.expected_date,l.explanation,l.auth_id,l.auth_status,l.return_status,u.user_id,u.user_name,u.user_image,r.rank_id,r.rank_name,r.rank_image,p.post_id,p.post_name FROM `#loa_sys` AS l 
+		LEFT JOIN `#user` AS u ON l.user_id = u.user_id 
 		LEFT JOIN `#ranks_sys` AS r ON l.rank_id = r.rank_id
-		LEFT JOIN `#postition_sys` AS p ON l.post_id = p.post_id";
-		
+		LEFT JOIN `#postition_sys` AS p ON l.post_id = p.post_id
+		ORDER BY l.loa_id DESC";
 		
 		$text .= '<table>
 						<tr>
-							<th>Submission Date</th>
-							<th>Service Record</th>
+							<th>Submitted</th>
+							<th>Service ID</th>
 							<th></th>
 							<th>User</th>
 							<th>Rank</th>
 							<th>Posistion</th>
 							<th>Effective Date</th>
 							<th>Expective Date</th>
-							<th>Reason</th>
 						</tr>';
-		if($sql->select($thisQuery, true, "loa_id LIKE '". $id."%'"))
+						//<th>Reason</th>
+						
+		if($sql->retrieve($thisQuery))
 		{
 			while($row = $sql->db_Fetch())
 			{
-				$userImage .= array('w' => 75, 'h' => 75, 'class' => $row['user_name'], 'alt' => $row['user_name'], 'x' => 0, 'crop' => 0);
-				$userAvatar .= $tp->toImage($row['user_image'], $userImage);
-				$att .= array('w' => 75, 'h' => 75, 'class' => $row['rank_name'], 'alt' => $row['rank_name'], 'x' => 0, 'crop' => 0);
-				$imageCode .= $tp->toImage($row['rank_image'], $att);
+				$userImage = array('w' => 25, 'h' => 25, 'class' => $row['user_name'], 'alt' => $row['user_name'], 'x' => 0, 'crop' => 0);
+				$userAvatar = $tp->toImage($row['user_image'], $userImage);
+				$att = array('w' => 25, 'h' => 25, 'class' => $row['rank_name'], 'alt' => $row['rank_name'], 'x' => 0, 'crop' => 0);
+				$imageRank = $tp->toImage($row['rank_image'], $att);
 				$text .= "<tr>
-							<td>".$row['submit_date']."</td>
+							<td>".$tp->toDate($row['submit_date'], 'short')."</td>
 							<td>".$row['sr_id']."</td>
 							<td>".$userAvatar."</td>
 							<td>".$row['user_name']."</td>
-							<td>".$imageCode."</td>
+							<td>".$imageRank."</td>
 							<td>".$row['post_name']."</td>
-							<td>".$row['effective_date']."</td>
-							<td>".$row['expected_date']."</td>
-							<td>".$row['explanation']."</td>
-						</tr>
-					</table>";
+							<td>".$tp->toDate($row['effective_date'], 'short')."</td>
+							<td>".$tp->toDate($row['expected_date'], 'short')."</td>
+						</tr>";
+						//<td>".$row['explanation']."</td>
 				$tableTop = "Leave of Absence - Record ID =".$row['loa_id']."";
 			}
+			$text .= "</table>";
 		}
 		$ns->tablerender($tableTop, $text); // TODO: Lan
 	}
