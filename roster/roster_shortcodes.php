@@ -67,29 +67,48 @@ class plugin_roster_shortcodes extends e_shortcode
 		return $result;	
 	}
 	
-	function sc_active_loa_clonenumber()
+	function sc_loa_pending_list()
 	{
 		$sql = e107::getDB();
+		$tp = e107::getParser();
 		
-		$text .= "";
+		$query = "SELECT l.loa_id,l.user_id,l.sr_id,l.rank_id,l.post_id,l.submit_date,l.effective_date,l.expected_date,l.explanation,l.auth_id,l.auth_status,l.return_status,u.user_id,u.user_name,s.sr_id,s.clone_number FROM `#loa_sys` AS l 
+		LEFT JOIN `#user` AS u ON l.user_id = u.user_id 
+		LEFT JOIN `#service_records_sys` AS s ON l.sr_id = s.sr_id
+		WHERE l.auth_status = 0 ORDER BY l.submit_date DESC LIMIT 0,5";
+		$thisQuery = $sql->retrieve($query);
+		while($row = $sql->db_Fetch())
+		{
+				$text .= "<tr>
+							<td>".$row['clone_number']."</td>
+							<td>".$row['user_name']."</td>
+							<td>".$row['explanation']."</td>
+							<td>".$tp->toDate($row['expected_date'])."</td>
+						</tr>";
+		}
 		return $text;
 	}
 	
-	function sc_active_loa_name()
+	function sc_loa_active_list()
 	{
-		$text .= "Cruisie";
-		return $text;
-	}
-	
-	function sc_active_loa_explanation()
-	{
-		$text .= "Still working on adding new bugs to the system";
-		return $text;
-	}
-	
-	function sc_active_loa_returndate()
-	{
-		$text .= "Sometime in 2018";
+		$sql = e107::getDB();
+		$tp = e107::getParser();
+		
+		$query = "SELECT l.loa_id,l.user_id,l.sr_id,l.rank_id,l.post_id,l.submit_date,l.effective_date,l.expected_date,l.explanation,l.auth_id,l.auth_status,l.return_status,u.user_id,u.user_name,s.sr_id,s.clone_number FROM `#loa_sys` AS l 
+		LEFT JOIN `#user` AS u ON l.user_id = u.user_id 
+		LEFT JOIN `#service_records_sys` AS s ON l.sr_id = s.sr_id
+		WHERE l.auth_status = 1 ORDER BY l.submit_date DESC LIMIT 0,5";
+		$thisQuery = $sql->retrieve($query);
+		while($row = $sql->db_Fetch())
+		{
+				$text .= "<tr>
+							<td>".$row['clone_number']."</td>
+							<td>".$row['user_name']."</td>
+							<td>...</td>
+							<td>".$tp->toDate($row['effective_date'])." - ".$tp->toDate($row['expected_date'])."</td>
+							<td>".$row['auth_status']."</td>
+						</tr>";
+		}
 		return $text;
 	}
 	

@@ -115,53 +115,9 @@ $text .= "<table class='table_tpr table_overflow information'>
 					<th width='20%'>Expiration</th>
 				</tr>
 			</thead>
-			<tbody>";
-			
-$queryLOA_S = "SELECT l.user_id, l.effective_date, l.expected_date, l.explanation, l.auth_status, sr.clone_number, u.user_name FROM `#loa_sys` AS l
-LEFT JOIN `#service_records_sys` AS sr ON l.user_id = sr.user_id
-LEFT JOIN `#user` AS u ON l.user_id = u.user_id";
-// Is User on LOA - eXe			
-$queryLOA_A = "SELECT l.user_id, l.effective_date, l.expected_date, l.explanation, l.auth_status, sr.clone_number FROM `#loa_sys` AS l
-LEFT JOIN `#service_records_sys` AS sr ON l.user_id = sr.user_id
-LEFT JOIN `#user` AS u ON l.user_id = u.user_id
-WHERE l.effective_date < ".time();
+			<tbody>
+			".$sc->sc_loa_pending_list(); 
 
-$queryName = "SELECT l.user_id FROM `#loa_sys` AS l
-LEFT JOIN `#user` AS u ON l.user_id = u.user_id";
-/*
-// Query the DB to look for a possible active LOA where it has not been returned
-		$loa = $this->DB->buildAndFetch( array( 'select' => '*', 
-				'from' => $this->settings['perscom_database_loa'], 
-				'where' => 'member_id="' .  $this->memberData['member_id'] .'" AND returned="false" AND status="Approved"' ) );
-
-		// If we get a LOA back, return it
-		if ($loa) {
-
-			// Return the LOA
-			return $loa;
-		}
-
-		// Return false, which means the user is not on LOA
-		return false;
-*/
-
-//$cwriter_where = "WHERE cw_challenge_starttime = '' OR cw_challenge_starttime < ".time();
-			// Requires Foreach loop
-			$resultsA = $sql->retrieve($queryLOA_A, true);
-			//$resultsN = $sql->retrieve($queryName, true);
-			foreach($aResults as $resultsA)
-			{
-				
-				$text .="
-				<tr>
-					<td>".$aResults['clone_number']."</td>
-					<td>".$resultsN['user_name']."</td>
-					<td><u>".$aResults['explanation']."</u></td>
-					<td>".$aResults['effective_date']."</td>
-				</tr>
-				";
-			}
-			
 			$text .= "</tbody>
 				</table>
 				<table class='table_loa table_overflow information'>
@@ -174,29 +130,8 @@ LEFT JOIN `#user` AS u ON l.user_id = u.user_id";
 							<th width='10%'>Status</th>
 						</tr>
 					</thead>
-					<tbody>";
-		
-			$resultsU = $sql->retrieve($queryLOA_S, true);
-			
-			foreach($uResults as $resultsU)
-			{
-				if($disableE == 'enable')
-				{
-					$text .= "<tr>
-								<td>".$uResults['clone_number']."</td>
-								<td>".$uResults['user_name']."</td>
-								<td>".$value."</td>
-								<td>".$value."</td>
-								<td>".$value."</td>
-							</tr>";
-				}
-				else
-				{
-					$text .= "<tr>
-					<td>Currently Under Construction</td>
-					</tr>";	
-				}
-			}
+					<tbody>
+					".$sc->sc_loa_active_list();
 			
 $text .= "</tbody></table></div></div></div>";
 
