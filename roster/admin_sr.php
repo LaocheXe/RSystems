@@ -119,8 +119,9 @@ class service_records_sys_ui extends e_admin_ui
 			}
 			$this->fields['recruiter_id']['writeParms'] = $this->user_id;
 //////////////////////////////////////////////////////////////////////////////////////////////
-
-			$sql3 = e107::getDB()->retrieve('ranks_sys', 'rank_id,rank_name,rank_parent', 'rank_id != 0',true);
+			$laQuery = "SELECT rank_id,rank_name,rank_parent,rank_order FROM `#ranks_sys` WHERE rank_id != 0 ORDER BY rank_order ASC";
+			$sql3 = e107::getDB()->retrieve($laQuery, true);
+			//$sql3 = e107::getDB()->retrieve('ranks_sys', 'rank_id,rank_name,rank_parent', 'rank_id != 0',true);
 			$this->rank_id[0] = 'Select Rank';
 			foreach($sql3 as $val)
 			{
