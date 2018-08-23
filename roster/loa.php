@@ -189,6 +189,7 @@ class loaListView
 									<td>&nbsp;</td>
 									<td class='left options'>".$getOptions."</td>
 								</tr>";
+								
 							}
 						}
 					}
@@ -287,6 +288,133 @@ class loaListView
 			$text .="</table></div>";
 		}
 		$ns->tablerender('Leave of Absence - Records', $text);
+	}
+
+	public function runObservers($run_header = true)
+	{
+		// Catch useraction
+		if (isset($_POST['useraction']))
+		{
+			if(is_array($_POST['useraction']))
+			{
+				foreach ($_POST['useraction'] as $key => $val)
+				{
+					if ($val)
+					{
+						$_POST['useraction'] = $val;
+						$_POST['userip'] = $_POST['userip'][$key];
+						$_POST['userid'] = (int) $key;
+						break;
+					}
+				}
+			}
+			
+			// FIXME IMPORTANT - permissions per action/trigger
+			/*
+			
+					<!-- dropdown menu links -->
+												<li class="user-action-edit">
+													<a class="user-action text-right" data-action-user="'.$row['loa_id'].'" data-action-type="edit">Edit</a>
+												</li>
+												<li class="user-action-delete">
+													<a class="user-action text-right" data-action-user="'.$row['loa_id'].'" data-action-type="delete">Delete</a>
+												</li>
+												<li class="user-action-returned">
+													<a class="user-action text-right" data-action-user="'.$row['loa_id'].'" data-action-type="returned">Returned</a>
+			
+			
+			*/
+			
+			// map useraction to UI trigger
+			switch ($_POST['useraction']) 
+			{
+				### etrigger_delete
+				case 'delete':
+					if($_POST['loa_id'])
+					{
+						$id = (int) $_POST['loa_id'];
+						$_POST['etrigger_delete'] = array($id => $id);
+						$loa = e107::getDb()->retrieve('loa_sys', 'user_id, sr_id', 'loa_id='.$id);
+						$rplc_from = array('[x]', '[y]', '[z]');
+						$rplc_to = array($loa['user_id'], $loa['sr_id'], $id);
+						$message = str_replace($rplc_from, $rplc_to, USRLAN_222); // TODO - Fix Lan
+						$this->getController()->deleteConfirmMessage = $message;
+					}
+				break;
+					
+				
+				
+				// map to List{USERACTION}Trigger()
+				case 'unban':
+				case 'ban':
+				case 'verify':
+				case 'reqverify':
+				case 'resend':
+				case 'loginas':
+				case 'unadmin':
+					$_POST['etrigger_'.$_POST['useraction']] = intval($_POST['userid']);
+				break;
+
+
+				case 'logoutas':
+					$this->getRequest()
+						->setQuery(array())
+						->setMode('main')
+						->setAction('logoutas');
+				break;
+				
+				// redirect to AdminObserver/AdminPage()
+				case 'admin':
+				case 'adminperms':
+					$this->getRequest()
+						->setQuery(array())
+						->setMode('main')
+						->setAction('admin')
+						->setId($_POST['userid']);
+						
+					$this->getController()->redirect();
+				break;
+				
+				// redirect to UserclassObserver/UserclassPage()
+				case 'userclass':
+					$this->getRequest()
+						->setQuery(array())
+						->setMode('main')
+						->setAction('userclass')
+						->setId($_POST['userid']);
+						
+					$this->getController()->redirect();
+				break;
+				
+				// redirect to TestObserver/TestPage
+				case 'test':
+					$this->getRequest()
+						->setQuery(array())
+						->setMode('main')
+						->setAction('test')
+						->setId($_POST['userid']);
+						
+					$this->getController()->redirect();
+				break;
+				
+				// redirect to TestObserver/TestPage
+				case 'usersettings':
+					$this->getRequest()
+						->setQuery(array())
+						->setMode('main')
+						->setAction('edit')
+						->setId($_POST['userid']);
+					$this->getController()->redirect();
+					
+					
+					//XXX Broken to the point of being unusable. //header('location:'.e107::getUrl()->create('user/profile/edit', 'id='.(int) $_POST['userid'], 'full=1&encode=0'));
+					// exit;
+				break;
+			}
+			
+		}
+		
+		return parent::runObservers($run_header);
 	}
 	
 	function process()
