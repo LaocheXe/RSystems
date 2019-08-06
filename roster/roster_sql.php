@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `postition_sys` (
 CREATE TABLE IF NOT EXISTS `service_records_sys` (
   `sr_id` int(10) NOT NULL auto_increment,
   `user_id` int(10) NOT NULL,
-  `clone_number` smallint(4) UNSIGNED NOT NULL DEFAULT '0',
+  `clone_number` int(8) UNSIGNED NOT NULL DEFAULT '0',
   `arma_id` varchar(255) DEFAULT NULL,
   `ts_guid` varchar(255) DEFAULT NULL,
   `battleeye_guid` varchar(255) DEFAULT NULL,
