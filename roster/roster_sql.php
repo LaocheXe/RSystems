@@ -66,6 +66,9 @@ CREATE TABLE IF NOT EXISTS `postition_sys` (
   `post_name` varchar(250) NOT NULL default '',
   `post_description` text,
   `post_image` varchar(255) DEFAULT NULL,
+  `post_order` int(10) unsigned NOT NULL default '0',
+  `post_parent` int(10) unsigned NOT NULL default '0',
+  `post_sub` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY(`post_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 

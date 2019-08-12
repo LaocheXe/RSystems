@@ -697,43 +697,135 @@ class postition_sys_ui extends e_admin_ui
 	//	protected $eventName		= 'roster-postition_sys'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'postition_sys';
 		protected $pid				= 'post_id';
-		protected $perPage			= 10; 
+		protected $perPage			= 25; 
 		protected $batchDelete		= true;
-		protected $batchExport     = true;
+		protected $batchExport      = true;
 		protected $batchCopy		= true;
 
-	//	protected $sortField		= 'somefield_order';
-	//	protected $sortParent      = 'somefield_parent';
-	//	protected $treePrefix      = 'somefield_title';
+		protected $sortField		= 'post_order';
+		protected $sortParent       = 'post_parent';
+	//	protected $treePrefix       = 'somefield_title';
+		protected $orderStep		= 1;
+		protected $listQry          = "SELECT a. *, CASE WHEN a.post_parent = 0 THEN a.post_order ELSE b.post_order + (( a.post_order)/1000) END AS Sort FROM `#postition_sys` AS a LEFT JOIN `#postition_sys` AS b ON a.post_parent = b.post_id ";
+		protected $listOrder		= 'Sort,post_order ';
 
 	//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
 		
-	//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
+	//	protected $listQry      	= "SELECT * FROM `#postition_sys` WHERE field != '' ";
 	
-		protected $listOrder		= 'post_id DESC';
+	//	protected $listOrder		= 'post_id DESC';
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'post_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'post_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'filter' => true, 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'post_description' =>   array ( 'title' => LAN_DESCRIPTION, 'type' => 'textarea', 'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'post_image' =>   array ( 'title' => LAN_IMAGE, 'type' => 'image', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => 'thumb=80x80', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'post_order' =>   array ( 'title' => LAN_ORDER, 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'post_parent' =>   array ( 'title' => 'Parent', 'data' => 'int', 'width' => '10%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'post_sub' =>   array ( 'title' => 'Sub-Parent', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'center', 'thclass' => 'center',  ),
 		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1',  ),
 		);		
 		
-		protected $fieldpref = array('post_name', 'post_image');
+		protected $fieldpref = array('post_name', 'post_image', 'post_order');
 		
+		public $forumParents = array();
+		
+		private function checkOrder()
+		{
+			$sql = e107::getDb();
+			$sql2 = e107::getDb('sql2');
+			$count = $sql->select('postition_sys', 'post_id', 'post_order = 0');
+
+			if($count > 1)
+			{
+				$sql->gen("SELECT post_id,post_name,post_order,post_parent,post_sub FROM `#postition_sys` ORDER BY COALESCE(NULLIF(post_parent,0), post_id), post_parent > 0, post_order ");
+				$c = 0;
+				while($row = $sql->fetch())
+				{
+					if($row['post_parent'] == 0)
+					{
+						$c = $c + 1;
+					}
+					else
+					{
+						$c = $c+1;
+					}
+
+					$sql2->update('postition_sys', 'post_order = '.$c.' WHERE post_id = '.$row['post_id'].' LIMIT 1');
+				}
+			}
+		}
 	
 		public function init()
 		{
 			// Set drop-down values (if any). 
-	
+			$sql = e107::getDb();
+			$this->checkOrder();
+			if($this->getAction() == 'edit')
+			{
+				$this->fields['post_order']['noedit'] = true;
+			}
+			$data = e107::getDb()->retrieve('postition_sys', 'post_id,post_name,post_parent,post_sub', 'post_id != 0',true);
+			$this->postiParents[0] = "(New Parent)";
+			$postiSubParents = array();
+
+			foreach($data as $val)
+			{
+				$id = $val['post_id'];
+
+				//if($val['cshop_parent'] == 0)
+				//{
+					$this->postiParents[$id] = $val['post_name'];
+				//}
+				//else
+				//{
+					$postiSubParents[$id] = $val['post_name'];
+				//}
+
+			}
+
+			$this->fields['post_parent']['writeParms'] = $this->postiParents;
+			$this->fields['post_sub']['writeParms']['optArray'] = $postiSubParents;
+			$this->fields['post_sub']['writeParms']['default'] = 'blank';	
 		}
 
 		
 		// ------- Customize Create --------
+		public function afterSort($result, $selected)
+		{
+			return;
+			$sql = e107::getDb();
+			$data2 = $sql->retrieve('postition_sys','post_id,post_parent,post_name,post_order','post_parent = 0',true);
+			foreach($data2 as $val)
+			{
+				$id = $val['post_id'];
+				$parent[$id] = $val['post_order'];
+
+			}
+			$previous = 0;
+			$data = $sql->retrieve('postition_sys','*','post_parent != 0 ORDER BY post_order',true);
+			foreach($data as $row)
+			{
+				$p = $row['post_parent'];
+
+				if($p != $previous)
+				{
+					$c = $parent[$p];
+				}
+
+				$c++;
+				$previous = $p;
+				
+				$sql->update('postition_sys','post_order = '.$c.' WHERE post_id = '.intval($row['post_id']).' LIMIT 1');
+			}
+		}
 		
 		public function beforeCreate($new_data,$old_data)
 		{
+			$sql = e107::getDb();
+			$parentOrder = $sql->retrieve('postition_sys','post_order','post_id='.$new_data['post_parent']." LIMIT 1");
+
+			$new_data['post_order'] = $parentOrder + 1;
 			return $new_data;
 		}
 	

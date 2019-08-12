@@ -51,7 +51,7 @@ class service_records_sys_ui extends e_admin_ui
 	//	protected $eventName		= 'testing-service_records_sys'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'service_records_sys';
 		protected $pid				= 'sr_id';
-		protected $perPage			= 25; 
+		protected $perPage			= 50; 
 		protected $batchDelete		= true;
 		protected $batchExport     = true;
 		protected $batchCopy		= true;
@@ -207,7 +207,7 @@ class service_records_sys_ui extends e_admin_ui
 			$caption = 'Information';
 			$text = 'When Adding a new service record:<br /><br />
 			•User - User Name<br />
-			•Clone Number - 4 Digit Number<br />
+			•Clone Number - Up to 8 Digit Number<br />
 			•Arma ID - Their Arma 3 ID<br />
 			•TS GUID - TeamSpeak GUID<br />
 			•BattleEye GUID - BattleEye GUID<br />
