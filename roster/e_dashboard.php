@@ -129,18 +129,18 @@ class roster_dashboard // include plugin-folder in the name.
 
 		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
 		$var[0]['title'] 	= "Active Members";
-		$var[0]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
+		$var[0]['url']		= e_PLUGIN_ABS."roster/admin_sr.php?mode=main&action=list&field=awol_status&asc=asc&from=0"; // TODO - Replace with correct page
 		$var[0]['total'] 	= $sc->sc_active_members();
 		
 		$var[1]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
 		$var[1]['title'] 	= "Inactive Members";
-		$var[1]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
-		$var[1]['total'] 	= 0; // TODO - Get Value
+		$var[1]['url']		= e_PLUGIN_ABS."roster/admin_sr.php?mode=main&action=list&field=awol_status&asc=desc&from=0"; // TODO - Replace with correct page
+		$var[1]['total'] 	= $sc->sc_inactive_members(); // TODO - Get Value
 		
 		$var[2]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
 		$var[2]['title'] 	= "Active LOA's";
 		$var[2]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
-		$var[2]['total'] 	= 0; // TODO - Get Value
+		$var[2]['total'] 	= $sc->sc_loa_active(); // TODO - Get Value
 		
 		return $var;
 	}	

@@ -96,6 +96,13 @@ class roster_url // plugin-folder + '_url'
 			'sef'			=> '{alias}/qualifications',
 			'redirect'		=> '{e_PLUGIN}roster/qualifications.php'			
 		);
+		
+		$config['applicants'] = array(
+			'alias'         => 'applicants',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/applicant-process',
+			'redirect'		=> '{e_PLUGIN}roster/jua.php'			
+		);
 
 		return $config;
 	}

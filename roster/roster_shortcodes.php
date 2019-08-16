@@ -32,7 +32,21 @@ class plugin_roster_shortcodes extends e_shortcode
 		}
 		else
 		{
-			return "To many to count";
+			return "None";
+		}
+	}
+	
+	function sc_inactive_members()
+	{
+		$sql  = e107::getDB();
+		$result = $sql->count("service_records_sys", "(*)", "WHERE awol_status = '2'");
+		if(!empty($result))
+		{
+			return $result;
+		}
+		else
+		{
+			return "None";
 		}
 	}
 	
@@ -44,6 +58,19 @@ class plugin_roster_shortcodes extends e_shortcode
 		return $result;
 	}
 	
+	function sc_loa_active()
+	{
+		$sql  = e107::getDB();
+		$result = $sql->count("service_records_sys", "(*)", "WHERE awol_status >= '3'");
+		if(!empty($result))
+		{
+			return $result;
+		}
+		else
+		{
+			return "None";
+		}
+	}
 	// Count the number of leave of absence that are approved in the database - {LOA_A} - eXe
 	function sc_loa_a()
 	{
