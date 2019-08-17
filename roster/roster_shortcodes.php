@@ -36,6 +36,20 @@ class plugin_roster_shortcodes extends e_shortcode
 		}
 	}
 	
+	function sc_jua_pending()
+	{
+		$sql  = e107::getDB();
+		$result = $sql->count("sr_pending_sys", "(*)");
+		if(!empty($result))
+		{
+			return $result;
+		}
+		else
+		{
+			return "None";
+		}
+	}
+	
 	function sc_inactive_members()
 	{
 		$sql  = e107::getDB();

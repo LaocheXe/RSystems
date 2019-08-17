@@ -2,6 +2,7 @@
 ///////////////////////////////////////////////////////////////
 ////////////////////Join Us Application///////////////////////
 /////////////////////Work IN Progress////////////////////////
+///////////// NEED - FILTER Arma_ID (Make sure no duplicates in Service Records) LAST THING FOR THIS PAGE
 ////////////////////////////////////////////////////////////
 //////////// HEADER SECTION ///////////////////////////////
 ////////// For e107 Security /////////////////////////////
@@ -59,7 +60,7 @@ class juaList
 			else
 			{
 				// Not a member, give them access to form
-				if(isset($_GET['ju_applicant_form']) || varset($_GET['form'])=='jua')
+				if(isset($_GET['form'])=='jua')
 				{
 					$this->form();
 				}
@@ -69,7 +70,9 @@ class juaList
 				}
 				else
 				{
-					$this->futurePending();
+					//$this->futurePending();
+					$this->form();
+				
 				}
 			}
 		}
@@ -96,6 +99,7 @@ class juaList
 		$tp = e107::getParser();
 		$sql = e107::getDb();
 		$mes = e107::getMessage();
+		$sql->retrieve("service_records_sys", "user_id", "WHERE user_id = ".USERID);
 		$fp = new floodprotect;
 		if ($fp->flood("sr_pending_sys", "c_date") == false)
 		{
@@ -105,11 +109,17 @@ class juaList
 		$user_id  = (USER ? USERID  : trim($tp->toDB($_POST['user_id'])));
 		$armaID = $tp->filter($_POST['arma_id']);
 		$submitjua_error = false;
-		if(!$armaID)
+		if($sql->retrieve("service_records_sys", "arma_id", "WHERE arma_id = ".$_POST['arma_id']);)
 		{
-			$message  = "You need to add you'r arma 3 ID";
+			$message = "The Arma 3 ID is already being used in the Service Records database. Please contact a roster staff member to help further, or re-enter your Arma 3 ID.";
 			$submitjua_error = TRUE;
 		}
+		if(!$armaID)
+		{
+			$message = "You need to add you'r Arma 3 ID";
+			$submitjua_error = TRUE;
+		}
+		
 		if($submitjua_error == false)
 		{
 			$insertQry = array(
@@ -155,38 +165,46 @@ class juaList
 		$ns = e107::getRender();
 		$text .= e107::getForm()->token();
 		$srU = $sql->retrieve("service_records_sys", "user_id", "WHERE user_id = ".USERID);
+		$srpU = $sql->retrieve("sr_pending_sys", "user_id", "WHERE user_id = ".USERID);
 		if(USERID)
 		{
 			// If $srU == USERID then display form - eXe
 			if($srU == !USERID)
 			{
-				$text .= "All fields are required, Please fill out all fields...... field below.<br /><br />
-							If you don't know how to find your ArmA 3 ID, then >> <a href='LINK GOES HERE' target='_blank'>Click Right Here To Learn How</a> <<";
-				$text .= "
-					<div>
-					  <form id='dataform' method='post' action='".e_SELF."' enctype='multipart/form-data' onsubmit='return frmVerify()'>
-					    <table class='table fborder'>";
-						
-				$text .= "
-					<tr>
-					  <td style='width:20%' class='forumheader3'>ArmA 3 ID</td>
-						<td style='width:80%' class='forumheader3'>".e107::getForm()->text('arma_id',$tp->toHTML(vartrue($_POST['arma_id']),TRUE,'arma_id'),100, array('required'=>1))."
-						</td>
-					</tr>";
-	
-				$text .= "
-				    	  <tr>
-				      	  <td colspan='2' style='text-align:center' class='forumheader'>
-				     	     <input class='btn btn-success button' type='submit' name='submitjua_submit' value='Submit' />
-				       	    <input type='hidden' name='e-token' value='".e_TOKEN."' />
-				    	    </td>
-					      </tr>
-				   	 </table>
-					  </form>
-					</div>";
-	
-				//$ns->tablerender('Leave of Absence - Form', $text);
-				$tableTop .= "Joining The 501st - Form";
+				if($srpU == !USERID)
+				{	
+					$text .= "All fields are required, Please fill out all fields...... field below.<br /><br />
+								If you don't know how to find your ArmA 3 ID, then >> <a href='LINK GOES HERE' target='_blank'>Click Right Here To Learn How</a> <<";
+					$text .= "
+						<div>
+						  <form id='dataform' method='post' action='".e_SELF."' enctype='multipart/form-data' onsubmit='return frmVerify()'>
+							<table class='table fborder'>";
+							
+					$text .= "
+						<tr>
+						  <td style='width:20%' class='forumheader3'>ArmA 3 ID</td>
+							<td style='width:80%' class='forumheader3'>".e107::getForm()->number('arma_id',$tp->toHTML(vartrue($_POST['arma_id']),TRUE,'arma_id'),100, array('required'=>1))."
+							</td>
+						</tr>";
+		
+					$text .= "
+							  <tr>
+							  <td colspan='2' style='text-align:center' class='forumheader'>
+								 <input class='btn btn-success button' type='submit' name='submitjua_submit' value='Submit' />
+								<input type='hidden' name='e-token' value='".e_TOKEN."' />
+								</td>
+							  </tr>
+						 </table>
+						  </form>
+						</div>";
+		
+					//$ns->tablerender('Leave of Absence - Form', $text);
+					$tableTop .= "Joining The 501st - Form";
+				}
+				else
+				{
+					$this->futurePending();
+				}
 			}
 			elseif($srU == USERID)
 			{

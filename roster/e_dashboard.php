@@ -142,6 +142,11 @@ class roster_dashboard // include plugin-folder in the name.
 		$var[2]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
 		$var[2]['total'] 	= $sc->sc_loa_active(); // TODO - Get Value
 		
+		$var[3]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
+		$var[3]['title'] 	= "Pending Applicants";
+		$var[3]['url']		= e_PLUGIN_ABS."roster/admin_sr.php?mode=pending&action=list&field=c_date&asc=desc&from=0"; // TODO - Replace with correct page (admin, or front end?)
+		$var[3]['total'] 	= $sc->sc_jua_pending(); // TODO - Get Value
+		
 		return $var;
 	}	
 	
