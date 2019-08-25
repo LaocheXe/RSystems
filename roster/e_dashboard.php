@@ -128,24 +128,24 @@ class roster_dashboard // include plugin-folder in the name.
 		$sc = e107::getScBatch('roster', true); // loads e107_plugins/myplugin/roster_shortcodes.php
 
 		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
-		$var[0]['title'] 	= "Active Members";
+		$var[0]['title'] 	= "Active Members"; //TODO - LAN
 		$var[0]['url']		= e_PLUGIN_ABS."roster/admin_sr.php?mode=main&action=list&field=awol_status&asc=asc&from=0"; // TODO - Replace with correct page
 		$var[0]['total'] 	= $sc->sc_active_members();
 		
 		$var[1]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
-		$var[1]['title'] 	= "Inactive Members";
+		$var[1]['title'] 	= "Inactive Members"; //TODO - LAN
 		$var[1]['url']		= e_PLUGIN_ABS."roster/admin_sr.php?mode=main&action=list&field=awol_status&asc=desc&from=0"; // TODO - Replace with correct page
 		$var[1]['total'] 	= $sc->sc_inactive_members(); // TODO - Get Value
 		
 		$var[2]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
-		$var[2]['title'] 	= "Active LOA's";
+		$var[2]['title'] 	= "Active LOA's"; //TODO - LAN
 		$var[2]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
 		$var[2]['total'] 	= $sc->sc_loa_active(); // TODO - Get Value
 		
 		$var[3]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
-		$var[3]['title'] 	= "Pending Applicants";
-		$var[3]['url']		= e_PLUGIN_ABS."roster/admin_sr.php?mode=pending&action=list&field=c_date&asc=desc&from=0"; // TODO - Replace with correct page (admin, or front end?)
-		$var[3]['total'] 	= $sc->sc_jua_pending(); // TODO - Get Value
+		$var[3]['title'] 	= "Discharged Members"; //TODO - LAN
+		$var[3]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
+		$var[3]['total'] 	= $sc->sc_discharged_members(); // TODO - Get Value
 		
 		return $var;
 	}	
@@ -156,12 +156,12 @@ class roster_dashboard // include plugin-folder in the name.
 		$sc = e107::getScBatch('roster', true); // loads e107_plugins/myplugin/roster_shortcodes.php
 		
 		$var[0]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
-		$var[0]['title'] 	= "Pending Applications";
-		$var[0]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
+		$var[0]['title'] 	= "Pending Applications"; //TODO - LAN
+		$var[0]['url']		= e_PLUGIN_ABS."roster/admin_sr.php?mode=pending&action=list&field=c_date&asc=desc&from=0"; // TODO - Replace with correct page
 		$var[0]['total'] 	= 0; // TODO - Get Value
 		
 		$var[1]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
-		$var[1]['title'] 	= "Promotion Request";
+		$var[1]['title'] 	= "Promotion Request"; //TODO - LAN
 		$var[1]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
 		$var[1]['total'] 	= 0; // TODO - Get Value
 		
@@ -171,15 +171,10 @@ class roster_dashboard // include plugin-folder in the name.
 		$var[2]['total'] 	= 0; // TODO - Get Value
 		
 		$var[3]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
-		$var[3]['title'] 	= "Discharge Request";
+		$var[3]['title'] 	= "Discharge Request"; //TODO - LAN
 		$var[3]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
 		$var[3]['total'] 	= 0; // TODO - Get Value
 		
-		$var[4]['icon'] 	= "<img src='".e_PLUGIN."roster/images/roster_16.png' alt='' />"; // TODO - Make Image
-		$var[4]['title'] 	= "Pending LOA";
-		$var[4]['url']		= e_PLUGIN_ABS."roster/roster.php"; // TODO - Replace with correct page
-		$var[4]['total'] 	= $sc->sc_loa_p(); // TODO - Get Value
-
 		return $var;
 	}	
 	

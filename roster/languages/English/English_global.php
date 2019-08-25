@@ -22,4 +22,17 @@ define("LAN_RSYS_PAGE_AWARDS", "Awards");
 define("LAN_RSYS_PAGE_QUAL", "Qualifications");
 define("LAN_RSYS_QUAL", "Qualifications");
 
+// GLOBAL DISCHARGE TYPES/AWOL STATUS
+define("LAN_DISCHARGE_00", "None");
+define("LAN_DISCHARGE_01", "Transfer");
+define("LAN_DISCHARGE_02", "General Discharge");
+define("LAN_DISCHARGE_03", "Honorable Discharge");
+define("LAN_DISCHARGE_04", "Dishonrable Discharge");
+
+define("LAN_AWOL_00", "Active");
+define("LAN_AWOL_01", "Active Reserves");
+define("LAN_AWOL_02", "Inactive");
+define("LAN_AWOL_03", "LOA");
+define("LAN_AWOL_04", "ELOA");
+
 ?>

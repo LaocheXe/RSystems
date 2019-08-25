@@ -64,8 +64,22 @@ class plugin_roster_shortcodes extends e_shortcode
 		}
 	}
 	
+	function sc_discharged_members()
+	{
+		$sql  = e107::getDB();
+		$result = $sql->count("sr_discharged_sys", "(*)");
+		if(!empty($result))
+		{
+			return $result;
+		}
+		else
+		{
+			return "None";
+		}
+	}
+
 	// Count the number of leave of absence that are pending in the database - {LOA_P} - eXe
-	function sc_loa_p()
+	function sc_loa_p() // THIS MAY NEVER BE USED - DONT NEED PENDING LOAS
 	{
 		$sql  = e107::getDB();
 		$result = $sql->count("loa_sys", "(*)", "WHERE auth_status = '0'");

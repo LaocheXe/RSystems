@@ -28,6 +28,7 @@ e107::meta('keywords', 'join, application, joining501st, recruiter');
 $sql  = e107::getDB();
 $tp = e107::getParser();
 $ns = e107::getRender();
+//$template = e107::getTemplate('jua');
 $text = '';
 
 
@@ -109,7 +110,7 @@ class juaList
 		$user_id  = (USER ? USERID  : trim($tp->toDB($_POST['user_id'])));
 		$armaID = $tp->filter($_POST['arma_id']);
 		$submitjua_error = false;
-		if($sql->retrieve("service_records_sys", "arma_id", "WHERE arma_id = ".$_POST['arma_id']);)
+		if($sql->retrieve("service_records_sys", "arma_id", "WHERE arma_id = ".$_POST['arma_id']))
 		{
 			$message = "The Arma 3 ID is already being used in the Service Records database. Please contact a roster staff member to help further, or re-enter your Arma 3 ID.";
 			$submitjua_error = TRUE;

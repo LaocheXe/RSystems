@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `service_records_sys` (
   `post_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `tis_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `tig_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `player_portrate` varchar(255) NOT NULL DEFAULT '',
+  `player_portrate` varchar(255) NULL DEFAULT NULL,
   PRIMARY KEY(`sr_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `sr_discharged_sys` (
   `tig_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `tod_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `dreason` text,
-  `player_portrate` varchar(255) NOT NULL DEFAULT '',
+  `player_portrate` varchar(255) NULL DEFAULT NULL,
   PRIMARY KEY(`srd_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 

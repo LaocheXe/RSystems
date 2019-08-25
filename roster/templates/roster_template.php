@@ -35,4 +35,9 @@ $RANK_TEMPLATE['all']['end'] = "
 
 $RANK_TEMPLATE['caption'] = "{RANK_CAPTION} <small>{RANK_COUNT}</small>";
 
+// Start of LaocheXe Templates
+$ROSTER_TEMPLATE['jua'] = "
+
+";
+
 

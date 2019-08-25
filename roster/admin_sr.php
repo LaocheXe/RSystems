@@ -95,7 +95,7 @@ class service_records_sys_ui extends e_admin_ui
 		  'arma_id' =>   array ( 'title' => 'Arma ID', 'type' => 'text', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ts_guid' =>   array ( 'title' => 'TS Guid', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'battleeye_guid' =>   array ( 'title' => 'BattleEye Guid', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'recruiter_id' =>   array ( 'title' => 'Recruiter', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'recruiter_id' =>   array ( 'title' => 'Recruiter', 'type' => 'user', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'application_id' =>   array ( 'title' => 'Application ID', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'date_join' =>   array ( 'title' => 'Join Date', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'qual_id' =>   array ( 'title' => 'Qualifications', 'type' => 'method', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
@@ -120,25 +120,6 @@ class service_records_sys_ui extends e_admin_ui
 		public function init()
 		{	
 //////////////////////////////////////////////////////////////////////////////////////////////
-			// Will Change Later - For Now User	
-			//$this->recruiter_id[0] = 'Select Recruiter';
-			//if($sql2->select("user", "*")) { while ($row = $sql2->fetch()) {
-			//	$this->recruiter_id[$row['user_id']] = $row['user_name']; } 	} 
-        	//	$this->fields['user_id']['writeParms'] = $this->recruiter_id;
-			//$cShopq = "SELECT cshop_id, cshop_name, userclass_id FROM `#cshops_cats_sys` WHERE cshop_id = 10";
-			//$sqlR1 = e107::getDB()->retrieve($cShopq);
-			//$rClass = $sqlR1['userclass_id']; // TODO
-			//$rqey = "SELECT user_id, user_name, user_class FROM `#user` WHERE FIND_IN_SET(".$rClass.", user_class) OR user_class = ".$rClass." ORDER by user_name";
-			//$sql2 = e107::getDB()->retrieve('user', 'user_id,user_name,user_class', 'user_class = '.$uClass.'',true);
-			$sql2 = e107::getDB()->retrieve('user', 'user_id,user_name', 'user_name != 0',true);
-			//$sql2 = e107::getDB()->retrieve($rqey);
-			$this->user_id[0] = 'Select Recruiter';
-			$this->user_id[00] = 'Other';
-			foreach($sql2 as $val2)
-			{
-				$id2 = $val2['recruiter_id'];
-			}
-			$this->fields['recruiter_id']['writeParms'] = $this->user_id;
 //////////////////////////////////////////////////////////////////////////////////////////////
 			$laQuery = "SELECT rank_id,rank_name,rank_parent,rank_order FROM `#ranks_sys` WHERE rank_id != 0 ORDER BY rank_order ASC";
 			$sql3 = e107::getDB()->retrieve($laQuery, true);
@@ -156,26 +137,27 @@ class service_records_sys_ui extends e_admin_ui
 			$this->fields['rank_id']['writeParms'] = $this->rank_id;
 //////////////////////////////////////////////////////////////////////////////////////////////	
 			// maybe in the future, make ur own types of discharge
-			$this->discharge_id[0] = 'None';
-			$this->discharge_id[1] = 'Transfer';
-			$this->discharge_id[2] = 'General Discharge';
-			$this->discharge_id[4] = 'Honorable Discharge';
+			$this->discharge_id[0] = LAN_DISCHARGE_00;
+			$this->discharge_id[1] = LAN_DISCHARGE_01;
+			$this->discharge_id[2] = LAN_DISCHARGE_02;
+			$this->discharge_id[3] = LAN_DISCHARGE_03;
+			$this->discharge_id[4] = LAN_DISCHARGE_04;
 			
 			$this->fields['discharge_id']['writeParms'] = $this->discharge_id;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-			$this->awol_status[0] = 'Active';
-			$this->awol_status[1] = 'Simi-Active';
-			$this->awol_status[2] = 'Inactive';
-			$this->awol_status[3] = 'LOA';
-			$this->awol_status[4] = 'ELOA';
+			$this->awol_status[0] = LAN_AWOL_00;
+			$this->awol_status[1] = LAN_AWOL_01;
+			$this->awol_status[2] = LAN_AWOL_02;
+			$this->awol_status[3] = LAN_AWOL_03;
+			$this->awol_status[4] = LAN_AWOL_04;
 			
 			$this->fields['awol_status']['writeParms'] = $this->awol_status;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 			$sqlP1 = e107::getDB();
 			$this->post_id[0] = 'Select Posistion';
-			if($sqlP1->select("postition_sys", "*"))
+			if($sqlP1->select("postition_sys", "*", "post_id != 0 ORDER BY post_order ASC"))
 			{
 				while ($rowP1 = $sqlP1->fetch())
 				{
@@ -225,12 +207,46 @@ class service_records_sys_ui extends e_admin_ui
 		
 		// ------- Delete Update --------
 		
-	//	public function beforeDelete($new_data, $old_date, $id)
-	//	{
-			// TODO ASAP
+		public function beforeDelete($data, $id)
+		{
 			// make a copy to discharge section
-	//		$sqlQ1 = "INSERT INTO user_id,clone_number,arma_id,ts_guid,battleeye_guid,recruiter_id,application_id,date_join,qual_id,awards_id,rank_id,awol_status,discharge_id,post_id,tis_date,tig_date,player_portrate `#sr_discharged_sys` SELECT user_id,clone_number,arma_id,ts_guid,battleeye_guid,recruiter_id,application_id,date_join,qual_id,awards_id,rank_id,awol_status,discharge_id,post_id,tis_date,tig_date,player_portrate FROM `#service_records_sys` WHERE sr_id=".$id."";
-	//	}
+			$sql = e107::getDb();
+			if(!empty($id))
+			{
+				$dsiRow = $sql->retrieve('service_records_sys', '*', 'sr_id = '.$id);
+			}
+			else
+			{
+				print_a("FIRST STEP WRONG");
+			}
+			
+			$insertSQL = array(
+				'user_id' => $dsiRow['user_id'],
+				'clone_number' => $dsiRow['clone_number'],
+				'arma_id' => $dsiRow['arma_id'],
+				'ts_guid' => $dsiRow['ts_guid'],
+				'battleeye_guid' => $dsiRow['battleeye_guid'],
+				'recruiter_id' => $dsiRow['recruiter_id'],
+				'application_id' => $dsiRow['application_id'],
+				'date_join' => $dsiRow['date_join'],
+				'qual_id' => null,
+				'awards_id' => null,
+				'rank_id' => $dsiRow['rank_id'],
+				'awol_status' => $dsiRow['awol_status'],
+				'discharge_id' => 2,
+				'post_id' => $dsiRow['post_id'],
+				'tis_date' => $dsiRow['tis_date'],
+				'tig_date' => $dsiRow['tig_date'],
+				'tod_date' => time,
+				'dreason' => null,
+				'player_portrate' => dsiRow['player_portrate']
+			);
+			
+			// Should have if (insert works, then success messege
+			// Or if not then warning messege - but what the hell, later on.
+			$sql->insert('sr_discharged_sys', $insertSQL);
+			return true;
+		}
 		
 		// left-panel help menu area. 
 		public function renderHelp()
@@ -337,10 +353,10 @@ class sr_pending_sys_ui extends e_admin_ui
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
 		  'srp_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'user_id' =>   array ( 'title' => 'User', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'user_id' =>   array ( 'title' => 'User', 'type' => 'user', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'clone_number' =>   array ( 'title' => 'Number', 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'arma_id' =>   array ( 'title' => 'ArmA ID', 'type' => 'text', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'recruiter_id' =>   array ( 'title' => 'Recruiter', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'recruiter_id' =>   array ( 'title' => 'Recruiter', 'type' => 'user', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'application_id' =>   array ( 'title' => 'Application ID', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'c_date' =>   array ( 'title' => 'Creation Date', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1',  ),
@@ -356,48 +372,7 @@ class sr_pending_sys_ui extends e_admin_ui
 	
 		public function init()
 		{	
-			// Drop down menu for user_id -> User
-			// TODO: Filter current Service Record Users with no-service record users
-			$sql = e107::getDb();
-			$this->user_id[0] = 'Select User';
-			if($sql->select("user", "*")) { while ($row = $sql->fetch()) {
-				$this->user_id[$row['user_id']] = $row['user_name']; } 	} 
-        		$this->fields['user_id']['writeParms'] = $this->user_id;
-				
-			// Will Change Later - For Now User	
-			//$this->recruiter_id[0] = 'Select Recruiter';
-			//if($sql2->select("user", "*")) { while ($row = $sql2->fetch()) {
-			//	$this->recruiter_id[$row['user_id']] = $row['user_name']; } 	} 
-        	//	$this->fields['user_id']['writeParms'] = $this->recruiter_id;
-			$sql2 = e107::getDB()->retrieve('user', 'user_id,user_name', 'user_name != 0',true);
-			$this->user_id[0] = 'Select Recruiter';
-			foreach($sql2 as $val2)
-			{
-				$id2 = $val2['recruiter_id'];
-			}
-			$this->fields['recruiter_id']['writeParms'] = $this->user_id;
-			
-		//	$sql3 = e107::getDB()->retrieve('ranks_sys', 'rank_id,rank_name,rank_parent', 'rank_id != 0',true);
-		//	$this->rank_id[0] = 'Select Rank';
-		//	foreach($sql3 as $val)
-		//	{
-		//		$id = $val['rank_id'];
 
-		//		if($val['rank_parent'] >= 1)
-		//		{
-		//			$this->rank_id[$id] = $val['rank_name'];
-		//		}
-		//	}
-		//	$this->fields['rank_id']['writeParms'] = $this->rank_id;
-			
-			
-			// Set drop-down values (if any). 
-		//	$this->fields['application_status']['writeParms']['optArray'] = array('application_status_0','application_status_1', 'application_status_2'); // Example Drop-down array. 
-		//	$this->fields['rank_id']['writeParms']['optArray'] = array('rank_id_0','rank_id_1', 'rank_id_2'); // Example Drop-down array. 
-		//	$this->fields['awol_status']['writeParms']['optArray'] = array('awol_status_0','awol_status_1', 'awol_status_2'); // Example Drop-down array. 
-		//	$this->fields['transfer_status']['writeParms']['optArray'] = array('transfer_status_0','transfer_status_1', 'transfer_status_2'); // Example Drop-down array. 
-		//	$this->fields['post_id']['writeParms']['optArray'] = array('post_id_0','post_id_1', 'post_id_2'); // Example Drop-down array. 
-	
 		}
 
 		// ------- Customize Create --------
@@ -514,13 +489,13 @@ class sr_discharges_sys_ui extends e_admin_ui
 		protected $listOrder		= 'srd_id DESC';
 	
 		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect',  ),
-		  'sr_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'srd_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'user_id' =>   array ( 'title' => 'User', 'type' => 'user', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'clone_number' =>   array ( 'title' => 'Clone Number', 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'arma_id' =>   array ( 'title' => 'Arma ID', 'type' => 'text', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ts_guid' =>   array ( 'title' => 'TS Guid', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'battleeye_guid' =>   array ( 'title' => 'BattleEye Guid', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'recruiter_id' =>   array ( 'title' => 'Recruiter', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'recruiter_id' =>   array ( 'title' => 'Recruiter', 'type' => 'user', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'application_id' =>   array ( 'title' => 'Application ID', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'date_join' =>   array ( 'title' => 'Join Date', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'qual_id' =>   array ( 'title' => 'Qualifications', 'type' => 'method', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
@@ -547,16 +522,6 @@ class sr_discharges_sys_ui extends e_admin_ui
 		public function init()
 		{	
 //////////////////////////////////////////////////////////////////////////////////////////////
-			$sql2 = e107::getDB()->retrieve('user', 'user_id,user_name', 'user_name != 0',true);
-			//$sql2 = e107::getDB()->retrieve($rqey);
-			$this->user_id[0] = 'Select Recruiter';
-			$this->user_id[00] = 'Other';
-			foreach($sql2 as $val2)
-			{
-				$id2 = $val2['recruiter_id'];
-			}
-			$this->fields['recruiter_id']['writeParms'] = $this->user_id;
-//////////////////////////////////////////////////////////////////////////////////////////////
 			$laQuery = "SELECT rank_id,rank_name,rank_parent,rank_order FROM `#ranks_sys` WHERE rank_id != 0 ORDER BY rank_order ASC";
 			$sql3 = e107::getDB()->retrieve($laQuery, true);
 			//$sql3 = e107::getDB()->retrieve('ranks_sys', 'rank_id,rank_name,rank_parent', 'rank_id != 0',true);
@@ -573,18 +538,20 @@ class sr_discharges_sys_ui extends e_admin_ui
 			$this->fields['rank_id']['writeParms'] = $this->rank_id;
 //////////////////////////////////////////////////////////////////////////////////////////////	
 			
-			$this->discharge_id[0] = 'None';
-			$this->discharge_id[1] = 'Honorable';
-			$this->discharge_id[2] = 'Dis-honorable';
+			$this->discharge_id[0] = LAN_DISCHARGE_00;
+			$this->discharge_id[1] = LAN_DISCHARGE_01;
+			$this->discharge_id[2] = LAN_DISCHARGE_02;
+			$this->discharge_id[3] = LAN_DISCHARGE_03;
+			$this->discharge_id[4] = LAN_DISCHARGE_04;
 			
 			$this->fields['discharge_id']['writeParms'] = $this->discharge_id;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-			$this->awol_status[0] = 'Active';
-			$this->awol_status[1] = 'Simi-Active';
-			$this->awol_status[2] = 'Inactive';
-			$this->awol_status[3] = 'LOA';
-			$this->awol_status[4] = 'ELOA';
+			$this->awol_status[0] = LAN_AWOL_00;
+			$this->awol_status[1] = LAN_AWOL_01;
+			$this->awol_status[2] = LAN_AWOL_02;
+			$this->awol_status[3] = LAN_AWOL_03;
+			$this->awol_status[4] = LAN_AWOL_04;
 			
 			$this->fields['awol_status']['writeParms'] = $this->awol_status;
 //////////////////////////////////////////////////////////////////////////////////////////////

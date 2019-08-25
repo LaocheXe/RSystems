@@ -262,16 +262,6 @@ class roster_sys_ui extends e_admin_ui
 			// do something		
 		}		
 		
-		// left-panel help menu area. 
-		public function renderHelp()
-		{
-			$caption = LAN_HELP;
-			$text = 'Some help text';
-
-			return array('caption'=>$caption,'text'=> $text);
-
-		}
-		
 		public function backPage()
     	{
      		$mainadmin = e_SELF.'/../admin_sr.php';

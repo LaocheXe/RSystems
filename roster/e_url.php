@@ -103,6 +103,13 @@ class roster_url // plugin-folder + '_url'
 			'sef'			=> '{alias}/applicant-process',
 			'redirect'		=> '{e_PLUGIN}roster/jua.php'			
 		);
+		
+		$config['recruitercenter'] = array(
+			'alias'			=> 'recruitercenter',
+			'regex'			=> '^{alias}(.*)$',
+			'sef'			=> '{alias}/recruiter-center',
+			'redirect'		=> '{e_PLUGIN}roster/rcenter.php'
+		);
 
 		return $config;
 	}
