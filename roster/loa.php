@@ -13,7 +13,7 @@ if (!defined('e107_INIT'))
 }
 
 // To Get Page Title To Display
-define('PAGE_NAME', 'Leave of Absence'); // TODO: LAN
+define('PAGE_NAME', LAN_PAGETITLE_LOA); // TODO: LAN
 
 require_once(HEADERF);
 //////////////////////////////////////////////////////////

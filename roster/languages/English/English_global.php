@@ -35,4 +35,8 @@ define("LAN_AWOL_02", "Inactive");
 define("LAN_AWOL_03", "LOA");
 define("LAN_AWOL_04", "ELOA");
 
+// PAGE TITLES
+define("LAN_PAGETITLE_LOA", "Leave of Absence");
+define("LAN_PAGETITLE_RCC", "Recruiter Center");
+
 ?>

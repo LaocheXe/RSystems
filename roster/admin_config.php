@@ -76,6 +76,9 @@ class roster_adminArea extends e_admin_dispatcher
 		'other1/back'		=> array('caption'=> 'Awards', 'perm' => 'P'),
 		'opt2/back'			=> array('caption'=> 'Qualifications', 'perm' => 'P'),
 		
+		'opt3'				=> array('divider'=> true),
+		
+		'main/prefs' 		=> array('caption'=> LAN_PREFS, 'perm' => 'P'),
 
 		// 'main/custom'		=> array('caption'=> 'Custom Page', 'perm' => 'P')
 	);
@@ -154,8 +157,10 @@ class roster_sys_ui extends e_admin_ui
 			}
 		}
 
-	//	protected $preftabs        = array('General', 'Other' );
-		protected $prefs = array(); 
+		protected $preftabs        = array('Permissions', 'Coming Soon' );
+		protected $prefs = array(
+			'rcc1'		=> array('title'=> 'Rcc1', 'tab'=>0, 'type'=>'userclass', 'data' => 'str', 'help'=>'Select User Class To Manage Recruiter Center Page', 'writeParms' => array()),
+		); 
 	
 		public function init()
 		{	
