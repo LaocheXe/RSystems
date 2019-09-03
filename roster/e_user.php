@@ -106,19 +106,36 @@ class roster_user // plugin-folder + '_user'
 		$qualifications = $sql->retrieve($qualQuery, true);
 		foreach ($qualifications as $qualification)
 		{
-			$qualAtt = array('w' => 75, 'h' => 25, 'class' => $qualification['qual_name'], 'alt' => $qualification['qual_name'], 'x' => 0, 'crop' => 0);
-			$qualImage .= $tp->toImage($qualification['qual_image'], $qualAtt);
+			if(!empty($qualification['qual_image']))
+			{
+				$qualAtt = array('w' => 25, 'h' => 25, 'class' => $qualification['qual_name'], 'alt' => $qualification['qual_name'], 'x' => 0, 'crop' => 0);
+				$qualImage .= $tp->toImage($qualification['qual_image'], $qualAtt);
+			}
+			else
+			{
+				$gualAtt = $qualification['qual_name'];
+				$qualImage .= " | ".$gualAtt. " | ";
+			}
 			//$text = "<marquee>".$imageCode."</marquee>";
+		}
+		if(!empty($sr['arma_id']))
+		{
+			$aIDSU = "https://steamcommunity.com/profiles/".$sr['arma_id']."";
+		}
+		else
+		{
+			$aIDSU = "";
 		}
 		if(!empty($sr))
 		{
 			$var = array(
 			0 => array('label' => "Clone Number", 'text' => $sr['clone_number'], 'url' => ""),
-			1 => array('label' => "Rank", 'text' => $imageCode, 'url' => "/ranks"),
+			1 => array('label' => "Rank", 'text' => $imageCode, 'help' => $srID['rank_name'].' - '.$srID['rank_description'], 'url' => "/ranks"),
 			2 => array('label' => "Position", 'text' => $srPO['post_name'], 'url' => ""),
 			3 => array('label' => "Time in Service", 'text' => $this->dateDiff(time(),$tIs-1000000, 2), 'url' => ""),
 			4 => array('label' => "Time in Grade", 'text' => $this->dateDiff(time(),$tIg-1000000, 2), 'url' => ""),
-			5 => array('label' => "Qualifications", 'text' => $qualImage)
+			5 => array('label' => "Qualifications", 'text' => $qualImage),
+			6 => array('label' => "Steam Profile", 'text' => $sr['arma_id'], 'url' => $aIDSU)
 			);
 		}
 		else

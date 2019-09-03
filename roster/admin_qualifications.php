@@ -195,13 +195,13 @@ class qualified_sys_ui extends e_admin_ui
 		 'qualified_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' =>  array ( ),
 		 'writeParms' =>  array ( ),
 		 'class' => 'left', 'thclass' => 'left',  ),
-		 'qual_id' =>   array ( 'title' => LAN_RSYS_PAGE_AWARDS, 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
+		 'qual_id' =>   array ( 'title' => LAN_RSYS_QUALS_TITLE, 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => 'I know what your saying, its just one thing or the other, you know?', 'readParms' =>  array ( ),
 		 'writeParms' =>  array ( ),
 		 'class' => 'left', 'thclass' => 'left',  ),
 		 'user_id' =>   array ( 'title' => LAN_USER, 'type' => 'user', 'data' => 'int', 'width' => '5%', 'filter' => true, 'help' => '', 'readParms' =>  array ( ),
 		 'writeParms' =>  array ( ),
 		 'class' => 'left', 'thclass' => 'left',  ),
-		 'qualified_date' =>	array (	'title' => LAN_AWARDED_DATE, 'type' => 'datestamp', 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' =>  array ( ),
+		 'qualified_date' =>	array (	'title' => LAN_RSYS_QUALS_DATE, 'type' => 'datestamp', 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' =>  array ( ),
 		 'writeParms' =>  array ( ),
 		 'class' => 'left', 'thclass' => 'left',  ),
 		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1', 'readParms' =>  array ( ),
@@ -209,7 +209,7 @@ class qualified_sys_ui extends e_admin_ui
 		  ),
 		);		
 		
-		protected $fieldpref = array('qualified_id','user_id');
+		protected $fieldpref = array('qualified_id','user_id','qual_id');
 		
 	
 		public function init()

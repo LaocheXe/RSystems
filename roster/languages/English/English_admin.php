@@ -19,4 +19,7 @@ define("LAN_ROSTEREXE_ADMIN_HELP_07", "Or With PayPal");
 
 define("LAN_RS_NAME", "Roster System");
 
+define("LAN_RSYS_QUALS_TITLE", "Qualification");
+define("LAN_RSYS_QUALS_DATE", "Completion Date");
+
 ?>

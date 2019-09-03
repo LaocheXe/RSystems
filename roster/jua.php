@@ -31,7 +31,6 @@ $ns = e107::getRender();
 //$template = e107::getTemplate('jua');
 $text = '';
 
-
 if(USERID || !USERID) // If Logged In - eXe
 {
 		new juaList;
@@ -73,7 +72,6 @@ class juaList
 				{
 					//$this->futurePending();
 					$this->form();
-				
 				}
 			}
 		}
@@ -95,6 +93,40 @@ class juaList
 		exit();
 	}
 	
+	// For The Options!!!!!
+	// LOOK AT E107_ADMIN/USER.PHP
+	/*function init()
+	{
+
+		$JS = <<<JS
+
+			//	$('#user-action-indicator-'+user).html('<i class="fa fa-cog"></i>'); //
+
+			$(document).on('click', ".user-action", function(e){
+				// e.stopPropagation();
+
+				var action = $(this).attr('data-action-type');
+				var user = $(this).attr('data-action-user');
+
+			//	$('#user-action-indicator-'+user).html('<i class="fa fa-spin fa-spinner"></i>'); //
+
+				$('.user-action-hidden').val(''); // clear all, incase of back-button or auto-fill.
+				$('#user-action-'+ user).val(action);
+				$('#core-user-list-form').submit();
+
+
+				});
+JS;
+
+		e107::js('footer-inline', $JS);
+		e107::css('inline', '
+			.user-action { cursor: pointer }
+			.btn-user-action { margin-right:15px}
+
+		');
+
+	}*/
+	
 	function process()
 	{
 		$tp = e107::getParser();
@@ -113,6 +145,11 @@ class juaList
 		if($sql->retrieve("service_records_sys", "arma_id", "WHERE arma_id = ".$_POST['arma_id']))
 		{
 			$message = "The Arma 3 ID is already being used in the Service Records database. Please contact a roster staff member to help further, or re-enter your Arma 3 ID.";
+			$submitjua_error = TRUE;
+		}
+		if($sql->retrieve("sr_discharged_sys", "arma_id", "WHERE arma_id = ".$_POST['arma_id']))
+		{
+			$message = "The ArmA 3 ID is already being used in the Service Records (D) database. Please contact a roster staff member to help further.";
 			$submitjua_error = TRUE;
 		}
 		if(!$armaID)
