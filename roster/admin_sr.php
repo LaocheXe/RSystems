@@ -98,7 +98,7 @@ class service_records_sys_ui extends e_admin_ui
 		  'recruiter_id' =>   array ( 'title' => 'Recruiter', 'type' => 'user', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'application_id' =>   array ( 'title' => 'Application ID', 'type' => 'dropdown', 'data' => 'int', 'width' => '5%', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'date_join' =>   array ( 'title' => 'Join Date', 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'qual_id' =>   array ( 'title' => 'Qualifications', 'type' => 'dropdown', 'data' => 'str', 'inline' => true, 'width' => 'auto', 'help' => '', 'readParms' => array('type'=>'checkboxes'), 'class' => 'left', 'thclass' => 'left', 'nosort' => false, ),
+		  'qual_id' =>   array ( 'title' => 'Qualifications', 'type' => 'dropdown', 'data' => 'str', 'inline' => true, 'width' => '10%', 'help' => '', 'readParms' => array('type'=>'checkboxes'), 'class' => 'left', 'thclass' => 'left', 'nosort' => false, ),
 		  'awards_id' =>   array ( 'title' => 'Awards', 'type' => 'method', 'data' => 'str', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'rank_id' =>   array ( 'title' => 'Rank', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'awol_status' =>   array ( 'title' => 'AWOL Status', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
@@ -120,41 +120,15 @@ class service_records_sys_ui extends e_admin_ui
 		public function init()
 		{	
 //////////////////////////////////////////////////////////////////////////////////////////////
-			$sql = e107::getDB();
-			$qualQry = "SELECT qual_id,qual_name FROM `#qualifications_sys`";
-			//$qualSQL = e107::getDB()->retrieve($qualQuery, true);
-			/*
-			$sqlP1 = e107::getDB();
-			$this->post_id[0] = 'Select Posistion';
-			if($sqlP1->select("postition_sys", "*", "post_id != 0 ORDER BY post_order ASC"))
+			// Thanks to Jimako (Jimmi08) for the help on getting this to work - https://github.com/Jimmi08
+			$rows = e107::getDB()->retrieve("qualifications_sys", "*",true,true);
+			$this->qualsys[0] = '---';
+			foreach($rows as $qua)
 			{
-				while ($rowP1 = $sqlP1->fetch())
-				{
-					$this->post_id[$rowP1['post_id']] = $rowP1['post_name'];
-				}
-			} 
-			$this->fields['post_id']['writeParms'] = $this->post_id;*/
-			
-			//foreach($qualSQL as $qual)
-			//{
-			//	$qualArray .= "".$qual['qual_id']." => ".$qual['qual_name'].",";
-			//}
-			$numQry = $sql->gen($qualQry);
-			while($qua=$sql->fetch())
-			{
-				$qualy_ID = $qua['qual_id'];
-				$qualy_Name = $qua['qual_name'];
-				
-				//$qualArray .= $qualy_ID." => ".$qualy_Name.",";
-				$qual_RenderTypes .= array(
-					$qualy_ID => $qualy_Name,
-				);
+				$this->qualsys[$qua['qual_id']] = $qua['qual_name'];
 			}
 			
-			
-			
-			// WIP
-			$this->fields['qual_id']['writeParms']['optArray'] = $this->$qual_RenderTypes;
+			$this->fields['qual_id']['writeParms']['optArray'] = $this->qualsys;
 			$this->fields['qual_id']['writeParms']['multiple'] = 1;
 //////////////////////////////////////////////////////////////////////////////////////////////
 			$laQuery = "SELECT rank_id,rank_name,rank_parent,rank_order FROM `#ranks_sys` WHERE rank_id != 0 ORDER BY rank_order ASC";
@@ -262,7 +236,7 @@ class service_records_sys_ui extends e_admin_ui
 				'recruiter_id' => $dsiRow['recruiter_id'],
 				'application_id' => $dsiRow['application_id'],
 				'date_join' => $dsiRow['date_join'],
-				'qual_id' => null,
+				'qual_id' => $disRow['qual_id'],
 				'awards_id' => null,
 				'rank_id' => $dsiRow['rank_id'],
 				'awol_status' => $dsiRow['awol_status'],

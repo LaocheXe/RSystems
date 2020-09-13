@@ -16,4 +16,7 @@ define("LAN_RSYS_PAGE_AWARDS", "Awards");
 define("LAN_RSYS_PAGE_QUAL", "Qualifications");
 define("LAN_RSYS_QUAL", "Qualifications");
 
+define("LAN_RSYS_PAGE_ROSTER", "Roster");
+define("LAN_RSYS_ROSTER", "Roster");
+
 ?>

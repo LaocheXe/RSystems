@@ -98,7 +98,7 @@ class roster_sys_ui extends e_admin_ui
 	//	protected $eventName		= 'roster-roster_sys'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'roster_sys';
 		protected $pid				= 'ros_id';
-		protected $perPage			= 15; 
+		protected $perPage			= 30; 
 		protected $batchDelete		= true;
 		protected $sortField		= 'ros_order';
 		protected $sortParent       = 'ros_parent';
@@ -119,14 +119,17 @@ class roster_sys_ui extends e_admin_ui
 		  'ros_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'userclass_id' => array ( 'title' => 'User Class', 'type' => 'userclass', 'data' => 'int', 'width' => 'auto', 'batch' => true, 'filter' => true, 'inline' => true, 'help' => '', 'readParms' => array('classlist'=>'public,guest,nobody,member,admin,main,new,mods,classes'), 'writeParms' => array('classlist'=>'public,guest,nobody,member,admin,main,new,mods,classes'), 'class' => 'left', 'thclass' => 'left',  ),
 		  'ros_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'inline'=>true,  'data' => 'str', 'width' => '40%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  
 		  'ros_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => '10%', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'ros_sub' =>   array ( 'title' => 'Sub-Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'center', 'thclass' => 'center',  ),
+		  
+		  'ros_sub' =>   array ( 'title' => 'Sub Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  
 		  'ros_order' =>   array ( 'title' => LAN_ORDER, 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'ros_show' =>   array ( 'title' => 'Show', 'type' => 'boolean', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1',  ),
 		);		
 		
-		protected $fieldpref = array('ros_name', 'ros_parent', 'ros_sub', 'ros_order', 'ros_show');
+		protected $fieldpref = array('ros_name', 'ros_parent', 'Soort', 'ros_order', 'ros_show');
 		
 		public $forumParents = array();
 		
@@ -138,7 +141,7 @@ class roster_sys_ui extends e_admin_ui
 
 			if($count > 1)
 			{
-				$sql->gen("SELECT ros_id,ros_name,ros_parent,ros_sub,ros_order FROM `#roster_sys` ORDER BY COALESCE(NULLIF(ros_parent,0), ros_id), ros_parent > 0, ros_order ");
+				$sql->gen("SELECT ros_id,ros_name,ros_parent,ros_order FROM `#roster_sys` ORDER BY COALESCE(NULLIF(ros_parent,0), ros_id), ros_parent > 0, ros_order ");
 				$c = 0;
 				while($row = $sql->fetch())
 				{
@@ -174,7 +177,9 @@ class roster_sys_ui extends e_admin_ui
 			}
 			$data = e107::getDb()->retrieve('roster_sys', 'ros_id,ros_name,ros_parent', 'ros_id != 0',true);
 			$this->rosParents[0] = "(New Parent)";
-			$rosterSubParents = array();
+			$data2 = e107::getDB()->retrieve('roster_sys', 'ros_id,ros_name,ros_parent,ros_sub', 'ros_parent != 0',true);
+			$this->rosSubs[0] = "...";
+			//$rosterSubParents = array();
 
 			foreach($data as $val)
 			{
@@ -186,14 +191,21 @@ class roster_sys_ui extends e_admin_ui
 				//}
 				//elseif($val['ros_parent'] >= 0)
 				//{
-					$rosterSubParents[$id] = $val['ros_name'];
+				//	$rosterSubParents[$id] = $val['ros_name'];
 				//}
 
 			}
+			
+			foreach($data2 as $val2)
+			{
+				$id2 = $val2['ros_id'];
+				$this->rosSubs[$id2] = $val2['ros_name'];
+			}
 
 			$this->fields['ros_parent']['writeParms'] = $this->rosParents;
-			$this->fields['ros_sub']['writeParms']['optArray'] = $rosterSubParents;
-			$this->fields['ros_sub']['writeParms']['default'] = 'blank';	
+			$this->fields['ros_sub']['writeParms'] = $this->rosSubs;
+			//$this->fields['ros_sub']['writeParms']['optArray'] = $rosterSubParents;
+			//$this->fields['ros_sub']['writeParms']['default'] = 'blank';	
 		}
 
 		// ------- Customize Create --------		

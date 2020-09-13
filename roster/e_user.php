@@ -94,6 +94,7 @@ class roster_user // plugin-folder + '_user'
 		$sr = $sql->retrieve('service_records_sys', '*', 'WHERE user_id = ' .$udata['user_id']);
 		$srRI = $sql->retrieve('ranks_sys', '*', 'WHERE rank_id = '  .$sr['rank_id']);
 		$srPO = $sql->retrieve('postition_sys', '*', 'WHERE post_id = ' .$sr['post_id']);
+		$srQUAL = $sql->retrieve('qualifications_sys', '*', 'WHERE qual_id = ' .$sr['qual_id']);// WIP
 		$att = array('w' => 50, 'h' => 50, 'class' => $srRI['rank_name'], 'alt' => $srRI['rank_name'], 'x' => 0, 'crop' => 0);
 		$imageCode = $tp->toImage($srRI['rank_image'], $att);
 		$now = time();

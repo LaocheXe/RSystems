@@ -39,4 +39,7 @@ define("LAN_AWOL_04", "ELOA");
 define("LAN_PAGETITLE_LOA", "Leave of Absence");
 define("LAN_PAGETITLE_RCC", "Recruiter Center");
 
+define("LAN_RSYS_PAGE_ROSTER", "Roster");
+define("LAN_RSYS_ROSTER", "Roster");
+
 ?>
