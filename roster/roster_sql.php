@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `postition_sys` (
   `post_order` int(10) unsigned NOT NULL default '0',
   `post_parent` int(10) unsigned NOT NULL default '0',
   `post_sub` int(10) unsigned NOT NULL default '0',
+  `ros_id` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY(`post_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 

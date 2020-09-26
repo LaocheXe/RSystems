@@ -739,7 +739,8 @@ class postition_sys_ui extends e_admin_ui
 		  'post_image' =>   array ( 'title' => LAN_IMAGE, 'type' => 'image', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => 'thumb=80x80', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'post_order' =>   array ( 'title' => LAN_ORDER, 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'post_parent' =>   array ( 'title' => 'Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
-		  'post_sub' =>   array ( 'title' => 'Sub-Parent', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'center', 'thclass' => 'center',  ),
+		  'post_sub' =>   array ( 'title' => 'Sub Parent', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
+		  'ros_id' =>   array ( 'title' => 'Roster Catagory', 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' => '', 'writeParms' => '', 'class' => 'left', 'thclass' => 'left',  ),
 		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1',  ),
 		);		
 		
@@ -784,26 +785,35 @@ class postition_sys_ui extends e_admin_ui
 			}
 			$data = e107::getDb()->retrieve('postition_sys', 'post_id,post_name,post_parent,post_sub', 'post_id != 0',true);
 			$this->postiParents[0] = "(New Parent)";
-			$postiSubParents = array();
+			$data1 = e107::getDB()->retrieve('postition_sys', 'post_id,post_name,post_parent,post_sub', 'post_parent != 0',true);
+			$this->postiSubs[0] = "...";
+			$data2 = e107::getDB()->retrieve('roster_sys', 'ros_id,ros_name', 'ros_id != 0', true);
+			$this->rosIDs[0] = "...";
 
 			foreach($data as $val)
 			{
 				$id = $val['post_id'];
-
-				//if($val['cshop_parent'] == 0)
-				//{
-					$this->postiParents[$id] = $val['post_name'];
-				//}
-				//else
-				//{
-					$postiSubParents[$id] = $val['post_name'];
-				//}
-
+				$this->postiParents[$id] = $val['post_name'];
 			}
+			
+			foreach($data1 as $val1)
+			{
+				$id1 = $val1['post_id'];
+				$this->postiSubs[$id1] = $val1['post_name'];
+			}
+			
+			foreach($data2 as $val2)
+			{
+				$id2 = $val2['ros_id'];
+				$this->rosIDs[$id2] = $val2['ros_name'];
+			}
+			
 
 			$this->fields['post_parent']['writeParms'] = $this->postiParents;
-			$this->fields['post_sub']['writeParms']['optArray'] = $postiSubParents;
-			$this->fields['post_sub']['writeParms']['default'] = 'blank';	
+			$this->fields['post_sub']['writeParms'] = $this->postiSubs;
+			$this->fields['ros_id']['writeParms'] = $this->rosIDs;
+			//$this->fields['post_sub']['writeParms']['optArray'] = $postiSubParents;
+			//$this->fields['post_sub']['writeParms']['default'] = 'blank';	
 		}
 
 		
