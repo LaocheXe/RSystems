@@ -173,7 +173,7 @@ class listRoster
 			LEFT JOIN `#ranks_sys` AS r ON s.rank_id = r.rank_id
 			LEFT JOIN `#user` AS u ON s.user_id = u.user_id
 			LEFT JOIN `#postition_sys` AS p ON s.post_id = p.post_id
-			";
+			WHERE s.post_id LIKE '".$Posts['post_id']."%'";
 			$SRecords = $sql->retrieve($servicePost, true);
 			// If something is something then lets show that something
 			$text .= "
@@ -203,7 +203,7 @@ class listRoster
 					foreach($SRecords as $record)
 					{
 						//if($pos['post_id'] == $record['post_id'])
-						if($record['post_id'] == $pos['post_id'])
+						if($pos['post_id'] == $record['post_id'])
 						{
 							//$tp->toDate($row['expected_date'], 'short')
 							// Image Code
@@ -221,8 +221,20 @@ class listRoster
 										<td></td>
 									</tr>";
 						}
+						/*elseif($pos['post_id'] != $record['post_id'])
+						{
+							$text .= "<tr>
+										<td></td>
+										<td></td>
+										<td><i>TBD</i></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>";
+						}*/
 					}
-					
 				}
 			}
 			
